@@ -1,0 +1,1423 @@
+(*
+ *
+ * MDPlc source file: D:\FRD\Siei\Progetti\PID\PID\Libraries_ENG\ADV_general.pll
+ * for project:
+ *
+ *)
+
+
+	(*********************)
+	(*                   *)
+	(*     FUNCTIONS     *)
+	(*                   *)
+	(*********************)
+
+FUNCTION _GeneralVersion : UDINT
+
+{ DE:"LIBRARY: General
+
+Rev.02.00.00    10/06/2008
+
+
+library with general functions and FB:
+bits reading from a word;
+bits writing in a word;
+bit to word;
+word to bit;
+byte to bit;
+word to byte;
+two bytes to word;
+two words to dword;
+four bytes to dword;
+
+Note:
+no global vars are used, so that this library can be used regardless the drive FW version" }
+
+	VAR_INPUT
+	in : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+
+	LD		in
+	JMPC	l0_Version
+
+	LD		0
+	ST		_GeneralVersion
+
+	RET
+
+l0_Version:
+
+	(*	Indice di revisione.						*)
+	(*	L'indice si legge nella seguente maniera:	*)
+	(*	XXYYZZ => XX.YY.ZZ 							*)
+	(*	XX = Revisione								*)
+	(*	YY = Sotto revisione						*)
+	(*	ZZ = Correzione								*)
+
+	LD		020000
+	ST		_GeneralVersion
+
+END_FUNCTION
+
+FUNCTION BitToWord : UINT
+
+{ DE:"Compose a word from 16 bits
+The inputs are aligned according bit number. 
+i.e.
+        b0  in position 0
+        b1  in position 1
+        ...
+        b15 in position 15" }
+
+	VAR_INPUT
+	b0 : BOOL;
+	b1 : BOOL;
+	b2 : BOOL;
+	b3 : BOOL;
+	b4 : BOOL;
+	b5 : BOOL;
+	b6 : BOOL;
+	b7 : BOOL;
+	b8 : BOOL;
+	b9 : BOOL;
+	b10 : BOOL;
+	b11 : BOOL;
+	b12 : BOOL;
+	b13 : BOOL;
+	b14 : BOOL;
+	b15 : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+	LD		b15
+	TO_UINT
+	SHL		15
+	ST		BitToWord
+
+	LD		b14
+	TO_UINT
+	SHL		14
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b13
+	TO_UINT
+	SHL		13
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b12
+	TO_UINT
+	SHL		12
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b11
+	TO_UINT
+	SHL		11
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b10
+	TO_UINT
+	SHL		10
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b9
+	TO_UINT
+	SHL		9
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b8
+	TO_UINT
+	SHL		8
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b7
+	TO_UINT
+	SHL		7
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b6
+	TO_UINT
+	SHL		6
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b5
+	TO_UINT
+	SHL		5
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b4
+	TO_UINT
+	SHL		4
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b3
+	TO_UINT
+	SHL		3
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b2
+	TO_UINT
+	SHL		2
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b1
+	TO_UINT
+	SHL		1
+	ADD		BitToWord
+	ST		BitToWord
+
+	LD		b0
+	TO_UINT
+	ADD		BitToWord
+	ST		BitToWord
+
+END_FUNCTION
+
+FUNCTION Line : DINT
+
+{ DE:"02/01/2001			by SSS
+The function return the y(x) value. The function is the linear inter(extra)polation
+of the line passing through two points.
+The points are defined with the following coordinates:
+(xIni, yIni), (xEnd, yEnd).
+
+The returned value is:
+Result=yIni+(yEnd-yIni)/(xEnd-xIni)*(x-xIni)" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"input X [cnts]" }
+	xIni : DINT; { DE:"initial X [cnts]" }
+	yIni : DINT; { DE:"initial Y [cnts]" }
+	xEnd : DINT; { DE:"final X [cnts]" }
+	yEnd : DINT; { DE:"final Y [cnts]" }
+	END_VAR
+
+	{ CODE:IL }
+	LD		inX
+	SUB		xIni
+	MUL(	yEnd
+	SUB		yIni
+	)
+	DIV(	xEnd
+	SUB		xIni
+	)
+	ADD		yIni
+	ST		Line
+
+END_FUNCTION
+
+FUNCTION ScaleDW : DINT
+
+{ DE:"SCALE DW
+
+Rev.0	1/2/2001 	by SSS
+
+Scaling with rest recovery
+
+ScaleDw=in/inDiv*inMol
+The input is divided by inDiv and the result is multiplied by inMol.
+In order to avoid the overflow, the function must be inMol*inDiv<2^31" }
+
+	VAR_INPUT
+	in : DINT; { DE:"input" }
+	inMol : DINT; { DE:"scale multiplier" }
+	inDiv : DINT; { DE:"scale divider" }
+	END_VAR
+
+	{ CODE:IL }
+
+	LD		in
+	DIV		inDiv
+	MUL		inMol
+	ADD(	in
+	MOD		inDiv
+	MUL		inMol
+	DIV		inDiv
+	)
+	ST		ScaleDW
+
+END_FUNCTION
+
+FUNCTION RBitIn : BOOL
+
+{ DE:"8/10/2001		by SSS
+Selector beetween a status 'inPar' and a bit in a word 'inWord'
+If 'bitNumber' is from 0 to 15 the bit inWord[bitNumber] will be returned
+else the inPar will be the output.
+
+Inputs:
+- inWord
+- inPar
+- bitNumber
+
+Result:
+- If 0<=bitNumber<=15	RESULT = RBit (inWord, bitNumber)
+- If bitNumber >=16	RESULT = inPar" }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"input word" }
+	inPar : BOOL; { DE:"input parameter" }
+	bitNumber : UINT; { DE:"number of bit to be read" }
+	END_VAR
+
+	{ CODE:IL }
+	LD		bitNumber
+	GE		16
+	JMPC	l0_RBitIn
+
+	LD		inWord
+	RBit	bitNumber
+	ST		RBitIn
+
+	RET
+
+l0_RBitIn:
+
+	LD		inPar
+	ST		RBitIn
+
+END_FUNCTION
+
+FUNCTION Segment : DINT
+
+{ DE:"2/1/2001			by SSS
+
+Segment passing through two points.
+The function return the y(x) value. The function is the linear inter(extra)polation 
+of the line passing through two points.
+If the input value is outside the xIni, xEnd range the output will be 
+yIni or yEnd according to the exceeding side.
+
+
+The points are [xIni,yIni], [xEnd,yEnd
+
+Result:
+yIni			if	inX < xIni
+Line(xIni, yIni, xEnd, yEnd)	if	xIni <= inX <= xEnd
+yEnd			if	inX > xEnd" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"input X [cnts]" }
+	xIni : DINT; { DE:"initial X [cnts]" }
+	yIni : DINT; { DE:"initial Y [cnts]" }
+	xEnd : DINT; { DE:"final X [cnts]" }
+	yEnd : DINT; { DE:"final Y [cnts]" }
+	END_VAR
+
+	{ CODE:IL }
+	LD		inX
+	LT		xIni
+	JMPCN	l0_Segment
+
+	(*	inX < xIni	*)
+
+	LD		yIni
+	ST		Segment
+
+	JMP		lEnd_Segment
+
+l0_Segment:
+
+	LD		inX
+	GT		xEnd
+	JMPC	l1_Segment
+
+	(*	xIni <= inX <= xEnd	*)
+
+	LD		inX
+	Line	xIni, yIni, xEnd, yEnd
+	ST		Segment
+
+	JMP		lEnd_Segment
+
+l1_Segment:
+
+	(*	inX > xEnd	*)
+
+	LD		yEnd
+	ST		Segment
+
+lEnd_Segment:
+
+END_FUNCTION
+
+FUNCTION WBit : UINT
+
+{ DE:"WRITE BIT
+
+Rev.0	29/1/2001 	by SSS
+
+Writing of a bit into a word.
+The 'bitValue' will be written in position 'bitNumber' of 'inWord'
+
+" }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"word to be written" }
+	bitNumber : UINT; { DE:"bit number to be written" }
+	bitValue : BOOL; { DE:"value of the bit to be written" }
+	END_VAR
+
+	VAR
+	wApp : UINT; { DE:"temp" }
+	END_VAR
+
+	{ CODE:IL }
+
+
+	(*	Azzeramento bit numero bitNumber di inWord	*)
+
+	LD		1
+	ST		wApp
+	SHL		bitNumber
+	NOT
+	AND		inWord
+	ST		wApp
+
+	(*	Scrittura bit	*)
+
+	LD		bitValue
+	TO_UINT
+	SHL		bitNumber
+	OR		wApp
+	ST		WBit
+
+END_FUNCTION
+
+FUNCTION RBit : BOOL
+
+{ DE:"READ BIT
+
+Rev.0	29/1/2001 	by SSS
+
+Reading of a bit in 'bitWord' position inside 'inWord'." }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"Word to be read" }
+	bitNumber : UINT; { DE:"bit number to be read" }
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Azzeramento bit numero bitNumber di inWord	*)
+
+	LD		inWord
+	SHR		bitNumber
+	AND		1
+	TO_BOOL
+	ST		RBit
+
+END_FUNCTION
+
+FUNCTION GAIN_LIM : INT
+
+{ DE:"Limited Gain Block
+
+OUT= IN * M(on 32 bits) / D
+
+the output is limited to +/-32767" }
+
+	VAR_INPUT
+	IN : INT;
+	M : INT;
+	D : INT;
+	END_VAR
+
+	VAR
+	temp : DINT;
+	END_VAR
+
+	{ CODE:ST }	temp := MUL32( IN , M );
+
+	GAIN_LIM := DIV32_LIM(temp ,  D) ;
+
+END_FUNCTION
+
+FUNCTION CLAMP : INT
+
+{ DE:"CLAMP
+
+Output equal input value limited to +/- Clamp Value" }
+
+	VAR_INPUT
+	input : INT;
+	clampval : INT;
+	END_VAR
+
+	{ CODE:ST }	IF input > clampval THEN
+		CLAMP := clampval;
+	ELSIF input < (-clampval) THEN
+		CLAMP := -clampval;
+	ELSE
+		CLAMP := input;
+	END_IF;
+
+
+
+END_FUNCTION
+
+
+FUNCTION Line_int : INT
+
+{ DE:"The function return the y(x) value. The function is the linear inter(extra)polation
+of the line passing through two points.
+The points are defined with the following coordinates:
+(x0, y0), (x1, y1).
+
+The returned value is:
+Result = y0+(y1-y0)/(x1-x0)*(x-x0)
+
+result is of type integer" }
+
+	VAR_INPUT
+	x : INT;
+	x0 : INT;
+	y0 : INT;
+	x1 : INT;
+	y1 : INT;
+	END_VAR
+
+	VAR
+	help_long : DINT;
+	help_int : INT;
+	END_VAR
+
+	{ CODE:ST }
+	Line_int := (y1-y0);
+
+	help_int := (x - x0);
+
+	help_long:=	MUL32( Line_int , help_int );
+
+	help_int := (x1-x0);
+
+	help_int := DIV32( help_long, help_int	);
+
+	Line_int := help_int + y0;
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(*     FUNCTION BLOCKS     *)
+	(*                         *)
+	(***************************)
+
+
+
+FUNCTION_BLOCK Counter
+
+{ DE:"Counter: Counter Register With preset value
+The counter value 'out' is incresead at each positive edge of the input.
+When preset input is TRUE the counter is set to preset value. 
+
+note: if preset active counting is no active" }
+
+	VAR_INPUT
+	in : BOOL; { DE:"Trigger input-PosSlope" }
+	preset : BOOL; { DE:"Preset input enable" }
+	presetValue : DINT; { DE:"Counter preset value" }
+	END_VAR
+
+	VAR_OUTPUT
+	out : DINT; { DE:"Counter	output" }
+	END_VAR
+
+	VAR
+	fbfrIn : PosSlope; { DE:"in rising edge fb" }
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Slope of commands	*)
+
+	LD		in
+	ST		fbfrIn.src
+	CAL		fbfrIn
+
+	(*	Verifica	preset	*)
+
+	LD		preset
+	JMPCN	l1_Counter
+
+	LD		presetValue
+	ST		out
+
+	RET
+
+l1_Counter:
+
+	(*	Incremento contatore ad ogni impulso di ingresso	*)
+
+	LD		fbfrIn.out
+	RETCN
+
+	LD		out
+	ADD		1
+	ST		out
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK LineFB
+
+{ DE:"4/10/2001			by SSS
+
+Calculation of the line passing through two points with the following coordinates (xIni,yIni), (xEnd,yEnd)
+
+Result=yIni+(yEnd-yIni)/(xEnd-xIni)*(x-xIni)" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"Input X [cnts]" }
+	xIni : DINT; { DE:"Initial X [cnts]" }
+	yIni : DINT; { DE:"Initial Y [cnts]" }
+	xEnd : DINT; { DE:"Final X [cnts]" }
+	yEnd : DINT; { DE:"Final Y [cnts]" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output Y [cnts]" }
+	END_VAR
+
+	{ CODE:IL }
+	LD		inX
+	SUB		xIni
+	MUL(	yEnd
+	SUB		yIni
+	)
+	DIV(	xEnd
+	SUB		xIni
+	)
+	ADD		yIni
+	ST		outY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK Pulse
+
+{ DE:"Pulse generator.
+The block produce a Pulse every 'period' call.
+When 'enable' input false the internal counter is reset." }
+
+	VAR_INPUT
+	enable : BOOL; { DE:"Pulse generator enable" }
+	period : UINT; { DE:"Pulse generator period(1 tick= 1 call)" }
+	END_VAR
+
+	VAR_OUTPUT
+	out : BOOL;
+	END_VAR
+
+	VAR
+	cnt : UINT;
+	END_VAR
+
+	{ CODE:IL }
+
+		LD		enable
+		JMPC	l0
+
+		LD		0
+		ST		cnt
+		LD		FALSE
+		ST		out
+		RET
+
+l0:
+
+		LD		cnt
+		ADD		1
+		ST		cnt
+
+		LD		cnt
+		GE		period
+		ST		out
+		RETCN
+
+l1:
+
+		LD		0
+		ST		cnt
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK SegmentFB
+
+{ DE:"4/1/2001			by SSS
+
+Segment passing through two points
+
+The points are [xIni,yIni], [xEnd,yEnd]
+
+Result:
+yIni			if	inX < xIni
+Line(xIni, yIni, xEnd, yEnd)	se	xIni <= inX <= xEnd
+yEnd			if	inX > xEnd" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"Input X [cnts]" }
+	xIni : DINT; { DE:"Initial X [cnts]" }
+	yIni : DINT; { DE:"Initial Y [cnts]" }
+	xEnd : DINT; { DE:"Final X [cnts]" }
+	yEnd : DINT; { DE:"Final Y [cnts]" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output Y [cnts]" }
+	END_VAR
+
+	VAR
+	fbLine : LineFB;
+	END_VAR
+
+	{ CODE:IL }
+	LD		inX
+	LT		xIni
+	JMPCN	l0_Segment
+
+	(*	inX < xIni	*)
+
+	LD		yIni
+	ST		outY
+
+	JMP		lEnd_Segment
+
+l0_Segment:
+
+	LD		inX
+	GT		xEnd
+	JMPC	l1_Segment
+
+	(*	xIni <= inX <= xEnd	*)
+
+	LD		inX
+  	ST		fbLine.inX
+
+	LD		xIni
+	ST		fbLine.xIni
+
+	LD		yIni
+	ST		fbLine.yIni
+
+	LD		xEnd
+	ST		fbLine.xEnd
+
+	LD		yEnd
+	ST		fbLine.yEnd
+
+	CAL		fbLine
+
+	LD		fbLine.outY
+	ST		outY
+
+	JMP		lEnd_Segment
+
+l1_Segment:
+
+	(*	inX > xEnd	*)
+
+	LD		yEnd
+	ST		outY
+
+lEnd_Segment:
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK ByteToBit
+
+{ DE:"Split a byte into bits" }
+
+	VAR_INPUT
+	byte : BYTE;
+	END_VAR
+
+	VAR_OUTPUT
+	b0 : BOOL;
+	b1 : BOOL;
+	b2 : BOOL;
+	b3 : BOOL;
+	b4 : BOOL;
+	b5 : BOOL;
+	b6 : BOOL;
+	b7 : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+			LD		byte
+			AND		16#0001
+			NE		0
+			ST		b0
+
+			LD		byte
+			AND		16#0002
+			NE		0
+			ST		b1
+
+			LD		byte
+			AND		16#0004
+			NE		0
+			ST		b2
+
+			LD		byte
+			AND		16#0008
+			NE		0
+			ST		b3
+
+			LD		byte
+			AND		16#0010
+			NE		0
+			ST		b4
+
+			LD		byte
+			AND		16#0020
+			NE		0
+			ST		b5
+
+			LD		byte
+			AND		16#0040
+			NE		0
+			ST		b6
+
+			LD		byte
+			AND		16#0080
+			NE		0
+			ST		b7
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK WordToBit
+
+{ DE:"Split a word into bits" }
+
+	VAR_INPUT
+	word : WORD;
+	END_VAR
+
+	VAR_OUTPUT
+	b0 : BOOL;
+	b1 : BOOL;
+	b2 : BOOL;
+	b3 : BOOL;
+	b4 : BOOL;
+	b5 : BOOL;
+	b6 : BOOL;
+	b7 : BOOL;
+	b8 : BOOL;
+	b9 : BOOL;
+	b10 : BOOL;
+	b11 : BOOL;
+	b12 : BOOL;
+	b13 : BOOL;
+	b14 : BOOL;
+	b15 : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+			LD		word
+			AND		16#0001
+			NE		0
+			ST		b0
+
+			LD		word
+			AND		16#0002
+			NE		0
+			ST		b1
+
+			LD		word
+			AND		16#0004
+			NE		0
+			ST		b2
+
+			LD		word
+			AND		16#0008
+			NE		0
+			ST		b3
+
+			LD		word
+			AND		16#0010
+			NE		0
+			ST		b4
+
+			LD		word
+			AND		16#0020
+			NE		0
+			ST		b5
+
+			LD		word
+			AND		16#0040
+			NE		0
+			ST		b6
+
+			LD		word
+			AND		16#0080
+			NE		0
+			ST		b7
+
+			LD		word
+			AND		16#0100
+			NE		0
+			ST		b8
+
+			LD		word
+			AND		16#0200
+			NE		0
+			ST		b9
+
+			LD		word
+			AND		16#0400
+			NE		0
+			ST		b10
+
+			LD		word
+			AND		16#0800
+			NE		0
+			ST		b11
+
+			LD		word
+			AND		16#1000
+			NE		0
+			ST		b12
+
+			LD		word
+			AND		16#2000
+			NE		0
+			ST		b13
+
+			LD		word
+			AND		16#4000
+			NE		0
+			ST		b14
+
+			LD		word
+			AND		16#8000
+			NE		0
+			ST		b15
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK WordtoByte
+
+{ DE:"Split a word into two bytes" }
+
+	VAR_INPUT
+	w : UINT;
+	END_VAR
+
+	VAR_OUTPUT
+	byte0 : USINT;
+	byte1 : USINT;
+	END_VAR
+
+	{ CODE:IL }
+	(*---------- WORD in memoria IEEE --------*)
+	(*										  *)
+	(*	WORD -> | H byte0 | L byte0 |		  *)
+	(*										  *)
+	(*----------------------------------------*)
+
+	(*	Low byte *)
+
+	LD		w
+	TO_USINT
+	ST		byte0
+
+	(*	High byte *)
+
+	LD		w
+	SHR		8
+	TO_USINT
+	ST		byte1
+
+END_FUNCTION_BLOCK
+
+
+
+FUNCTION_BLOCK SquareWave
+
+{ DE:"FBlock Name: Square Wave
+Copyright © 2000, SIEI SpA. All Rights Reserved.
+Version     : 01.00
+Data        :  2001
+Author      : SIEI SpA Mcc
+
+Description:
+Square Wave Generator.
+
+Inputs:
+- Thickperiod: tick period for squqre wave
+- highValSQ: output value in  the high state
+- LowValSQ: output value in the low state
+
+Outputs:
+outSQ: change value from highValSQ  to  LowValSQ with  Thickperiod period" }
+
+	VAR_INPUT
+	TickPeriod : INT;
+	HighValSQ : INT;
+	LowValSQ : INT;
+	END_VAR
+
+	VAR_OUTPUT
+	OutSQ : INT;
+	END_VAR
+
+	VAR
+	q : BOOL;
+	SqCount : INT;
+	END_VAR
+
+	{ CODE:FBD }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$N:1^ 200,13
+$V:2^ 11,9,I
+@N SqCount
+@P
+C:5
+$E
+$V:3^ 20,3,O
+@N SqCount
+@P
+C:1
+$E
+$V:4^ 19,11,I
+@N TickPeriod
+@P
+C:6
+$E
+$K:5^ 11,7
+@N 1
+@P
+C:4
+$E
+$O:6^ 13,7,5
+@N ADD
+@PI
+0 C:4
+1 C:5
+EN *
+@PO
+2 C:2
+ENO C:7
+$E
+$O:7^ 21,7,5
+@N GE
+@PI
+0 C:3
+1 C:6
+EN C:7
+@PO
+2 C:8
+ENO *
+$E
+$R:8^ 31,7
+@N RET
+@P
+! C:8
+$E
+$CO:0^ 28,1
+@N "If time not elapsed ret
+else change value"
+$E
+$I:1^ 19,7
+@P
+C:2
+C:1
+C:3
+*
+$E
+$C:1^ 19,7,19,3,20,3
+@P
+I:1
+V:3
+$E
+$C:2^ 18,7,19,7
+@P
+O:6.2
+I:1
+$E
+$C:3^ 19,7,21,7
+@P
+I:1
+O:7.0
+$E
+$C:4^ 11,7,13,7
+@P
+K:5
+O:6.0
+$E
+$C:5^ 11,9,12,9,12,8,13,8
+@P
+V:2
+O:6.1
+$E
+$C:6^ 19,11,19,8,21,8
+@P
+V:4
+O:7.1
+$E
+$C:7^ 18,6,21,6
+@P
+O:6.ENO
+O:7.EN
+$E
+$C:8^ 26,7,31,7
+@P
+O:7.2
+R:8
+$E
+$E
+$N:2^ 200,13
+@N ChgValue
+$F:1^ 21,6,6
+@N SEL
+@PI
+G C:9
+In0 C:7
+In1 C:3
+EN C:2
+@PO
+#O C:4
+ENO C:10
+$E
+$V:2^ 29,6,O
+@N OutSQ
+@P
+C:4
+$E
+$V:3^ 8,5,I
+@N LowValSQ
+@P
+C:5
+$E
+$V:4^ 8,11,I
+@N HighValSQ
+@P
+C:3
+$E
+$V:5^ 8,8,I
+@N OutSQ
+@P
+C:0
+$E
+$V:6^ 21,2,O
+@N q
+@P
+C:8
+$E
+$V:7^ 46,6,O
+@N SqCount
+@P
+C:12
+$E
+$K:8^ 39,6
+@N 0
+@P
+C:11
+$E
+$O:9^ 11,6,5
+@N EQ
+@PI
+0 C:6
+1 C:0
+EN *
+@PO
+2 C:1
+ENO C:2
+$E
+$O:10^ 40,6,5
+@N MOVE
+@PI
+0 C:11
+EN C:10
+@PO
+1 C:12
+ENO *
+$E
+$CO:0^ 28,1
+@N "change value and reset counter"
+$E
+$I:0^ 10,6
+@P
+C:5
+*
+C:6
+C:7
+$E
+$I:1^ 18,6
+@P
+C:1
+*
+C:9
+C:8
+$E
+$C:7^ 10,6,10,9,17,9,17,7,21,7
+@P
+I:0
+F:1.In0
+$E
+$C:5^ 8,5,8,6,10,6
+@P
+V:3
+I:0
+$E
+$C:6^ 10,6,11,6
+@P
+I:0
+O:9.0
+$E
+$C:8^ 18,6,18,2,21,2
+@P
+I:1
+V:6
+$E
+$C:1^ 16,6,18,6
+@P
+O:9.2
+I:1
+$E
+$C:9^ 18,6,21,6
+@P
+I:1
+F:1.G
+$E
+$C:0^ 8,8,8,7,11,7
+@P
+V:5
+O:9.1
+$E
+$C:2^ 16,5,21,5
+@P
+O:9.ENO
+F:1.EN
+$E
+$C:3^ 8,11,20,11,20,8,21,8
+@P
+V:4
+F:1.In1
+$E
+$C:4^ 27,6,29,6
+@P
+F:1.#O
+V:2
+$E
+$C:10^ 27,5,40,5
+@P
+F:1.ENO
+O:10.EN
+$E
+$C:11^ 39,6,40,6
+@P
+K:8
+O:10.0
+$E
+$C:12^ 45,6,46,6
+@P
+O:10.1
+V:7
+$E
+$E
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK TwoByteToWord
+
+{ DE:"Function Name :	TwoByteToWord
+Revision: 	00.01
+Date: 	03/01/2003
+Author:  	MCC
+
+Description: Copy  the low byte of the Two 16 bit word input variables into
+ an output 16 bit Word " }
+
+	VAR_INPUT
+	InWordL : INT;
+	InWordH : INT;
+	END_VAR
+
+	VAR_OUTPUT
+	OutW : WORD;
+	END_VAR
+
+	VAR
+	TempW : WORD;
+	END_VAR
+
+	{ CODE:IL }
+(* clear Dword  variables	*)
+	LD		0
+	ST		TempW
+	ST		OutW
+
+(* copy lo-word				*)
+	LD		InWordH
+	ST		TempW
+(* move lo byte into hi-Byte*)
+	LD		TempW
+	SHL		8
+	ST		TempW
+(* out composition			*)
+	(* Lo-byte		*)
+	LD		InWordL
+	OR		OutW
+	AND		16#00ff
+	(* Hi-byte		*)
+	OR		TempW
+	ST		OutW
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK TwoWordToDWord
+
+{ DE:"Function Name :	TwoWordToDWord
+Revision: 	00.01
+Date: 	30/04/2002
+Author:  	MCC
+
+Description: Copy Two 16 bit word input variables into an output 32 bit Double Word " }
+
+	VAR_INPUT
+	InWordL : INT;
+	InWordH : INT;
+	END_VAR
+
+	VAR_OUTPUT
+	OutDw : DWORD;
+	END_VAR
+
+	VAR
+	TempDw : DWORD;
+	END_VAR
+
+	{ CODE:IL }
+(* clear Dword  variables	*)
+	LD		0
+	ST		TempDw
+	ST		OutDw
+
+(* copy lo-word				*)
+	LD		InWordH
+	TO_DINT
+	ST		TempDw
+(* move lo hi-word			*)
+	LD		TempDw
+	SHL		16
+	ST		TempDw
+(* out composition			*)
+	(* Lo-word		*)
+	LD		InWordL
+	TO_DINT
+	OR		OutDw
+	AND		16#0000ffff
+	(* Hi-word		*)
+	OR		TempDw
+	ST		OutDw
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK FourByteToDWord
+
+{ DE:"Function Name :	FourByteToWord
+Revision: 	00.02
+Date: 	28/Oct/2003
+Author:  	MCC
+
+Description: Compose the four byte inputs in the doble word output.
+
+word out: byte hh-hl-lh-ll (Hibyte-Hiword, LobyteHiWord....)" }
+
+	VAR_INPUT
+	InWordLL : INT;
+	InWordLH : INT;
+	InWordHL : INT;
+	InWordHH : INT;
+	END_VAR
+
+	VAR_OUTPUT
+	OutDW : DWORD; { DE:"Word uscita hh-hl-lh-ll" }
+	END_VAR
+
+	VAR
+	TempDW : DINT;
+	END_VAR
+
+	{ CODE:IL }(* ------------------------	*)
+(*   compose word low		*)
+(* ------------------------	*)
+
+(* clear Dword  variables	*)
+	LD		0
+	ST		TempDW
+
+(* ----- get HH byte ------	*)
+	LD		InWordHH
+	AND		16#00ff
+	TO_DINT
+	SHL		8
+	(* tempDW=0000-hh-00	*)
+	ST		TempDW
+
+(* ----- get HH byte ------	*)
+	LD		InWordHL
+	AND		16#00ff
+	TO_DINT
+	OR		TempDW
+	SHL		8
+	(* tempDW=00-hh-hl-00	*)
+	ST		TempDW
+
+(* ----- get LH byte ------	*)
+	LD		InWordLH
+	AND		16#00ff
+	TO_DINT
+	OR		TempDW
+	SHL		8
+	(* tempDW=hh-hl-lh-00	*)
+	ST		TempDW
+(* ----- get LL byte ------	*)
+	LD		InWordLL
+	AND		16#00ff
+	TO_DINT
+	OR		TempDW
+	(* tempDW=hh-hl-lh-ll	*)
+
+	(* write into output	*)
+	ST		OutDW
+
+
+
+END_FUNCTION_BLOCK
+
