@@ -369,7 +369,7 @@ InputConv();
 (* *** *)
 IF (NOT ENABLE_CYCLIC_PRG) THEN
 	torque_cmd := 0.0;
-	torque_max:=3.0;
+	torque_max:=3.5;
 	speed_max:=100.0;
 ELSE
 	torque_cmd:=-v_Speed/speed_max*torque_max;

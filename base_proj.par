@@ -3826,8 +3826,8 @@ PASSW	2	"38472"	"Level 2"
 ;	Variable string
 ;
 STR	"$PRJTITLE"	"base_proj"	1	
-STR	"$PRJPATH"	"c:\gefran_projects\mdplc_base"	1	
-STR	"$PRJBASENAME"	"c:\gefran_projects\mdplc_base\base_proj"	1	
+STR	"$PRJPATH"	"c:\projects\base_mdlplc_project"	1	
+STR	"$PRJBASENAME"	"c:\projects\base_mdlplc_project\base_proj"	1	
 STR	"$IMGNAME"	"base_proj.img"	1	
 STR	"$TARGETDEFNAME"	"adv200syn_7_2_7.tgt"	1	
 STR	"$FIRMWAREFILENAME"	"adv200syn_7_2_7_fw_lang.fl2"	1	

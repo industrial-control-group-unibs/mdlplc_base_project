@@ -4691,11 +4691,11 @@ A0011408  F0000F9B		addih d15, d15, #0x0000
 A001140C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 
 #40		
-#41				(* torque_max:=3.0; *)
-#42				LD		3.0	{L:13}
+#41				(* torque_max:=3.5; *)
+#42				LD		3.5	{L:13}
 (*) UNDEF
-A0011410  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.000000
-A0011414  F4040F9B		addih d15, d15, #0x4040
+A0011410  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.500000
+A0011414  F4060F9B		addih d15, d15, #0x4060
 
 #43				ST		torque_max	{L:13}
 (*) REAL
@@ -4751,17 +4751,17 @@ A001144C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 #62		
 #63		
 #64			(* IF torque_cmd > MaxTorque *)
-#65			LD		torque_cmd	{L:23}
+#65			LD		torque_cmd	{L:21}
 (*) UNDEF
 A0011450  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
 
-#66			GT		MaxTorque	{L:23}
+#66			GT		MaxTorque	{L:21}
 (*) REAL
 A0011454  4064C585		ld.w d5, #0x30524 ; ADR 0xC0000524
 A0011458  F0015F4B		cmp.f d15, d15, d5
 A001145C  F2004F8B		eq d15, d15, #4
 
-#67			JMPCN	$label2	{L:23}
+#67			JMPCN	$label2	{L:21}
 (-) BOOL
 A0011460  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0011470
 
@@ -4769,11 +4769,11 @@ A0011460  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0011470
 #69			(* THEN *)
 #70		
 #71				(* torque_cmd := MaxTorque; *)
-#72				LD		MaxTorque	{L:24}
+#72				LD		MaxTorque	{L:22}
 (*) UNDEF
 A0011464  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
 
-#73				ST		torque_cmd	{L:24}
+#73				ST		torque_cmd	{L:22}
 (*) REAL
 A0011468  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 
@@ -4784,22 +4784,22 @@ A001146C  0024001D		j #0x000024 ; JUMP 0xA00114B4
 #75		$label2:
 #76		
 #77			(* ELSIF torque_cmd < -MaxTorque *)
-#78			LD		torque_cmd	{L:25}
+#78			LD		torque_cmd	{L:23}
 (*) UNDEF
 A0011470  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
 
-#79			LT(		MaxTorque	{L:25}
+#79			LT(		MaxTorque	{L:23}
 (*) REAL
 A0011474  F53CAF89		st.w [-sp]4, d15 
 A0011478  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
 
-#80			MUL		-1	{L:25}
+#80			MUL		-1	{L:23}
 (*) REAL
 A001147C  8FFFF03B		mov d8, #-1
 A0011480  8141084B		itof d8, d8
 A0011484  F0418F4B		mul.f d15, d15, d8
 
-#81			)	{L:25}
+#81			)	{L:23}
 (*) REAL
 A0011488  01F0F00B		mov d0, d15
 A001148C  0104AF09		ld.w d15, [sp+]4
@@ -4807,7 +4807,7 @@ A0011490  51F0000B		mov d5, d0
 A0011494  F0015F4B		cmp.f d15, d15, d5
 A0011498  F2001F8B		eq d15, d15, #1
 
-#82			JMPCN	$label3	{L:25}
+#82			JMPCN	$label3	{L:23}
 (-) BOOL
 A001149C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA00114B4
 
@@ -4815,17 +4815,17 @@ A001149C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA00114B4
 #84			(* THEN *)
 #85		
 #86				(* torque_cmd := -MaxTorque; *)
-#87				LD		MaxTorque	{L:26}
+#87				LD		MaxTorque	{L:24}
 (*) UNDEF
 A00114A0  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
 
-#88				MUL		-1	{L:26}
+#88				MUL		-1	{L:24}
 (*) REAL
 A00114A4  8FFFF03B		mov d8, #-1
 A00114A8  8141084B		itof d8, d8
 A00114AC  F0418F4B		mul.f d15, d15, d8
 
-#89				ST		torque_cmd	{L:26}
+#89				ST		torque_cmd	{L:24}
 (*) REAL
 A00114B0  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 
@@ -4834,20 +4834,20 @@ A00114B0  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 #92			(* END_IF *)
 #93		
 #94			(* sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt); *)
-#95			LD		torque_cmd	{L:30}
+#95			LD		torque_cmd	{L:28}
 (*) UNDEF
 A00114B4  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
 
-#96			MUL		KNm2Cnt	{L:30}
+#96			MUL		KNm2Cnt	{L:28}
 (*) REAL
 A00114B8  4068C885		ld.w d8, #0x30528 ; ADR 0xC0000528
 A00114BC  F0418F4B		mul.f d15, d15, d8
 
-#97			TO_DINT	{L:30}
+#97			TO_DINT	{L:28}
 (*) REAL
 A00114C0  F1010F4B		ftoi d15, d15
 
-#98			ST		sysTrqFFwd	{L:30}
+#98			ST		sysTrqFFwd	{L:28}
 (*) DINT
 A00114C4  C2ACDFA5		st.w #0x36B2C, d15 ; ADR 0xD0002B2C
 
