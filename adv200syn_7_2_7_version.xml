@@ -1,0 +1,258 @@
+<devicetemplate>
+	<deviceinfo icon="..\..\..\..\Drives\Inverter\Inverter.ico" image="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\ADV200.gif" alwaysHideGFNet="true" location="Drive">
+		<protocols>
+			<protocol>gdnet</protocol>
+			<protocol>modbus_rtu</protocol>
+		</protocols>		
+	</deviceinfo>
+	<deviceconfig>
+		<parameters>
+			<par ipa="4454" readonly="yes" name="Bit0 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit0 decomp mon" access="30">
+				<menu id="1622" order="2"/>
+			</par>
+			<par ipa="4456" readonly="yes" name="Bit1 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit1 decomp mon" access="30">
+				<menu id="1622" order="3"/>
+			</par>
+			<par ipa="4458" readonly="yes" name="Bit2 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit2 decomp mon" access="30">
+				<menu id="1622" order="4"/>
+			</par>
+			<par ipa="4460" readonly="yes" name="Bit3 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit3 decomp mon" access="30">
+				<menu id="1622" order="5"/>
+			</par>
+			<par ipa="4462" readonly="yes" name="Bit4 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit4 decomp mon" access="30">
+				<menu id="1622" order="6"/>
+			</par>
+			<par ipa="4464" readonly="yes" name="Bit5 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit5 decomp mon" access="30">
+				<menu id="1622" order="7"/>
+			</par>
+			<par ipa="4466" readonly="yes" name="Bit6 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit6 decomp mon" access="30">
+				<menu id="1622" order="8"/>
+			</par>
+			<par ipa="4468" readonly="yes" name="Bit7 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit7 decomp mon" access="30">
+				<menu id="1622" order="9"/>
+			</par>
+			<par ipa="4470" readonly="yes" name="Bit8 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit8 decomp mon" access="30">
+				<menu id="1622" order="10"/>
+			</par>
+			<par ipa="4472" readonly="yes" name="Bit9 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit9 decomp mon" access="30">
+				<menu id="1622" order="11"/>
+			</par>
+			<par ipa="4474" readonly="yes" name="Bit10 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit10 decomp mon" access="30">
+				<menu id="1622" order="12"/>
+			</par>
+			<par ipa="4476" readonly="yes" name="Bit11 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit11 decomp mon" access="30">
+				<menu id="1622" order="13"/>
+			</par>
+			<par ipa="4478" readonly="yes" name="Bit12 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit12 decomp mon" access="30">
+				<menu id="1622" order="14"/>
+			</par>
+			<par ipa="4480" readonly="yes" name="Bit13 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit13 decomp mon" access="30">
+				<menu id="1622" order="15"/>
+			</par>
+			<par ipa="4482" readonly="yes" name="Bit14 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit14 decomp mon" access="30">
+				<menu id="1622" order="16"/>
+			</par>
+			<par ipa="4484" readonly="yes" name="Bit15 decomp mon" typepar="unsignedShort" typetarg="unsignedShort" defval="" scale="1.000000" offs="0.000000" form="%u" min="*" max="*" shortdescr="Bit15 decomp mon" access="30">
+				<menu id="1622" order="17"/>
+			</par>	
+		</parameters>
+		<customcommands>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\easyexp.bmp" handler="EasyExpert" caption="Easy/Expert" updatehandler="UpdateEasyExpert"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\saveparam.bmp" handler="SaveParam" caption="Save Parameters" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\reset.bmp" handler="Reset" caption="Reset device" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\info.bmp" handler="OpenInfoWin" caption="Target Information" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\cpanel.bmp" handler="OpenCPanelWin" caption="Control Panel" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\alarms.bmp" handler="OpenAlarmsWin" caption="Alarms" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\fwdownload.bmp" handler="FWDownload" caption="Download firmware" updatehandler="UpdateDevToolbar"/>
+			<separator/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\rSet01.bmp" handler="Upload2Set" caption="Read set 0/1" updatehandler="Update2Set"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\wSet01.bmp" handler="Download2Set" caption="Write set 0/1" updatehandler="Update2Set"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\copySet0.bmp" handler="CopySet0" caption="Copy Set 0" updatehandler="UpdateCopy"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\copySet1.bmp" handler="CopySet1" caption="Copy Set 1" updatehandler="UpdateCopy"/>				
+			<separator/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\setIP.bmp" handler="SetIPAddress_RTE" caption="Set IP Address (Ethernet IP)"/>
+			<separator/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\esc.bmp" handler="ESCKeypad" caption="ESC keypad" updatehandler="UpdateDevToolbar"/>
+			<customcommand icon="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Icons\rst.bmp" handler="RSTKeypad" caption="RST keypad" updatehandler="UpdateDevToolbar"/>
+		</customcommands>
+		<menus>
+			<page id="15000" title="InterfaceMenu" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Wizard\Empty.htm">
+				<page id="15001" title="WIZARD" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Wizard\WizardHomepage.htm"/>
+				<page id="15002" title="DIAGRAMS" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Diagrams\Empty.htm">
+					<page id="15003" title="SYSTEM DIAGRAMS" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Diagrams\SysFrameset.htm"/>
+					<page id="15004" title="APP DIAGRAMS" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Diagrams\AppFrameset.htm"/>
+				</page>
+				<page id="15005" title="DESTINATIONS" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Wizard\Empty.htm">
+					<page id="15006" title="DIG INP DEST" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\DigInpDestinations.htm"/>
+					<page id="15007" title="AN INP DEST" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\AnInpDestinations.htm"/>
+				</page>
+				<page id="15009" title="FIELDBUS WORDS MAP" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\Empty.htm">
+					<page id="15010" title="M->S" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\FieldbusMSWordsMap.htm"/>
+					<page id="15011" title="S->M" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\FieldbusSMWordsMap.htm"/>
+				</page>
+				<page id="15012" title="SPEED FBK LOSS CODE" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\SpdFbkLossCode.htm"/>
+				<page id="15013" title="EXTERNAL IO" level="0" source="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ExternalIO.htm"/>
+			</page>
+		</menus>
+		<options>
+			<option name="COMMCONF" commstring="Modbus:1,1000,M#COM:1,38400,N,8,1"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200Syn_Scan.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_Define.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_DevToolbar.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_EasyExpert.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_FamilySize.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_SaveReset.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_Events.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_Destinations.js" language="JS"/>
+			<option name="SCRIPT" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Res\ADV200_DoubleParSet.js" language="JS"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200S_PAR_DE.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200S_PAR_ES.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200S_PAR_IT.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200S_PAR_FR.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_PID_DE.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_PID_ES.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_PID_IT.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_PID_FR.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_WIZ_DE.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_WIZ_ES.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_WIZ_IT.dic"/>
+			<option name="DICTIONARY" filename="..\..\..\..\Drives\Inverter\ADV200\ADV200_7_x_7\Dict\ADV200_WIZ_FR.dic"/>
+			<option name="ALARMDEF" alarmcodemode="NUM"/>
+			<option name="DEFMENU" pageid="15001"/>
+			<option name="HTMLSENDVAL" value="0"/>
+			<option name="COLUMNSORDER">
+				<col>9</col>
+				<col>2</col>
+				<col>3</col>
+				<col>6</col>
+				<col>1</col>
+				<col>4</col>
+				<col>5</col>
+				<col>7</col>
+				<col>8</col>
+				<col>0</col>
+			</option> 
+		</options>
+	</deviceconfig>
+	<customconfig>
+		<GF_Net loadParameters="1"/>
+	</customconfig>
+	<networkconfig>
+		<hmi>
+			<window type="html" link="%CATALOG%\Drives\Inverter\ADV200\ADV200_GFNet\adv200_1.html">adv200_1</window>
+			<window type="html" link="%CATALOG%\Drives\Inverter\ADV200\ADV200_GFNet\adv200_2.html">adv200_2</window>
+			<window type="html" link="%CATALOG%\Drives\Inverter\ADV200\ADV200_GFNet\adv200_3.html">adv200_3</window>
+			<window type="html" link="%CATALOG%\Drives\Inverter\ADV200\ADV200_GFNet\adv200_4.html">adv200_4</window>
+			<window type="html" link="%CATALOG%\Drives\Inverter\ADV200\ADV200_GFNet\adv200_5.html">adv200_5</window>
+			
+			<tree name="tree1">
+				<node name="_PREFIX_" caption="ADV200" icon="..\..\..\..\Drives\Inverter\Inverter.ico" menu="menuRemove_GFExpress" datalink="_PREFIX_" window="adv200_1" captionedit="true"/>
+			</tree>
+		</hmi>
+		<templatedata>
+			<_PREFIX_ pathGFE="">
+				<instrument_config>
+					<nodeNumber>0</nodeNumber>
+					<labelsPrefix></labelsPrefix>
+					<nodeEnable></nodeEnable>
+					<dialogStatus></dialogStatus>
+					<modbusVars></modbusVars>
+				</instrument_config>
+				<adv200_config>
+					<switchesNumber>0</switchesNumber>
+					<softwareID>ADV2</softwareID>
+					<deviceName></deviceName>
+					<IDBsize>16</IDBsize>
+					<ODBsize>16</ODBsize>
+					<IDBlist counter="0"/>
+					<ODBlist counter="0"/>
+					<SDOinputList period="50" maxerr="3"/>
+					<SDOoutputList period="50" maxerr="3"/>
+				</adv200_config>
+			</_PREFIX_>
+		</templatedata>
+		<extensions>
+			<script alias="_PREFIX_">..\..\..\..\Drives\Inverter\ADV200\ADV200_GFNet\ADV200.js</script>
+			<eventhandler event="OnLoadTemplate">_PREFIX_.OnLoadTemplate</eventhandler>
+			<eventhandler event="OnLoadTemplate">script.OnLoadTemplate_instrument</eventhandler>
+		</extensions>
+		<datadef version="1.0">
+			<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+				<xs:complexType name="T_PREFIX__adv200_config">
+					<xs:sequence>
+						<xs:element name="switchesNumber" type="xs:integer"/>
+						<xs:element name="softwareID" type="xs:string"/>
+						<xs:element name="deviceName" type="xs:string"/>
+						<xs:element name="IDBsize" type="xs:integer"/>
+						<xs:element name="ODBsize" type="xs:integer"/>
+						
+						<xs:element name="IDBlist">
+							<xs:complexType>
+								<xs:sequence minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="DBitem" type="TDBitem"/>
+								</xs:sequence>
+								<xs:attribute name="counter" type="xs:integer" />
+								<xs:attribute name="locationPage" type="xs:string" fixed="adv200_2" />
+							</xs:complexType>
+						</xs:element>
+						
+						<xs:element name="ODBlist">
+							<xs:complexType>
+								<xs:sequence minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="DBitem" type="TDBitem"/>
+								</xs:sequence>
+								<xs:attribute name="counter" type="xs:integer" />
+								<xs:attribute name="locationPage" type="xs:string" fixed="adv200_3" />
+							</xs:complexType>
+						</xs:element>
+						
+						<xs:element name="SDOinputList">
+							<xs:complexType>
+								<xs:sequence minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="SDOinput" type="TSDOinput"/>
+								</xs:sequence>
+								<xs:attribute name="period" type="xs:integer" />
+								<xs:attribute name="maxerr" type="xs:integer" />
+								<xs:attribute name="locationPage" type="xs:string" fixed="adv200_4" />
+							</xs:complexType>
+						</xs:element>
+						
+						<xs:element name="SDOoutputList"> 
+							<xs:complexType>
+								<xs:sequence minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="SDOoutput" type="TSDOoutput"/>
+								</xs:sequence>
+								<xs:attribute name="period" type="xs:integer" />
+								<xs:attribute name="maxerr" type="xs:integer" />
+								<xs:attribute name="locationPage" type="xs:string" fixed="adv200_5" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="locationPage" type="xs:string" fixed="adv200_1" />
+				</xs:complexType>
+				
+				<xs:element name="_PREFIX_">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="insertableDevice">
+								<xs:sequence>
+									<xs:element name="instrument_config" type="Tinstrument_config"/>
+									<xs:element name="adv200_config" type="T_PREFIX__adv200_config"/>
+								</xs:sequence>
+								<xs:attribute name="pathGFE" type="xs:string"/>
+								<xs:attribute name="ExtensionName" type="xs:string" fixed="_PREFIX_"/>
+								<xs:attribute name="oncreatenode" type="xs:string" fixed="script.OnCreateNode_instrument"/>
+								<xs:attribute name="onloadnode" type="xs:string" fixed="_PREFIX_.OnLoadNode"/>
+								<xs:attribute name="maxDataLengthValueReg" type="xs:integer" fixed="120"/>
+								<xs:attribute name="maxDataLengthValueBit" type="xs:integer" fixed="1920"/>
+								<xs:attribute name="CANdeviceid" fixed="_CANDEVICEID_"/>
+								<xs:attribute name="PrintXSL" type="xs:string" fixed="..\ADV200_GFNet\ADV200.xsl"/>
+								<xs:attribute name="showModbusWordOrder" type="xs:boolean" fixed="true"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:schema>
+		</datadef>
+	</networkconfig>
+</devicetemplate>

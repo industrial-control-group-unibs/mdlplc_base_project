@@ -1,0 +1,400 @@
+(*
+ *
+ * MDPlc source file: c:\projects\base_mdlplc_project\Backup\base_proj.plc$
+ * for project:       C:\projects\base_mdlplc_project\base_proj.ppj
+ *
+ *)
+
+
+PROGRAM cyclic_prg WITH Fast;
+PROGRAM state_machine WITH Background;
+
+	(****************************)
+	(*                          *)
+	(*     GLOBAL VARIABLES     *)
+	(*                          *)
+	(****************************)
+
+	VAR_GLOBAL
+	ENABLE_CYCLIC_PRG : BOOL; { DE:"cyclic_prg enable variable" } 
+	DriveRatCur : REAL; 
+	FullScaleSpeed : REAL; 
+	RatCur : REAL; 
+	RatKTrq : REAL; 
+	KNm2Cnt : REAL; 
+	InputConv : InputConversionADV200; 
+	RatedTorque : REAL; 
+	MaxTorque : REAL; 
+	END_VAR
+
+	(*********************)
+	(*                   *)
+	(*     CONSTANTS     *)
+	(*                   *)
+	(*********************)
+
+	VAR_GLOBAL CONSTANT
+	PI : REAL := 3.1415926535; { DE:"pi greco" } 
+	END_VAR
+
+	(***************************)
+	(*                         *)
+	(*     FUNCTION BLOCKS     *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK InputConversionADV200
+
+	VAR_INPUT
+	Krpm : REAL; { DE:"Costante di conversione [rpm/count]" } 
+	Krad_s : REAL; { DE:"Costante di conversione [rad/s/count]" } 
+	KArms : REAL; { DE:"Costante di conversione Corrente [Arms/count]" } 
+	KCnt2Nm : REAL; { DE:"Conversione da count a Nm [cnt/Nm]" } 
+	sysPos : DINT; { DE:"Posizione letta dall'azionamento " } 
+	sysSpd : DINT; { DE:"VelocitÃ  letta dall'azionamento " } 
+	sysIq : DINT; { DE:"Corrente letta dall'azionamento" } 
+	sysTrqRef : DINT; { DE:"Coppia letta dall'azionamento" } 
+	PosDINT : DINT; { DE:"Posizione letta dall'azionamento in funzione della velocitÃ " } 
+	offset : REAL; { DE:"Offset di Posizione [rad]" } 
+	sysRev : DINT; { DE:"Numero di rivoluzioni dell'encoder" } 
+	END_VAR
+
+	VAR_OUTPUT
+	pos : REAL; { DE:"Posizione angolare del motore [rad]" } 
+	vel_rpm : REAL; { DE:"VelocitÃ  del motore [rpm]" } 
+	vel : REAL; { DE:"VelocitÃ  angolare del motore [rad/s]" } 
+	trq : REAL; { DE:"Coppia erogata dal motore [N*m]" } 
+	curr : REAL; { DE:"Corrente di coppia del motore [Arms]" } 
+	END_VAR
+
+	VAR_EXTERNAL
+	v_Position : REAL; 
+	v_Speed : REAL; 
+	v_Torque : REAL; 
+	END_VAR
+
+	{ CODE:ST }	(*Function Block utile alla lettura dei parametri in Ingresso provenienti dal motore*)
+	(*Leggo le grandezze del motore, effettuo le conversioni utili e restitusco le grandezze in unita'  SI*)  
+	
+	pos:=(TO_REAL(sysPos)/PosDINT+sysRev)*2.0*PI + offset; 	(*Posizione in rad*)
+	
+	vel_rpm:= TO_REAL(sysSpd)*Krpm;  						(*Velocita'  in rpm a monte del filtro Par:2134*)
+
+	vel:=TO_REAL(sysSpd)*Krad_s;    						(*Velocita' in rad/s*)
+		
+	curr:=TO_REAL(sysIq)*KArms;                             (*Corrente Iq*)
+	
+	trq := TO_REAL(sysTrqRef) * KCnt2Nm;                    (*Coppia Nm *)
+	
+	v_Position := pos;										(*Posizione in rad*)
+	
+	v_Speed := vel;											(*Velocita' in rad/s*)
+
+	v_Torque := trq;										(*Coppia Nm *)
+
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK matrixProd
+
+	VAR_INPUT
+	sizeA : ARRAY[ 0..1 ] OF USINT; { DE:"Number of rows anc columns of the first matrix" } 
+	sizeB : ARRAY[ 0..1 ] OF USINT; { DE:"Number of rows anc columns of the second matrix" } 
+	AA : ARRAY[ 0..5 ] OF REAL; 
+	BB : ARRAY[ 0..5 ] OF REAL; 
+	END_VAR
+
+	VAR_OUTPUT
+	sizeC : ARRAY[ 0..1 ] OF USINT; { DE:"Number of rows anc columns of the final matrix" } 
+	CC : ARRAY[ 0..3 ] OF REAL; 
+	END_VAR
+
+	VAR
+	c : USINT; 
+	i : USINT; 
+	indA : USINT; 
+	indB : USINT; 
+	indC : USINT; 
+	r : USINT; 
+	C : REAL; 
+	END_VAR
+
+	{ CODE:ST }sizeC[0] := sizeA[0];
+sizeC[1] := sizeB[1];
+FOR r := 0 TO sizeA[0]-1 DO
+    FOR c := 0 TO sizeB[1]-1 DO
+    	C := 0.0;
+        FOR i := 0 TO sizeA[1]-1 DO
+            indC := (r*sizeB[1])+c;
+            indA := r*sizeA[1]+i;
+            indB := c+i*sizeB[1];
+            C := C+AA[indA]*BB[indB];
+            CC[indC] := C;
+        END_FOR;
+    END_FOR;
+END_FOR;
+
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK matrixTranspose
+
+	VAR_INPUT
+	sizeA : ARRAY[ 0..1 ] OF USINT; 
+	AA : ARRAY[ 0..5 ] OF REAL; 
+	END_VAR
+
+	VAR_OUTPUT
+	sizeC : ARRAY[ 0..1 ] OF USINT; 
+	DD : ARRAY[ 0..5 ] OF REAL; 
+	END_VAR
+
+	VAR
+	c : USINT; 
+	i : USINT; 
+	indC : USINT; 
+	indA : USINT; 
+	END_VAR
+
+	{ CODE:ST }sizeC[0] := sizeA[1];
+sizeC[1] := sizeA[0];
+FOR c := 0 TO sizeA[0]-1 DO
+    FOR i := 0 TO sizeA[1]-1 DO
+        indC := i*sizeA[0]+c;
+        indA := i+c*sizeA[1];
+        DD[indC] := AA[indA];
+    END_FOR;
+END_FOR;
+
+END_FUNCTION_BLOCK
+
+	(********************)
+	(*                  *)
+	(*     PROGRAMS     *)
+	(*                  *)
+	(********************)
+
+PROGRAM state_machine
+
+	VAR
+	INIT_END : BOOL; { DE:"Transition result" } 
+	CYCLE_STOP : BOOL; { DE:"Transition result" } 
+	readRealPar : sysDBReadRealPar; 
+	readIntPar : sysDBReadIntegerPar; 
+	idx : UINT; 
+	r_idx : USINT; 
+	c_idx : USINT; 
+	END_VAR
+
+	{ CODE:SFC }$N:1^ 200,31
+$ACT:Init^ 5,0,1
+@P
+O1 C:0
+@CD Init_state
+$E
+ $ACT:Stop^ 5,16,0
+@P
+I0 C:3
+O1 C:4
+@CD Stop_state
+$E
+ $ACT:Cycle^ 5,8,0
+@P
+I0 C:1
+O1 C:2
+@CD Cycle_state
+$E
+ $TR:2^ 5,5,0
+@PCD
+I0 INIT_END C:0 5 
+@P
+O1 C:1 5
+$E
+
+$TR:4^ 5,13,0
+@PCD
+I0 CYCLE_STOP C:2 5 
+@P
+O1 C:3 5
+$E
+
+$TR:5^ 5,21,0
+@PCD
+I0 CYCLE_STOP C:4 5 
+@P
+O1 C:5 5
+$E
+
+$J:6^ 5,24
+@N Stop
+@P
+C:5
+$E
+$C:0^ 5,5,5,5
+@P
+ACT:Init.O1
+TR:2.I0
+$E
+$C:1^ 5,8,5,8
+@P
+TR:2.O1
+ACT:Cycle.I0
+$E
+$C:2^ 5,13,5,13
+@P
+ACT:Cycle.O1
+TR:4.I0
+$E
+$C:3^ 5,16,5,16
+@P
+TR:4.O1
+ACT:Stop.I0
+$E
+$C:4^ 5,21,5,21
+@P
+ACT:Stop.O1
+TR:5.I0
+$E
+$C:5^ 5,24,5,24
+@P
+TR:5.O1
+J:6
+$E
+$E
+
+INITIAL_STEP Init_state :
+	{ CODE:ST }(* *********************************************************************************************** *)
+(* Disabilito programma ciclico *)	
+INIT_END := FALSE;
+CYCLE_STOP := TRUE;
+ENABLE_CYCLIC_PRG := FALSE;
+
+(* *********************************************************************************************** *)
+(* Imposto modalita' di controllo Torque -2- *)	
+sysControlMode := 2;
+
+
+(* Leggo corrente continuativa del drive *)
+readRealPar.ipa := 300;
+readRealPar();
+DriveRatCur:= readRealPar.val ;
+InputConv.KArms:=DriveRatCur/(8192.0*65536.0);
+
+(* Leggo fondo scala riferimenti di velocita' *) 
+(*Function Block embedded che richiama con ipa il valore max del fondoscala di velocita' *)
+readIntPar.ipa := 680;
+readIntPar();
+FullScaleSpeed := TO_REAL(readIntPar.val) ;
+InputConv.Krpm:=FullScaleSpeed/(16384.0*65536.0);
+InputConv.Krad_s:=InputConv.Krpm*2.0*PI/60.0;
+
+
+(* Motor Rated Current *)
+readRealPar.ipa := 2002;
+readRealPar();
+RatCur:= readRealPar.val ;
+(* Motor Torque Constant 	*)
+readRealPar.ipa := 2010;
+readRealPar();
+RatKTrq:= readRealPar.val ;
+RatedTorque := RatCur*RatKTrq;
+
+KNm2Cnt := TO_REAL(TrqToCount(1.0 / RatedTorque * 100.0));
+InputConv.KCnt2Nm := 1.0 / KNm2Cnt;
+
+
+(* *********************************************************************************************** *)
+(* Inizializzazione variabili *)
+MaxTorque := 10.0;
+
+
+
+
+(* *********************************************************************************************** *)
+(* Abilito programma ciclico *)	
+ENABLE_CYCLIC_PRG := TRUE;
+INIT_END := TRUE;
+CYCLE_STOP := FALSE;
+
+
+END_STEP
+
+STEP Cycle_state :
+	{ CODE:ST }IF sysDIBitWordBit1 THEN
+	ENABLE_CYCLIC_PRG := TRUE;
+ELSE
+	ENABLE_CYCLIC_PRG := FALSE;
+END_IF;
+
+END_STEP
+
+STEP Stop_state :
+	{ CODE:ST }ENABLE_CYCLIC_PRG := FALSE;
+CYCLE_STOP := TRUE;
+
+v_Torque := 0.0;
+
+
+END_STEP
+
+TRANSITION INIT_END :
+	{ CODE:ST }
+
+END_TRANSITION
+
+TRANSITION CYCLE_STOP :
+	{ CODE:ST }
+
+END_TRANSITION
+
+END_PROGRAM
+
+PROGRAM cyclic_prg
+
+	VAR
+	torque_cmd : REAL; 
+	torque_max : REAL := 3.0; 
+	speed_max : REAL := 100.0; 
+	END_VAR
+
+	{ CODE:ST }(* Convert input from drive to SI units *)
+InputConv.sysSpd := sysSpd;
+InputConv.sysPos := sysPos;
+InputConv.sysIq := sysIq;
+InputConv.sysTrqRef := sysTrqRef;
+InputConv.sysRev := sysRev;
+InputConv.PosDINT:=sysSpeedPosPulsesPerRev; 
+InputConv();
+
+(* *** *)
+IF (NOT ENABLE_CYCLIC_PRG) THEN
+	torque_cmd := 0.0;
+	torque_max:=3.0;
+	speed_max:=100.0;
+ELSE
+	torque_cmd:=-v_Speed/speed_max*torque_max;
+END_IF;	
+
+
+(* Saturazioni di coppia *)
+IF torque_cmd > MaxTorque THEN
+	torque_cmd := MaxTorque;
+ELSIF torque_cmd < -MaxTorque THEN
+	torque_cmd := -MaxTorque;
+END_IF;
+
+(*--- Coppia di riferimento al Drive--------*)
+sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt);
+
+(*
+
+sysPad1 := TO_DINT(v_Torque*1000.0);
+sysPad2 := TO_DINT(v_Speed*1000.0);
+sysPad3 := TO_DINT(v_Position*1000.0);
+
+*)
+
+
+
+END_PROGRAM
+

@@ -1,0 +1,352 @@
+;
+;	Version record
+;
+VER "ADVS"  7  7
+;
+; Drive Ver.Rel.Typ : 7.2.7
+; Build             : 1442220726 => 14/September/2015 -- 10.52.6
+
+
+;
+;	Parameters records
+;
+PAR 70   -1  "CNTS_2_VDC"  		5   0   5   1   0   "(V)/cnts" "Voltage conversion factor for dc link" ""  ""  
+PAR 50   -1  "CNTS_2_IPK"  		5   0   5   1   0   "(A*sqrt(2))/cnts" "Current conversion factor" ""  ""  
+PAR 52   -1  "CNTS_2_V"  		5   0   5   1   0   "(V*sqrt(2)/sqrt(3))/cnts" "Voltage conversion factor" ""  ""  
+PAR 54   -1  "CNTS_2_SPEED"  	5   0   5   1   0   "rpm/cnts" "Speed conversion factor" ""  ""  
+PAR 56   -1  "CNTS_2_HZ"  	    5   0   5   1   0   "(Hz*2*pi)/cnts" "Frequency conversion factor" ""  ""  
+PAR 58   -1  "CNTS_2_NM"  	    5   0   5   1   0   "Nm/cnts" "Torque conversion factor" ""  ""  
+PAR 72   -1  "CNTS_2_KW"  	    5   0   5   1   0   "kW/cnts" "Power conversion factor" ""  ""  
+
+
+;
+;	System parameters ( Oscilloscope )
+;
+SYS	478		"FWNAME"				4	
+SYS	492		"FWVER1"				1	
+SYS	496		"FWVER2"				1	
+SYS	9090	"OSC_SAMPLE"			3	
+SYS	9086	"OSC_SESSION"			4	
+SYS	9096	"OSC_MINSAMPLESTIME"	4	
+SYS	9088	"OSC_NUMCH"				3
+SYS	9080	"OSC_ACQSTATE"			6
+SYS	9030	"OSC_DIMD_CH1"			3
+SYS	9040	"OSC_TYPED_CH1"			1
+SYS	9060	"OSC_ADDRM_CH1"			4
+SYS	9050	"OSC_ADDRD_CH1"			4
+SYS	9032	"OSC_DIMD_CH2"			3
+SYS	9042	"OSC_TYPED_CH2"			1
+SYS	9062	"OSC_ADDRM_CH2"			4
+SYS	9052	"OSC_ADDRD_CH2"			4
+SYS	9034	"OSC_DIMD_CH3"			3
+SYS	9044	"OSC_TYPED_CH3"			1
+SYS	9064	"OSC_ADDRM_CH3"			4
+SYS	9054	"OSC_ADDRD_CH3"			4
+SYS	9036	"OSC_DIMD_CH4"			3
+SYS	9046	"OSC_TYPED_CH4"			1
+SYS	9066	"OSC_ADDRM_CH4"			4
+SYS	9056	"OSC_ADDRD_CH4"			4
+SYS	9038	"OSC_DIMD_TRG"			3
+SYS	9048	"OSC_TYPED_TRG"			3
+SYS	9058	"OSC_ADDRD_TRG"			4
+SYS	9082	"OSC_STARTIDX_TRG"		1
+SYS	9084	"OSC_ENDIDX_TRG"		1
+SYS	9000	"OSC_SCOPE1"			3	
+SYS	9002	"OSC_SCOPE2"			3	
+SYS	9004	"OSC_SCOPE3"			3	
+SYS	9006	"OSC_SCOPE4"			3	
+SYS	9094	"OSC_RATE"				3	
+SYS	9076	"OSC_TRG"				6	
+SYS	9008	"OSC_SCOPE_TRG_SRC"		3	
+SYS	9068	"OSC_SCOPE_TRG_LEV"		2	
+SYS	9070	"OSC_SCOPE_TRG_SLOPE"	3	
+SYS	9072	"OSC_SCOPE_TRG_OFFS"	1	
+SYS	9078	"OSC_SCOPE_TRG_ARM"		6
+SYS	9010	"OSC_DATAPARAM1"		4	
+SYS	9012	"OSC_DATAPARAM2"		4	
+SYS	9014	"OSC_DATAPARAM3"		4	
+SYS	9016	"OSC_DATAPARAM4"		4	
+SYS	9018	"OSC_TRGPARAM"			4	
+SYS	9074	"OSC_TRGBIT"			3	
+SYS	9020	"OSC_TYPEPARAM1"		3	
+SYS	9022	"OSC_TYPEPARAM2"		3	
+SYS	9024	"OSC_TYPEPARAM3"		3	
+SYS	9026	"OSC_TYPEPARAM4"		3	
+SYS	9028	"OSC_TYPETRG"			3
+SYS 9092	"OSC_DIMBUFFERMAX"		3
+;
+;	Signal
+;
+; index ( >= 0: predef. signal, < 0: address )
+; type
+; name
+; um
+; descr
+; scale
+; offset
+; sig.type (0=only sig., 1=sign.+trig., 2=only trig.)
+; bitpos (for bits)
+; address
+;
+
+SIGN   80    2 "Phase current U      " "Apeak" "Par: 80   " 1000 0 1 0
+SIGN   82    2 "Phase current V      " "Apeak" "Par: 82   " 1000 0 1 0
+SIGN   84    2 "Phase current W      " "Apeak" "Par: 84   " 1000 0 1 0
+SIGN   90    2 "Phase current RMS U  " "A    " "Par: 90   " I50 0 1 0
+SIGN   92    2 "Phase current RMS V  " "A    " "Par: 92   " I50 0 1 0
+SIGN   94    2 "Phase current RMS W  " "A    " "Par: 94   " I50 0 1 0
+SIGN   250   2 "Output current       " "Apeak" "Par: 250  " I50 0 1 0
+SIGN   252   2 "Output voltage       " "V    " "Par: 252  " I52 0 1 0
+SIGN   254   2 "Output frequency     " "Hz   " "Par: 254  " 1073741.82 0 1 0
+SIGN   256   2 "Output power         " "cnt  " "Par: 256  " 1 0 1 0
+SIGN   260   2 "Motor speed          " "rpm  " "Par: 260  " I54 0 1 0
+SIGN   262   2 "Motor speed nofilter " "rpm  " "Par: 262  " I54 0 1 0
+SIGN   270   2 "DC link voltage      " "V    " "Par: 270  " I70 0 1 0
+SIGN   272   2 "Heatsink temperature " "cnt  " "Par: 272  " 1 0 1 0
+SIGN   280   2 "Torque current ref   " "Apeak" "Par: 280  " I50 0 1 0
+SIGN   282   2 "Magnet current ref   " "Apeak" "Par: 282  " I50 0 1 0
+SIGN   284   2 "Torque current       " "Apeak" "Par: 284  " I50 0 1 0
+SIGN   286   2 "Magnet current       " "Apeak" "Par: 286  " I50 0 1 0
+SIGN   290   2 "Motor temperature    " "cnt  " "Par: 290  " 1 0 1 0
+SIGN   362   4 "Drive overload trip  " "cnt  " "Par: 362  " 1 0 1 0
+SIGN   366   4 "Drive overload 80%   " "perc " "Par: 366  " 21474836.48 0 1 0
+SIGN   368   2 "Drive overload accum " "perc " "Par: 368  " 21474836.48 0 1 0
+SIGN   626   2 "Ramp ref out mon     " "rpm  " "Par: 626  " I54 0 1 0
+SIGN   628   2 "Ramp setpoint        " "rpm  " "Par: 628  " I54 0 1 0
+SIGN   664   2 "Speed setpoint       " "rpm  " "Par: 664  " I54 0 1 0
+SIGN   726   4 "Multi ramp sel mon   " "cnt  " "Par: 726  " 1 0 1 0
+SIGN   760   2 "Ramp out mon         " "rpm  " "Par: 760  " I54 0 1 0
+SIGN   764   4 "Ramp acc state       " "cnt  " "Par: 764  " 1 0 1 0
+SIGN   766   4 "Ramp dec state       " "cnt  " "Par: 766  " 1 0 1 0
+SIGN   852   2 "Multi ref out mon    " "rpm  " "Par: 852  " I54 0 1 0
+SIGN   894   2 "Mpot output mon      " "rpm  " "Par: 894  " I54 0 1 0
+SIGN   920   2 "Jog output mon       " "rpm  " "Par: 920  " I54 0 1 0
+SIGN   934   4 "Ref is 0             " "cnt  " "Par: 934  " 1 0 1 0
+SIGN   936   4 "Ref is 0 delay       " "cnt  " "Par: 936  " 1 0 1 0
+SIGN   944   4 "Speed is 0           " "cnt  " "Par: 944  " 1 0 1 0
+SIGN   946   4 "Speed is 0 delay     " "cnt  " "Par: 946  " 1 0 1 0
+SIGN   956   4 "Speed thr 1_2 mon    " "cnt  " "Par: 956  " 1 0 1 0
+SIGN   966   4 "Set speed            " "cnt  " "Par: 966  " 1 0 1 0
+SIGN   976   4 "Speed thr 3 mon      " "cnt  " "Par: 976  " 1 0 1 0
+SIGN   986   4 "Current thr mon      " "cnt  " "Par: 986  " 1 0 1 0
+SIGN   1024  4 "Enable cmd mon       " "cnt  " "Par: 1024 " 1 0 1 0
+SIGN   1026  4 "Start cmd mon        " "cnt  " "Par: 1026 " 1 0 1 0
+SIGN   1028  4 "FastStop cmd mon     " "cnt  " "Par: 1028 " 1 0 1 0
+SIGN   1030  4 "Local/remote mon     " "cnt  " "Par: 1030 " 1 0 1 0
+SIGN   1034  4 "Drv interlock mon    " "cnt  " "Par: 1034 " 1 0 1 0
+SIGN   1048  4 "FR start mon         " "cnt  " "Par: 1048 " 1 0 1 0
+SIGN   1050  4 "FR reverse mon       " "cnt  " "Par: 1050 " 1 0 1 0
+SIGN   1060  4 "Sequencer status     " "cnt  " "Par: 1060 " 1 0 1 0
+SIGN   1062  4 "Drive OK             " "cnt  " "Par: 1062 " 1 0 1 0
+SIGN   1064  4 "Drive ready          " "cnt  " "Par: 1064 " 1 0 1 0
+SIGN   1066  4 "Enable state mon     " "cnt  " "Par: 1066 " 1 0 1 0
+SIGN   1068  4 "Start state mon      " "cnt  " "Par: 1068 " 1 0 1 0
+SIGN   1070  4 "FastStop state mon   " "cnt  " "Par: 1070 " 1 0 1 0
+SIGN   1100  4 "Digital input mon    " "cnt  " "Par: 1100 " 1 0 1 0
+SIGN   1110  4 "Digital input E mon  " "cnt  " "Par: 1110 " 1 0 1 0
+SIGN   1112  4 "Digital input 1 mon  " "cnt  " "Par: 1112 " 1 0 1 0
+SIGN   1114  4 "Digital input 2 mon  " "cnt  " "Par: 1114 " 1 0 1 0
+SIGN   1116  4 "Digital input 3 mon  " "cnt  " "Par: 1116 " 1 0 1 0
+SIGN   1118  4 "Digital input 4 mon  " "cnt  " "Par: 1118 " 1 0 1 0
+SIGN   1120  4 "Digital input 5 mon  " "cnt  " "Par: 1120 " 1 0 1 0
+SIGN   1200  4 "Digital input X mon  " "cnt  " "Par: 1200 " 1 0 1 0
+SIGN   1210  4 "Digital input 1X mon " "cnt  " "Par: 1210 " 1 0 1 0
+SIGN   1212  4 "Digital input 2X mon " "cnt  " "Par: 1212 " 1 0 1 0
+SIGN   1214  4 "Digital input 3X mon " "cnt  " "Par: 1214 " 1 0 1 0
+SIGN   1216  4 "Digital input 4X mon " "cnt  " "Par: 1216 " 1 0 1 0
+SIGN   1218  4 "Digital input 5X mon " "cnt  " "Par: 1218 " 1 0 1 0
+SIGN   1220  4 "Digital input 6X mon " "cnt  " "Par: 1220 " 1 0 1 0
+SIGN   1222  4 "Digital input 7X mon " "cnt  " "Par: 1222 " 1 0 1 0
+SIGN   1224  4 "Digital input 8X mon " "cnt  " "Par: 1224 " 1 0 1 0
+SIGN   1500  2 "Analog input 1 mon   " "cnt  " "Par: 1500 " 1 0 1 0
+SIGN   1530  4 "Analog inp1<thr      " "cnt  " "Par: 1530 " 1 0 1 0
+SIGN   1550  2 "Analog input 2 mon   " "cnt  " "Par: 1550 " 1 0 1 0
+SIGN   1580  4 "Analog inp2<thr      " "cnt  " "Par: 1580 " 1 0 1 0
+SIGN   1600  2 "Analog input 1X mon  " "cnt  " "Par: 1600 " 1 0 1 0
+SIGN   1610  2 "An inp 1X temp mon   " "cnt  " "Par: 1610 " 1 0 1 0
+SIGN   1650  2 "Analog input 2X mon  " "cnt  " "Par: 1650 " 1 0 1 0
+SIGN   1660  2 "An inp 2X temp mon   " "cnt  " "Par: 1660 " 1 0 1 0
+SIGN   2040  4 "Autophase OK         " "cnt  " "Par: 2040 " 1 0 1 0
+SIGN   2150  2 "Encoder 1 speed      " "rpm  " "Par: 2150 " I54 0 1 0
+SIGN   2154  2 "E1 Virtual position  " "cnt  " "Par: 2154 " 1 0 1 0
+SIGN   2156  2 "E1 Revolutions       " "cnt  " "Par: 2156 " 1 0 1 0
+SIGN   2162  3 "Encoder 1 position   " "cnt  " "Par: 2162 " 1 0 1 0
+SIGN   2164  4 "E1 Abs position      " "cnt  " "Par: 2164 " 1 0 1 0
+SIGN   2166  4 "E1 Abs revolutions   " "cnt  " "Par: 2166 " 1 0 1 0
+SIGN   2232  2 "Spd reg P gain Inuse " "perc " "Par: 2232 " 2147483.647 0 1 0
+SIGN   2234  2 "Spd reg I gain Inuse " "perc " "Par: 2234 " 2147483.647 0 1 0
+SIGN   2246  2 "Speed reg P factor   " "perc " "Par: 2246 " 5368709.12 0 1 0
+SIGN   2248  2 "Speed reg I factor   " "perc " "Par: 2248 " 5368709.12 0 1 0
+SIGN   2346  2 "Torque current ref 1 " "Apeak" "Par: 2346 " I50 0 1 0
+SIGN   2348  2 "Torque ref 1 mon     " "Nm   " "Par: 2348 " I58 0 1 0
+SIGN   2360  2 "Torque lim Pos Inuse " "Apeak" "Par: 2360 " I50 0 1 0
+SIGN   2362  2 "Torque lim Neg Inuse " "Apeak" "Par: 2362 " I50 0 1 0
+SIGN   2386  2 "Torque ref %         " "perc " "Par: 2386 " 5368709.12 0 1 0
+SIGN   2388  2 "Torque ref nofilter  " "perc " "Par: 2388 " 5368709.12 0 1 0
+SIGN   2390  2 "Torque ref           " "Nm   " "Par: 2390 " I58 0 1 0
+SIGN   2392  2 "Torque ref 1 mon %   " "perc " "Par: 2392 " 5368709.12 0 1 0
+SIGN   2394  2 "Torque %             " "perc " "Par: 2394 " 5368709.12 0 1 0
+SIGN   2396  2 "Torque nofilter      " "perc " "Par: 2396 " 5368709.12 0 1 0
+SIGN   2398  2 "Torque               " "Nm   " "Par: 2398 " I58 0 1 0
+SIGN   3006  2 "Speed ratio out mon  " "cnt  " "Par: 3006 " 1 0 1 0
+SIGN   3070  2 "Droop out mon        " "rpm  " "Par: 3070 " I54 0 1 0
+SIGN   3104  2 "Inertia comp mon     " "perc " "Par: 3104 " 5368709.12 0 1 0
+SIGN   3180  4 "Brake control mon    " "cnt  " "Par: 3180 " 1 0 1 0
+SIGN   3192  2 "Brake open thr mon   " "cnt  " "Par: 3192 " 1 0 1 0
+SIGN   3212  2 "Motor overload accum " "perc " "Par: 3212 " 21474836.48 0 1 0
+SIGN   3214  4 "Motor overload trip  " "cnt  " "Par: 3214 " 1 0 1 0
+SIGN   3260  2 "Bres overload accum  " "perc " "Par: 3260 " 21474836.48 0 1 0
+SIGN   3262  4 "Bres overload trip   " "cnt  " "Par: 3262 " 1 0 1 0
+SIGN   3304  4 "Par set select mon   " "cnt  " "Par: 3304 " 1 0 1 0
+SIGN   3442  4 "Powerloss rampdown   " "cnt  " "Par: 3442 " 1 0 1 0
+SIGN   3446  2 "Powerloss nextratio  " "cnt  " "Par: 3446 " 1 0 1 0
+SIGN   3448  4 "Powerloss nextactive " "cnt  " "Par: 3448 " 1 0 1 0
+SIGN   3480  4 "Vdc ctrl ramp freeze " "cnt  " "Par: 3480 " 1 0 1 0
+SIGN   3512  4 "Drv thr overtemp mon " "cnt  " "Par: 3512 " 1 0 1 0
+SIGN   3514  4 "Mot thr overtemp mon " "cnt  " "Par: 3514 " 1 0 1 0
+SIGN   3676  4 "Compare output       " "cnt  " "Par: 3676 " 1 0 1 0
+SIGN   3700  2 "Pad 1                " "cnt  " "Par: 3700 " 1 0 1 0
+SIGN   3702  2 "Pad 2                " "cnt  " "Par: 3702 " 1 0 1 0
+SIGN   3704  2 "Pad 3                " "cnt  " "Par: 3704 " 1 0 1 0
+SIGN   3706  2 "Pad 4                " "cnt  " "Par: 3706 " 1 0 1 0
+SIGN   3708  2 "Pad 5                " "cnt  " "Par: 3708 " 1 0 1 0
+SIGN   3710  2 "Pad 6                " "cnt  " "Par: 3710 " 1 0 1 0
+SIGN   3712  2 "Pad 7                " "cnt  " "Par: 3712 " 1 0 1 0
+SIGN   3714  2 "Pad 8                " "cnt  " "Par: 3714 " 1 0 1 0
+SIGN   3716  2 "Pad 9                " "cnt  " "Par: 3716 " 1 0 1 0
+SIGN   3718  2 "Pad 10               " "cnt  " "Par: 3718 " 1 0 1 0
+SIGN   3720  2 "Pad 11               " "cnt  " "Par: 3720 " 1 0 1 0
+SIGN   3722  2 "Pad 12               " "cnt  " "Par: 3722 " 1 0 1 0
+SIGN   3724  2 "Pad 13               " "cnt  " "Par: 3724 " 1 0 1 0
+SIGN   3726  2 "Pad 14               " "cnt  " "Par: 3726 " 1 0 1 0
+SIGN   3728  2 "Pad 15               " "cnt  " "Par: 3728 " 1 0 1 0
+SIGN   3730  2 "Pad 16               " "cnt  " "Par: 3730 " 1 0 1 0
+SIGN   3958  4 "PlcReqDwCode_        " "cnt  " "Par: 3958 " 1 0 1 0
+SIGN   4024  2 "Fieldbus M->S1 mon   " "cnt  " "Par: 4024 " 1 0 1 0
+SIGN   4034  2 "Fieldbus M->S2 mon   " "cnt  " "Par: 4034 " 1 0 1 0
+SIGN   4044  2 "Fieldbus M->S3 mon   " "cnt  " "Par: 4044 " 1 0 1 0
+SIGN   4054  2 "Fieldbus M->S4 mon   " "cnt  " "Par: 4054 " 1 0 1 0
+SIGN   4064  2 "Fieldbus M->S5 mon   " "cnt  " "Par: 4064 " 1 0 1 0
+SIGN   4074  2 "Fieldbus M->S6 mon   " "cnt  " "Par: 4074 " 1 0 1 0
+SIGN   4084  2 "Fieldbus M->S7 mon   " "cnt  " "Par: 4084 " 1 0 1 0
+SIGN   4094  2 "Fieldbus M->S8 mon   " "cnt  " "Par: 4094 " 1 0 1 0
+SIGN   4104  2 "Fieldbus M->S9 mon   " "cnt  " "Par: 4104 " 1 0 1 0
+SIGN   4114  2 "Fieldbus M->S10 mon  " "cnt  " "Par: 4114 " 1 0 1 0
+SIGN   4124  2 "Fieldbus M->S11 mon  " "cnt  " "Par: 4124 " 1 0 1 0
+SIGN   4134  2 "Fieldbus M->S12 mon  " "cnt  " "Par: 4134 " 1 0 1 0
+SIGN   4144  2 "Fieldbus M->S13 mon  " "cnt  " "Par: 4144 " 1 0 1 0
+SIGN   4154  2 "Fieldbus M->S14 mon  " "cnt  " "Par: 4154 " 1 0 1 0
+SIGN   4164  2 "Fieldbus M->S15 mon  " "cnt  " "Par: 4164 " 1 0 1 0
+SIGN   4174  2 "Fieldbus M->S16 mon  " "cnt  " "Par: 4174 " 1 0 1 0
+SIGN   4352  3 "DS402 enable         " "cnt  " "Par: 4352 " 1 0 1 0
+SIGN   4354  3 "DS402 start          " "cnt  " "Par: 4354 " 1 0 1 0
+SIGN   4356  3 "DS402 fast stop      " "cnt  " "Par: 4356 " 1 0 1 0
+SIGN   4358  4 "DS402 rfg enable     " "cnt  " "Par: 4358 " 1 0 1 0
+SIGN   4360  4 "DS402 rfg unlock     " "cnt  " "Par: 4360 " 1 0 1 0
+SIGN   4362  4 "DS402 rfg useref     " "cnt  " "Par: 4362 " 1 0 1 0
+SIGN   4364  4 "DS402 halt           " "cnt  " "Par: 4364 " 1 0 1 0
+SIGN   4366  4 "DS402 jog cmd        " "cnt  " "Par: 4366 " 1 0 1 0
+SIGN   4368  4 "DS402 jog invert     " "cnt  " "Par: 4368 " 1 0 1 0
+SIGN   4370  3 "DS402 alarm reset    " "cnt  " "Par: 4370 " 1 0 1 0
+SIGN   4372  3 "DS402 status word    " "cnt  " "Par: 4372 " 1 0 1 0
+SIGN   4376  3 "PFdrv enable         " "cnt  " "Par: 4376 " 1 0 1 0
+SIGN   4378  3 "PFdrv start          " "cnt  " "Par: 4378 " 1 0 1 0
+SIGN   4380  3 "PFdrv fast stop      " "cnt  " "Par: 4380 " 1 0 1 0
+SIGN   4382  4 "PFdrv rfg enable     " "cnt  " "Par: 4382 " 1 0 1 0
+SIGN   4384  4 "PFdrv rfg unlock     " "cnt  " "Par: 4384 " 1 0 1 0
+SIGN   4386  4 "PFdrv rfg useref     " "cnt  " "Par: 4386 " 1 0 1 0
+SIGN   4388  4 "PFdrv jog cmd        " "cnt  " "Par: 4388 " 1 0 1 0
+SIGN   4390  4 "PFdrv jog invert     " "cnt  " "Par: 4390 " 1 0 1 0
+SIGN   4392  3 "PFdrv alarm reset    " "cnt  " "Par: 4392 " 1 0 1 0
+SIGN   4394  3 "PFdrv status word 1  " "cnt  " "Par: 4394 " 1 0 1 0
+SIGN   4396  3 "PFdrv status word 2  " "cnt  " "Par: 4396 " 1 0 1 0
+SIGN   4432  2 "Word comp mon        " "cnt  " "Par: 4432 " 1 0 1 0
+SIGN   4454  4 "Bit0 decomp mon      " "cnt  " "Par: 4454 " 1 0 1 0
+SIGN   4456  4 "Bit1 decomp mon      " "cnt  " "Par: 4456 " 1 0 1 0
+SIGN   4458  4 "Bit2 decomp mon      " "cnt  " "Par: 4458 " 1 0 1 0
+SIGN   4460  4 "Bit3 decomp mon      " "cnt  " "Par: 4460 " 1 0 1 0
+SIGN   4462  4 "Bit4 decomp mon      " "cnt  " "Par: 4462 " 1 0 1 0
+SIGN   4464  4 "Bit5 decomp mon      " "cnt  " "Par: 4464 " 1 0 1 0
+SIGN   4466  4 "Bit6 decomp mon      " "cnt  " "Par: 4466 " 1 0 1 0
+SIGN   4468  4 "Bit7 decomp mon      " "cnt  " "Par: 4468 " 1 0 1 0
+SIGN   4470  4 "Bit8 decomp mon      " "cnt  " "Par: 4470 " 1 0 1 0
+SIGN   4472  4 "Bit9 decomp mon      " "cnt  " "Par: 4472 " 1 0 1 0
+SIGN   4474  4 "Bit10 decomp mon     " "cnt  " "Par: 4474 " 1 0 1 0
+SIGN   4476  4 "Bit11 decomp mon     " "cnt  " "Par: 4476 " 1 0 1 0
+SIGN   4478  4 "Bit12 decomp mon     " "cnt  " "Par: 4478 " 1 0 1 0
+SIGN   4480  4 "Bit13 decomp mon     " "cnt  " "Par: 4480 " 1 0 1 0
+SIGN   4482  4 "Bit14 decomp mon     " "cnt  " "Par: 4482 " 1 0 1 0
+SIGN   4484  4 "Bit15 decomp mon     " "cnt  " "Par: 4484 " 1 0 1 0
+SIGN   4536  4 "MotorOT mon          " "cnt  " "Par: 4536 " 1 0 1 0
+SIGN   4678  4 "Mot PhLoss code      " "cnt  " "Par: 4678 " 1 0 1 0
+SIGN   4708  4 "Alm dig out mon 1    " "cnt  " "Par: 4708 " 1 0 1 0
+SIGN   4710  4 "Alm dig out mon 2    " "cnt  " "Par: 4710 " 1 0 1 0
+SIGN   4712  4 "Alm dig out mon 3    " "cnt  " "Par: 4712 " 1 0 1 0
+SIGN   4714  4 "Alm dig out mon 4    " "cnt  " "Par: 4714 " 1 0 1 0
+SIGN   4770  4 "First alarm          " "cnt  " "Par: 4770 " 1 0 1 0
+SIGN   5008  2 "Test gen out         " "perc " "Par: 5008 " 10737418.235 0 1 0
+SIGN   5080  2 "Var 1 mon            " "cnt  " "Par: 5080 " 1 0 1 0
+SIGN   5082  2 "Var 2 mon            " "cnt  " "Par: 5082 " 1 0 1 0
+SIGN   5150  2 "Encoder 2 speed      " "rpm  " "Par: 5150 " I54 0 1 0
+SIGN   5154  2 "E2 Virtual position  " "cnt  " "Par: 5154 " 1 0 1 0
+SIGN   5156  2 "E2 Revolutions       " "cnt  " "Par: 5156 " 1 0 1 0
+SIGN   5162  3 "Encoder 2 position   " "cnt  " "Par: 5162 " 1 0 1 0
+SIGN   5164  4 "E2 Abs position      " "cnt  " "Par: 5164 " 1 0 1 0
+SIGN   5166  4 "E2 Abs revolutions   " "cnt  " "Par: 5166 " 1 0 1 0
+SIGN   5254  2 "E3 Virtual position  " "cnt  " "Par: 5254 " 1 0 1 0
+SIGN   5256  2 "E3 Revolutions       " "cnt  " "Par: 5256 " 1 0 1 0
+SIGN   5262  3 "Encoder 3 position   " "cnt  " "Par: 5262 " 1 0 1 0
+SIGN   5484  4 "External IO state    " "cnt  " "Par: 5484 " 1 0 1 0
+SIGN   5510  4 "Digital input 9X mon " "cnt  " "Par: 5510 " 1 0 1 0
+SIGN   5512  4 "Digital input10X mon " "cnt  " "Par: 5512 " 1 0 1 0
+SIGN   5514  4 "Digital input11X mon " "cnt  " "Par: 5514 " 1 0 1 0
+SIGN   5516  4 "Digital input12X mon " "cnt  " "Par: 5516 " 1 0 1 0
+SIGN   5518  4 "Digital input13X mon " "cnt  " "Par: 5518 " 1 0 1 0
+SIGN   5520  4 "Digital input14X mon " "cnt  " "Par: 5520 " 1 0 1 0
+SIGN   5522  4 "Digital input15X mon " "cnt  " "Par: 5522 " 1 0 1 0
+SIGN   5524  4 "Digital input16X mon " "cnt  " "Par: 5524 " 1 0 1 0
+SIGN   5620  2 "Fieldbus M->S17 mon  " "cnt  " "Par: 5620 " 1 0 1 0
+SIGN   5622  2 "Fieldbus M->S18 mon  " "cnt  " "Par: 5622 " 1 0 1 0
+SIGN   5624  2 "Fieldbus M->S19 mon  " "cnt  " "Par: 5624 " 1 0 1 0
+SIGN   5626  2 "Fieldbus M->S20 mon  " "cnt  " "Par: 5626 " 1 0 1 0
+SIGN   5628  2 "Fieldbus M->S21 mon  " "cnt  " "Par: 5628 " 1 0 1 0
+SIGN   5630  2 "Fieldbus M->S22 mon  " "cnt  " "Par: 5630 " 1 0 1 0
+SIGN   5632  2 "Fieldbus M->S23 mon  " "cnt  " "Par: 5632 " 1 0 1 0
+SIGN   5634  2 "Fieldbus M->S24 mon  " "cnt  " "Par: 5634 " 1 0 1 0
+SIGN   5720  4 "Sync slave mon       " "cnt  " "Par: 5720 " 1 0 1 0
+SIGN   5750  2 "FL Fwd 1 mon         " "cnt  " "Par: 5750 " 1 0 1 0
+SIGN   5752  2 "FL Fwd 2 mon         " "cnt  " "Par: 5752 " 1 0 1 0
+SIGN   5754  2 "FL Fwd 3 mon         " "cnt  " "Par: 5754 " 1 0 1 0
+SIGN   5756  2 "FL Fwd 4 mon         " "cnt  " "Par: 5756 " 1 0 1 0
+SIGN   5758  2 "FL Fwd 5 mon         " "cnt  " "Par: 5758 " 1 0 1 0
+SIGN   5760  2 "FL Fwd 6 mon         " "cnt  " "Par: 5760 " 1 0 1 0
+SIGN   5762  2 "FL Fwd 7 mon         " "cnt  " "Par: 5762 " 1 0 1 0
+SIGN   5764  2 "FL Fwd 8 mon         " "cnt  " "Par: 5764 " 1 0 1 0
+SIGN   5800  2 "FL Fwd 1 inv mon     " "cnt  " "Par: 5800 " 1 0 1 0
+SIGN   5802  2 "FL Fwd 2 inv mon     " "cnt  " "Par: 5802 " 1 0 1 0
+SIGN   5804  2 "FL Fwd 3 inv mon     " "cnt  " "Par: 5804 " 1 0 1 0
+SIGN   5806  2 "FL Fwd 4 inv mon     " "cnt  " "Par: 5806 " 1 0 1 0
+SIGN   5808  2 "FL Fwd 5 inv mon     " "cnt  " "Par: 5808 " 1 0 1 0
+SIGN   5810  2 "FL Fwd 6 inv mon     " "cnt  " "Par: 5810 " 1 0 1 0
+SIGN   5812  2 "FL Fwd 7 inv mon     " "cnt  " "Par: 5812 " 1 0 1 0
+SIGN   5814  2 "FL Fwd 8 inv mon     " "cnt  " "Par: 5814 " 1 0 1 0
+SIGN   5850  2 "FL Rev 1 mon         " "cnt  " "Par: 5850 " 1 0 1 0
+SIGN   5852  2 "FL Rev 2 mon         " "cnt  " "Par: 5852 " 1 0 1 0
+SIGN   5854  2 "FL Rev 3 mon         " "cnt  " "Par: 5854 " 1 0 1 0
+SIGN   5856  2 "FL Rev 4 mon         " "cnt  " "Par: 5856 " 1 0 1 0
+SIGN   6004  4 "Speed limit state    " "cnt  " "Par: 6004 " 1 0 1 0
+SIGN   6006  4 "Current limit state  " "cnt  " "Par: 6006 " 1 0 1 0
+SIGN   6036  2 "Liquid temp setpoint " "cnt  " "Par: 6036 " 1 0 1 0
+SIGN   6038  2 "Liquid temp calc     " "cnt  " "Par: 6038 " 1 0 1 0
+SIGN   6042  2 "Liquid temp mon      " "cnt  " "Par: 6042 " 1 0 1 0
+SIGN   6044  4 "Condensation state   " "cnt  " "Par: 6044 " 1 0 1 0
+SIGN   6046  4 "Overhumidity state   " "cnt  " "Par: 6046 " 1 0 1 0
+SIGN   6206  4 "Ctrl mode sel mon    " "cnt  " "Par: 6206 " 1 0 1 0
+SIGN   6208  2 "Ctrl mode mon        " "cnt  " "Par: 6208 " 1 0 1 0
+;
+;
+;	Option
+;
+OPT	"MEMRDCMD"	"1"	""	""	""	""
+OPT "TRANFORM"  "1" "" "" "" ""
+;

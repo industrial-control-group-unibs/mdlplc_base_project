@@ -1,0 +1,480 @@
+(*
+ *
+ * MDPlc source file: D:\FRD\Siei\Progetti\PID\PID\Libraries_ENG\InOut.pll
+ * for project:
+ *
+ *)
+
+
+	(*********************)
+	(*                   *)
+	(*     FUNCTIONS     *)
+	(*                   *)
+	(*********************)
+
+FUNCTION _InOutVersion : UDINT
+
+{ DE:"LIBRERIA: ADV200 InOut
+
+Rev.01.20.00	14/12/2006 By FRD
+Rev.01.30.00	28/05/2008 By RNC
+
+
+This library contains functions and function blocks for the input/output management:
+Motor current conversion to/from FW;
+Motor speed conversion   to/from FW.
+
+Note:
+No global variables are used, so that the library can be used regardless the FW version" }
+
+	VAR_INPUT
+	in : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+
+	LD		in
+	JMPC	l0_Version
+
+	LD		0
+	ST		_InOutVersion
+
+	RET
+
+l0_Version:
+
+	(*	Indice di revisione.						*)
+	(*	L'indice si legge nella seguente maniera:	*)
+	(*	XXYYZZ => XX.YY.ZZ 							*)
+	(*	XX = Revisione								*)
+	(*	YY = Sotto revisione						*)
+	(*	ZZ = Correzione								*)
+
+	LD		013000
+	ST		_InOutVersion
+
+END_FUNCTION
+
+(*-----------------------------------------------------------------------------------------*)
+
+
+
+FUNCTION TrqToCount : DINT
+
+{ DE:"F Name: TrqToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert torque in percentage to torque in internal unit (Counts)
+16#20000000 counts correspond to 100% motor torque
+100% of motor torque is the torque obtained with the
+maximum Torque current (nominal current cleaned of 
+magnetizing current)" }
+
+	VAR_INPUT
+	InTrqPerc : REAL;
+	END_VAR
+
+
+	{ CODE:ST }     (* ----------------------------------------------------------------	*)
+	(*  Trq[counts]=Trq[perc]*16#20000000/100.0                           	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        TrqToCount := TO_DINT(InTrqPerc * 5368709.12);
+
+
+END_FUNCTION
+
+
+FUNCTION CountToTrq : REAL
+{ DE:"F Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert torque in internal unit (Count) to torque in percentage  
+16#20000000 counts correspond to 100% motor torque
+100% of motor torque is the torque obtained with the
+maximum Torque current (nominal current cleaned of 
+magnetizing current)" }
+
+	VAR_INPUT
+	InTrqCnt : DINT;
+	END_VAR
+
+	{ CODE:ST }     (* ----------------------------------------------------------------	*)
+	(*  Trq[counts]=Trq[perc]*16#20000000/100.0                           	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        CountToTrq := TO_REAL(InTrqCnt) / 5368709.12;
+
+
+END_FUNCTION
+
+
+FUNCTION AmpToCount : DINT
+
+{ DE:"F Name: RpmToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert current in Amp to current internal units (Counts)
+16#20000000 counts correspond to Drive cont current" }
+
+	VAR_INPUT
+	InCurrAmp : REAL;
+	inFSDriveCntCurrent : REAL; { DE:"Drive cont current set in the drive " }
+	END_VAR
+
+
+	{ CODE:ST }     (* ----------------------------------------------------------------	*)
+	(*  Curr[counts]=Curr[amp]*16#20000000/Drive cont current             	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        AmpToCount := TO_DINT(InCurrAmp * 536870912.0 / inFSDriveCntCurrent);
+
+
+END_FUNCTION
+
+
+
+FUNCTION CountToAmp : REAL
+{ DE:"FBlock Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert current in internal unit (Count) to current in Amp  
+16#20000000 counts correspond to Drive cont current 
+" }
+
+	VAR_INPUT
+	InCurrCnt : DINT;
+	inFSDriveCntCurrent : REAL; { DE:"Drive cont current set in the drive" }
+	END_VAR
+
+
+	{ CODE:ST }	(* ----------------------------------------------------------------	*)
+	(*  Curr[amp]=Curr[counts]*Drive cont current /16#20000000             	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        CountToAmp := (TO_REAL(InCurrCnt) * inFSDriveCntCurrent) / 536870912.0  ;
+
+
+
+
+END_FUNCTION
+
+
+
+
+
+
+FUNCTION RpmToCount : DINT
+
+{ DE:"F Name: RpmToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert speed in RPM to speed internal units (Count)
+16#40000000 counts correspond to FullScaleSpeed" }
+
+	VAR_INPUT
+	InSpdRpm  : REAL;
+	inFSSpeed : DINT; { DE:"Full Scale Speed set in the drive " }
+	END_VAR
+
+	{ CODE:ST }     (* ----------------------------------------------------------------	*)
+	(*  Spd[counts]=Spd[rpm]*16#40000000/FullScaleSpeed             	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        RpmToCount := TO_DINT(InSpdRpm * 1073741824.0 / TO_REAL(inFSSpeed));
+
+
+END_FUNCTION
+
+
+
+FUNCTION CountToRpm : REAL
+{ DE:"FBlock Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert speed in internal units (Count) to speed RPM  
+16#40000000 counts correspond to FullScaleSpeed
+" }
+
+	VAR_INPUT
+	InSpdCnt : DINT;
+	inFSSpeed : DINT; { DE:"Full Scale Speed set in the drive" }
+	END_VAR
+
+	{ CODE:ST }	(* ----------------------------------------------------------------	*)
+	(*  Spd[rpm]=Spd[counts]*FullScaleSpeed/16#40000000             	*)
+	(* ----------------------------------------------------------------	*)
+
+        
+        CountToRpm := (TO_REAL(InSpdCnt) * TO_REAL(inFSSpeed)) / 1073741824.0  ;
+
+END_FUNCTION
+
+
+
+
+FUNCTION UnitToAo : DINT
+{ DE:"9/10/2001		by MCC/SSS
+05 giu 08       Rnc
+
+UnitToAo: Convert phisycal unit (rpm. Amp, Trq) to Analog Out. FullScale correspond to 10V.
+" }
+
+       VAR_INPUT     
+	inp : REAL;     { DE:"Unit Input value " }
+	inSignalBase : REAL; { DE:"FullScaleSpeed for rpm, DriveCntCurr for amp, 100.0 for trq" }
+	END_VAR  
+
+	{ CODE:ST }
+                UnitToAo := TO_DINT(inp*1073741824.0/inSignalBase);
+END_FUNCTION
+
+
+
+
+
+
+FUNCTION AiToUnit : REAL
+{ DE:"9/10/2001		by MCC/SSS
+05 giu 08       Rnc
+
+AiToUnit: Convert input voltage in phisycal unit (rpm. Amp, Trq). 10V correspond FullScale.
+" }
+
+	VAR_INPUT
+	inp : DINT;     { DE:"analog input value value " }
+	inSignalBase : REAL; { DE:"FullScaleSpeed for rpm, DriveCntCurr for amp, 100.0 for trq" }
+	END_VAR
+
+	{ CODE:ST }
+                AiToUnit := TO_REAL(inp)*inSignalBase/1073741824.0;
+END_FUNCTION
+
+
+
+FUNCTION ReadCommand : BOOL
+
+{ DE:"Digital command management
+
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+selection selecs which source to read:
+-2= digital parameter, -1= remote command, >=0 = digital input
+
+the function result is reset to FALSE
+then the digital command is copied in the output (if selected)
+if a digital input is selected, its value will be the function output (if selected
+if not, the remote command bit will be the function output (if selected)
+" }
+
+	VAR_INPUT
+	digpar : BOOL;
+	digitalInputs : UINT;
+	selection : INT; { DE:"-2=digpar, -1=remote, >=0= digital input" }
+	remoteCommand : UINT;
+	nBitRemoteCommand : UINT;
+	END_VAR
+
+	{ CODE:ST }
+		(* init the result *)
+	ReadCommand := FALSE;
+
+
+		(* check whether digital par is enabled*)
+
+	IF (selection = -1) THEN
+
+		(* copy the value *)
+		ReadCommand := digpar;
+
+		RETURN;	(* quit *)
+
+	END_IF;
+
+
+		(* check whether digital input is enabled *)
+
+	IF (selection >= 0) THEN
+
+			ReadCommand := RBit(digitalInputs, TO_UINT(selection));
+
+			RETURN; (* quit *)
+
+	END_IF;
+
+		(* check remote command *)
+
+	IF (selection = -2) AND (nBitRemoteCommand >= 0) THEN
+
+		ReadCommand := RBit(remoteCommand, nBitRemoteCommand);
+
+		RETURN; (* quit *)
+
+	END_IF;
+
+
+
+
+
+END_FUNCTION
+
+FUNCTION ReadCommandAnd : BOOL
+{ DE:"Digital command management (AND)
+
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+there is a mask that enables the sources:
+bit0= digital parameter, bit1= digital input, bit2=remote command
+
+the function performs AND between the sources (bit0,1,2) which bit is set TRUE.
+
+Note: if bit0=bit1=bit2=0 the function return TRUE
+" }
+
+	VAR_INPUT
+	digpar : BOOL; { DE:"digital parameter" }
+	digitalInputs : UINT; { DE:"digital inputs bitword" }
+	nBitDigitalInputs : INT; { DE:"digital input bit number" }
+	remoteCommand : UINT; { DE:"remote command bitword" }
+	nBitRemoteCommand : UINT; { DE:"remote command bit" }
+	enableMask : UINT; { DE:"enable mask: bit0=dig par, bit1=dig input, bit2=remote command)" }
+	END_VAR
+
+	{ CODE:ST }
+		(* check digital par *)
+	IF (enableMask AND 1) <> 0 THEN
+		IF NOT digpar THEN
+			ReadCommandAnd := FALSE;
+			RETURN;	(* quit *)
+		END_IF;
+	END_IF;
+
+		(* check digital input *)
+	IF (enableMask AND 2) <> 0 THEN
+		IF (nBitDigitalInputs >= 0) THEN
+			IF NOT RBit(digitalInputs, TO_UINT(nBitDigitalInputs)) THEN
+				ReadCommandAnd := FALSE;
+				RETURN;
+			END_IF;
+		END_IF;
+	END_IF;
+
+		(* controlla se c'è un comando remoto  *)
+	IF (enableMask AND 4) <> 0 THEN
+		IF (nBitRemoteCommand >= 0) THEN
+			IF NOT RBit(remoteCommand, nBitRemoteCommand) THEN
+				ReadCommandAnd := FALSE;
+				RETURN;
+			END_IF;
+		END_IF;
+	END_IF;
+
+		(* tutti i comandi attivi sono TRUE,
+		** oppure nessun comando attivo
+		*)
+	ReadCommandAnd := TRUE;
+
+END_FUNCTION
+
+
+
+FUNCTION ReadCommandOr : BOOL
+
+{ DE:"Digital command management (OR)
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+there is a mask that enables the sources:
+bit0= digital parameter, bit1= digital input, bit2=remote command
+
+the function performs and OR between the sources (bit0,1,2) which bit is set TRUE.
+
+Note: if bit0=bit1=bit2=0 the function return FALSE
+" }
+
+	VAR_INPUT
+	digpar : BOOL; { DE:"digital parameter" }
+	digitalInputs : UINT; { DE:"digital inputs bitword" }
+	nBitDigitalInputs : INT; { DE:"digital input bit number" }
+	remoteCommand : UINT; { DE:"remote command bitword" }
+	nBitRemoteCommand : UINT; { DE:"remote command bit" }
+	enableMask : UINT; { DE:"enable mask: bit0=dig par, bit1=dig input, bit2=remote command)" }
+	END_VAR
+
+	{ CODE:ST }
+		(* controlla se c'è un comando diretto *)
+	IF (enableMask AND 1) <> 0 THEN
+		IF digpar THEN
+			ReadCommandOr := TRUE;
+			RETURN;
+		END_IF;
+	END_IF;
+
+		(* controlla se c'è un comando da input digitale *)
+	IF (enableMask AND 2) <> 0 THEN
+		IF (nBitDigitalInputs >= 0) THEN
+			IF RBit(digitalInputs, TO_UINT(nBitDigitalInputs)) THEN
+				ReadCommandOr := TRUE;
+				RETURN;
+			END_IF;
+		END_IF;
+	END_IF;
+
+		(* controlla se c'è un comando remoto  *)
+	IF (enableMask AND 4) <> 0 THEN
+		IF (nBitRemoteCommand >= 0) THEN
+			IF( RBit(remoteCommand, nBitRemoteCommand) ) THEN
+				ReadCommandOr := TRUE;
+				RETURN;
+			END_IF;
+		END_IF;
+	END_IF;
+
+		(* nessun comando attivo *)
+	ReadCommandOr := FALSE;
+
+END_FUNCTION
+

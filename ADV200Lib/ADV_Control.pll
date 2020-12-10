@@ -1,0 +1,1914 @@
+(*
+ *
+ * MDPlc source file: C:\MDPLC\XVY\gw\gw_v_2_0_beta\gw_v_2_0_beta\Libraries\Control.pll
+ * for project:
+ *
+ *)
+
+
+	(*********************)
+	(*                   *)
+	(*     FUNCTIONS     *)
+	(*                   *)
+	(*********************)
+
+FUNCTION _ControlVersion : UDINT
+
+{ DE:"LIBRERIA: Control
+
+Rev.01.10.00	14/7/2003 	by SSS
+Rev.01.20.00	27/05/2008 	Rnc
+
+Regulation and control funcions and function blocks
+Derivative;
+Integral;
+Low pass filter;
+PID;
+Delay;
+Torque feed.fwd calculation
+Diameter calculation;
+Limits;
+Ramp;
+Up down.
+
+Notes:
+The library doesn't contain references to global variables, thus it is compatible with all the FW versions." }
+
+	VAR_INPUT
+	in : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+
+	LD		in
+	JMPC	l0_Version
+
+	LD		0
+	ST		_ControlVersion
+
+	RET
+
+l0_Version:
+
+	(*	Indice di revisione.						*)
+	(*	L'indice si legge nella seguente maniera:	*)
+	(*	XXYYZZ => XX.YY.ZZ 							*)
+	(*	XX = Revisione								*)
+	(*	YY = Sotto revisione						*)
+	(*	ZZ = Correzione								*)
+
+	LD		012000
+	ST		_ControlVersion
+
+END_FUNCTION
+
+FUNCTION LIMIT_R : REAL
+
+{ DE:"LIMITI REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Limits function with float vars
+
+Notes:
+	- If highLimit<lowLimit then highLimit=lowLimit
+
+
+" }
+
+	VAR_INPUT
+	in : REAL; { DE:"Input var" }
+	lowLimit : REAL; { DE:"Ouput low limit" }
+	highLimit : REAL; { DE:"Output high limit" }
+	END_VAR
+
+	{ CODE:IL }	(*	check limits	*)
+
+	LD		highLimit
+	LT		lowLimit
+	JMPCN	l0
+
+	(*	if highLimit<lowLimit then highLimit=lowLimit	*)
+
+	LD		lowLimit
+	ST		highLimit
+
+l0:
+
+	(*	input >= low limit ?	*)
+
+	LD		in
+	GE		lowLimit
+	JMPC	l1
+
+	(*	set output to low limit	*)
+
+	LD		lowLimit
+	ST		LIMIT_R
+
+	RET
+
+l1:
+
+	(*	input  <= high limit	*)
+
+	LD		in
+	LE		highLimit
+	JMPC	l2
+
+	(*	set output to high limit	*)
+
+	LD		highLimit
+	ST		LIMIT_R
+
+	RET
+
+l2:
+
+	(*     out = input		*)
+
+	LD		in
+	ST		LIMIT_R
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(*     FUNCTION BLOCKS     *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK Derivative_PB
+
+{ DE:"DERIVATIVE + LOW PASS FILTER	(s/(1+s*TauP))
+
+Rev.0	10/12/99 	by SSS
+Suggestion: If there is no cpu time issue use DerivativeR.
+
+Derivativ + Low pass filter with TAUP constant.
+The basic values do not have to cause an overflow (2^31) in case two of them 
+are multiplied each other.
+
+I valori base devono essere tali da non provocare overflow
+quando moltiplicati tra loro
+
+Values to be used:
+Signals	10000		Limits	-20000 -> +20000
+Times	1000		Limits  0 -> 25000
+
+Note:
+1000 ms  max. filter (suggested < 80 ms)
+Output: max. 32.000.000 counts" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	fS : DINT; { DE:"sampling freq =1/Ts [1/s]. 
+                     i.e. cycle time =1msec -> fS:=1000 sampling freq = 1kz" }
+	tauP : DINT; { DE:"Time constant. Referred to times base value" }
+	TiN : DINT; { DE:"Times base value
+                        i.e. to set TimeBase = 1 sec, tau = 10msec
+                        set
+                        TiN := 1000
+                        tauP:= 10"	 }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Internal signal. Rferred to Kr * signals base value" }
+	prevInU : DINT; { DE:"Prec step input signal" }
+	Kr : DINT; { DE:"signals scale" }
+	KrN : DINT; { DE:"signals scale numerator" }
+	KrD : DINT; { DE:"signals scale denominator" }
+	END_VAR
+
+	{ CODE:IL }
+
+
+	(*	Calcolo Kr = KrN/KrD					*)
+	(*	= (TAUi+TiC)/TiN = (fS*tauP+TiN/fS*TiN)	*)
+
+	LD		fS
+	MUL		tauP
+	ADD		TiN
+	ST		KrN
+
+	LD		fS
+	MUL		TiN
+	ST		KrD
+
+	(*	Corpo derivativo							*)
+	(*	Yint[k]=tauP/TiN*outY[k-1]+inU[k]-inU[k-1]	*)
+	(*  Il segnale è referred to Yint*Kr				*)
+
+	LD		tauP
+	MUL		outY
+	DIV		TiN
+	ADD		inU
+	SUB		prevInU
+	ST		Yint
+
+	(*	Scalatura uscita			*)
+	(*	outY=Yint/Kr				*)
+
+	LD		KrN
+	GE		KrD
+	JMPCN	l1
+
+	LD		Yint
+	DIV		KrN
+	MUL		KrD
+	ST		outY
+	JMP		l2
+
+l1:
+
+	LD		KrD
+	DIV		KrN
+	ST		Kr
+	LD		Yint
+	MUL		Kr
+	ST		outY
+
+l2:
+
+	LD		inU
+	ST		prevInU
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK DerivativeR
+
+{ DE:"DERIVATIVE REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Derivative with low passing filter with floating point variables
+
+Transfer function:
+Continous time:	outY(s)/inU(s)=s/(1+tauP*s)
+Discrete time:	outY(z)/inU(z)={[1-z(-1)]/Ts}/{1+[1-z(-1)]*tauP/Ts}
+" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"input signal" }
+	tauP : REAL; { DE:"filter time constant in sec" }
+	Ts : REAL; { DE:"Sampling time; i.e. in Fast Cycle Ts := 0.001" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output signal" }
+	END_VAR
+
+	VAR
+	prevInU : REAL; { DE:"input at prec step" }
+	END_VAR
+
+	{ CODE:IL }	(*	Corpo derivativo												*)
+	(*	outY[k]=1/(tauP+Ts)*outY[k-1]+tauP/(tauP+Ts)*(inU[k]-inU[k-1])	*)
+
+	LD		outY
+	MUL		tauP
+	ADD		inU
+	SUB		prevInU
+	DIV(	tauP
+	ADD		Ts
+	)
+	ST		outY
+
+	(*	Aggiornamento prevInU	*)
+
+	LD		inU
+	ST		prevInU
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK DiameterCalculation
+
+{ DE:"DIAMETER CALCULATION		(V/W/(1+sTau))
+
+Rev.1	26/10/2001 	by SSS
+
+It calculates the diameter starting from the line and winder speed.
+The signal is filtered and threshold conditioned on the motor speed.
+The basic values do not have to cause an overflow (2^31) in case two of them are multiplied.
+
+Values to be used:
+Signals	16384 = Maximum diameter
+Times	4000 = 1s
+
+Diameter: the signal basic value corresponds to the max.
+valueV Line: the signal basic value corresponds to the max.
+valueW motor: the signal basic value corresponds to
+W(Vmax,Fi_max) -> max=Fi_max/Fi_min*base
+V,W are positive during the winding procedure" }
+
+	VAR_INPUT
+	lineSpd : DINT; { DE:"Input Line Speed. Referred to signals base value" }
+	wMotSpd : DINT; { DE:"Input Motor speed. Referred to signals base value" }
+	enable : BOOL; { DE:"Diameter calculation enable" }
+	unwind : BOOL; { DE:"TRUE=unwinder,	FALSE=winder" }
+	incDecDis : BOOL; { DE:"Disabling of diameter increment/decrement" }
+	tauP : DINT; { DE:"Pole time constant. Referred to imes base value" }
+	lineSpdThr : DINT; { DE:"Diameter calculation threshold . Referred to signals base value" }
+	minDiam : DINT; { DE:"Minumum diameter. Referred to signals base value" }
+	maxDiam : DINT; { DE:"Maxium diameter. Referred to signals base value" }
+	initialise : BOOL; { DE:"Diameter calculation initialization command" }
+	iniDiam : DINT; { DE:"Initial diameter. Referred to signals base value" }
+	fS : DINT; { DE:"Sampling freq =1/Ts [1/s]." }
+	SiN : DINT; { DE:"Signals base value" }
+	TiN : DINT; { DE:"Times base value" }
+	END_VAR
+
+	VAR_OUTPUT
+	diameter : DINT; { DE:"Ouput calculated diameter. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	calcDiam : DINT; { DE:"internal calculated diameter" }
+	fbLP : LP_FilterDW; { DE:"filter" }
+	calcEnable : BOOL; { DE:"intenal calculation enable" }
+	intLineSpd : DINT; { DE:"internal line speed" }
+	intWMotSpd : DINT; { DE:"internal motor speed" }
+	filterInit : BOOL := TRUE; { DE:"filter initialization" }
+	wMotSpdThr : DINT; { DE:"Diameter calc threshold. Referred to signals base value" }
+	END_VAR
+
+	{ CODE:IL }
+
+
+	(*	Condizionamento segnali di velocità. lineSpd e wMotSpd		*)
+	(*  vengono invertiti se svolge. Il risultato è che il calcolo	*)
+	(*  si blocca se i due segnali non hanno lo stesso segno:		*)
+	(*  positivo se avvolge, negativo se svolge						*)
+
+	LD		unwind
+	JMPCN	l0
+
+	LD		0
+	SUB		lineSpd
+	ST		intLineSpd
+
+	LD		0
+	SUB		wMotSpd
+	ST		intWMotSpd
+
+	JMP		l01
+
+l0:
+
+	LD		lineSpd
+	ST		intLineSpd
+
+	LD		wMotSpd
+	ST		intWMotSpd
+
+l01:
+
+	(*	Inizializzazione diametro	*)
+
+	LD		initialise
+	JMPCN	l1
+
+	LD		iniDiam
+	ST		calcDiam
+	JMP		lEnd
+
+l1:
+
+	(*	Verifica abilitazione, soglia su velocità motore/linea		*)
+	(*	e congruenza velocità (stesso segno = entrambe positive)	*)
+
+	LD		intLineSpd
+	GE		0
+	ST		calcEnable
+
+        LD              lineSpdThr
+        MUL             SiN
+        DIV             maxDiam
+        ST              wMotSpdThr
+
+        LD              intLineSpd
+        GE              lineSpdThr
+        AND(            intWMotSpd
+        GE              wMotSpdThr
+        )
+        AND		enable
+	AND		calcEnable
+	JMPC	l10
+
+	(*	Se la condizioni non sono verificate si setta il diametro al valore precedente	*)
+
+	LD		TRUE
+	ST		filterInit
+
+	JMP		lEnd
+
+l10:
+
+	(*	Oltre la soglia
+	(*  diameter=LP_FilterDW(lineSpd/WMotSpd*SiN,tauP)		*)
+
+	LD		intLineSpd
+	MUL		SiN
+	DIV		intWMotSpd
+	ST		fbLP.inU
+
+	(*	Chiamata filtro	*)
+
+	LD		fS
+	ST		fbLP.fS
+
+	LD		tauP
+	ST		fbLP.tauP
+
+	LD		TiN
+	ST		fbLP.TiN
+
+	LD		calcDiam
+	ST		fbLP.presetValue
+
+	LD		filterInit
+	ST		fbLP.presetBit
+
+	CAL		fbLP
+
+	(*	Reset variabile inizializzazione filtro	*)
+
+	LD		FALSE
+	ST		filterInit
+
+	(*	Verifica inc/dec e settaggio diametro calcolato		*)
+
+	LD		incDecDis
+	JMPC	l2
+
+	(*	Se abililitato	calcDiam=uscita filtro	*)
+
+	LD		fbLP.outY
+	ST		calcDiam
+
+
+	JMP		lEnd
+
+l2:
+
+	(*	Se disabilitato	verifica unwind		*)
+
+	LD		unwind
+	JMPC	l3
+
+	(*	Se avvolge calcDiam non può scendere	*)
+
+	LD		fbLP.outY
+	GT		calcDiam
+	JMPCN	lEnd		(*	setta il diametro al valore precedente	*)
+	JMP		l4			(*	setta il diametro calcolato		*)
+
+l3:
+
+	(*	Se svolge calcDiam non può salire	*)
+
+	LD		fbLP.outY
+	LT		calcDiam
+	JMPCN	lEnd		(*	setta il diametro al valore precedente	*)
+
+l4:
+
+	(*	setta il diametro calcolato		*)
+
+	LD		fbLP.outY
+	ST		calcDiam
+
+lEnd:
+
+	(* Limitazione e scrittura uscita	*)
+
+	LD		calcDiam
+	LIMIT	minDiam, maxDiam
+	ST		diameter
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK IntegratorDW
+
+{ DE:"INTEGRATOR DOUBLE WORD
+
+Version 1.0	25/10/2001		by SSS
+
+Integrator with anti-windup function with double word variables
+
+Transfer functions
+Continuous time:
+outY(s)/inU(s)=1/s
+Discrete time
+OutY(z)/inU(z)=Ts/[1-z(-1)]
+
+Particular functions:
+- Preset of the starting value (presetValue) when presetBit=TRUE;
+- Minimum and maximum limits with anti-windup function.
+
+Basic values to  be used:
+Signals	16384
+Times	4000" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	preset : DINT; { DE:"Preset value. Referred to signals base value" }
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." }
+	lowLimit : DINT; { DE:"Lower limit. Referred to signals base value" }
+	highLimit : DINT; { DE:"Upper limit. Referred to signals base value" }
+	presetBit : BOOL; { DE:"Preset bit" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Integrated internal signal. Referred to fS * signals base value" }
+	prevYint : DINT; { DE:"preceeding value of integrated internal signal" }
+	intLowLim : DINT; { DE:"Min internal limt. referred to fS * signals base value" }
+	intHighLim : DINT; { DE:"Max internal limit. referred to fS * signals base value" }
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Calcolo limiti interni		*)
+	(*	= extLimit*fS				*)
+
+	LD		lowLimit
+	MUL		fS
+	ST		intLowLim
+
+	LD		highLimit
+	MUL		fS
+	ST		intHighLim
+
+	(*	Settaggio Preset value	*)
+
+	LD		presetBit
+	JMPCN	l1
+	LD		preset
+	MUL		fS
+	ST		Yint
+
+	JMP             l2
+
+l1:
+
+	(*	Corpo integratore								*)
+	(*	Yint[k]=Yint[k-1]+inU[k]						*)
+	(*  Il segnale è referred to Yin*fS					*)
+
+	LD		inU
+	ADD		Yint
+	ST		Yint
+
+	(*	Verifica limiti												*)
+	(*  Se fuori limite Yint viene posto uguale al limite stesso	*)
+
+	LD		Yint
+	LIMIT	intLowLim, intHighLim
+	ST		Yint
+
+l2:
+
+	(*	Scalatura uscita			*)
+	(*	outY=Yint*YiN*ts/(UiN*TiN)	*)
+	(*	=Yint/fS -> i valori base per i segnali devono essere uguali	*)
+
+	LD		Yint
+	DIV		fS
+	ST		outY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK IntegratorR
+
+{ DE:"INTEGRATOR REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Integrator with anti-windup function with floating point variables
+
+Transfer functions
+Continuous time:outY(s)/inU(s)=1/s
+Discrete timeOutY(z)/inU(z)=Ts/[1-z(-1)]
+
+Particular functions:
+- Preset of the starting value (presetValue) when presetBit=TRUE;
+- Minimum and maximum limits with anti-windup function" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"Input variable" }
+	Ts : REAL; { DE:"Sampling time [s]" }
+	presetValue : REAL; { DE:"Preset value" }
+	presetBit : BOOL; { DE:"Preset command" }
+	lowLimit : REAL; { DE:"Output Lower limit " }
+	highLimit : REAL; { DE:"Output Upper limit " }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output variable" }
+	END_VAR
+
+	{ CODE:IL }
+	(*	Settaggio Preset value	*)
+
+	LD		presetBit
+	JMPCN	l1
+	LD		presetValue
+	ST		outY
+
+l1:
+
+	(*	Corpo integratore					*)
+	(*	outY[k]=outY[k-1]+inU[k]*Ts			*)
+
+	LD		inU
+	MUL		Ts
+	ADD		outY
+	ST		outY
+
+	(*	Verifica limiti												*)
+	(*  Se fuori limite outY viene posto uguale al limite stesso	*)
+
+	LD		outY
+	LIMIT_R	lowLimit, highLimit
+	ST		outY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK LP_FilterDW
+
+{ DE:"LOW PASS FILTER DOUBLE WORD
+
+Version 1.0	23/8/2001		by SSS
+
+First order low passing filter with double integer variables (32 bits)
+
+Transfer functions
+Continuous time:outY(s)/inU(s)=1/(1+s*(tauP/TiN))
+Discrete timeoutY(z)/inU(z)=1/{1+[1-z(-1)]*tauP*fS}
+Particular functions:
+-	Preset of the starting value (presetValue) when presetBit=TRUE.
+Note:
+The basic values do not have to cause an overflow (2^31) in case two of them are multiplied.
+Values to be used:
+Signals	16384
+Times	1000-1024
+
+" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." }
+	tauP : DINT; { DE:"Time constant. Referred to times base value" }
+	TiN : DINT; { DE:"Times base value. Corresponds to 1s." }
+	presetValue : DINT; { DE:"Preset value. Referred to signals base value" }
+	presetBit : BOOL; { DE:"Preset command" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Internal filered signal. referred to Kr * signals base value" }
+	prevYint : DINT; { DE:"Integrated internal signal. Valore precedente" }
+	Kr : DINT; { DE:"Signal scale" }
+	prevRest : DINT; { DE:"Reminder of prec step division" }
+	auxYint : DINT; { DE:"aux var for division" }
+	END_VAR
+
+	{ CODE:IL }
+	(*	Settaggio Preset value	*)
+
+	LD		presetBit
+	JMPCN	l1
+
+	LD		presetValue
+	ST		outY
+	RET
+
+l1:
+
+	(*	Calcolo Kr							*)
+	(*	= (tauP+ts)/ts = 1+(fS*tauP/TiN)	*)
+
+	LD		fS
+	MUL		tauP
+	DIV		TiN
+	ADD		1
+	ST		Kr
+
+	(*	Corpo filtro								*)
+	(*	Yint[k]=(Kr-1)*outY[k-1]+inU[k]				*)
+	(*  Il segnale è referred to Yin*Kr				*)
+
+	LD		Kr
+	SUB		1
+	MUL		outY
+	ADD		inU
+	ST		Yint
+
+	(*	Scalatura uscita con recupero resti			*)
+	(*	outY=(Yint+/Kr								*)
+
+	LD		Yint
+	ADD		prevRest
+	ST		auxYint
+	DIV		Kr
+	ST		outY
+
+	(*	Calcolo resto per ciclo successivo	*)
+
+	LD		auxYint
+	SUB(	Kr
+	MUL		outY
+	)
+	ST		prevRest
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK LP_FilterR
+
+{ DE:"LOW PASS FILTER REAL
+
+Versione1.0	3/8/2001		by SSS
+
+First order low passing filter with floating point variables.
+Transfer functions.
+Continuous time:outY(s)/inU(s)=1/(1+s*tauP)
+Discrete timeoutY(z)/inU(z)=1/{1+[1-z(-1)]*tauP/Ts}
+
+Particular functions:
+- Preset of the starting value (presetValue) when presetBit=TRUE.	" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"Input variable" }
+	tauP : REAL; { DE:"Filter Time constant [s]" }
+	Ts : REAL; { DE:"Sampling time [s] in Fast Cycle Ts := 0.001" }
+	presetValue : REAL; { DE:"Perset value" }
+	presetBit : BOOL; { DE:"Preset command" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output variable" }
+	END_VAR
+
+	{ CODE:IL }	(*	Settaggio Preset value	*)
+
+	LD		presetBit
+	JMPCN	l1
+
+	LD		presetValue
+	ST		outY
+	RET
+
+l1:
+
+	(*	Corpo filtro											*)
+	(*	outy[k]=tauP/(tauP+Ts)*outY[k-1]+Ts/(tauP+Ts)*inU[k]	*)
+
+	LD		outY
+	MUL		tauP
+	ADD(	inU
+	MUL		Ts
+	)
+	DIV(	tauP
+	ADD		Ts
+	)
+	ST		outY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK PID
+
+{ DE:"PID		(Kp+Ki/s+Kd*s/(1+s*Td))
+
+Rev.1	26/10/2001 	by SSS
+
+Standard PID with integrative anti-windup function and output limit
+The basic values do not have to cause an overflow (2^31) in case two of them are multiplied.
+
+Values to be used:
+Times 4000 = 1s
+Signals 16384 = Signal base" }
+
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	kP : DINT; { DE:"Proportional gain. Referred to signals base value" }
+	kI : DINT; { DE:"Integral gain. Referred to signals base value" }
+	kD : DINT; { DE:"Derivative gain. Referred to signals base value" }
+	tauP : DINT; { DE:"Pole Time constant . Referred to times base value" }
+	preset : DINT; { DE:"Preset value. Referred to signals base value" }
+	presetBit : BOOL; { DE:"Preset command" }
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." }
+	SiN : DINT; { DE:"signals base value" }
+	TiN : DINT; { DE:"Times base value" }
+	lowLimit : DINT; { DE:"Lower limit. Referred to signals base value" }
+	highLimit : DINT; { DE:"Upper limit. Referred to signals base value" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	outP : DINT; { DE:"Output proportional correction. Referred to signals base value" }
+	outI : DINT; { DE:"Output integral correction. Referred to signals base value" }
+	outD : DINT; { DE:"Output derivative correction. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	fbI : IntegratorDW; { DE:"FB integrator" }
+	fbD : Derivative_PB; { DE:"FB derivative" }
+	END_VAR
+
+	{ CODE:IL }
+
+
+	(*	Verifica Preset command	*)
+
+	LD		presetBit
+
+	(*	Se FALSE salto a calcolo PID	*)
+
+	JMPCN	l1_PID
+
+	(*	Se TRUE reset outP, outD	*)
+
+	LD		0
+	ST		outP
+	ST		outD
+
+	(*	Salto a parte integrativa	*)
+
+	JMP		l5_PID
+
+l1_PID:
+
+(*	Parte proporzionale	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kP
+	EQ		0
+
+	(*	Se diverso da zero salto a calcolo parte proporzionale	*)
+
+	JMPCN	l2_PID
+
+	(*	Se zero outP=0 e salto a parte derivativa	*)
+
+	LD		0
+	ST		outP
+
+	JMP		l3_PID
+
+l2_PID:
+
+	(*	Calcolo parte proporzionale	*)
+	(*	outP=kP/SiN*inU limitato da lowLimit e highLimit *)
+
+	LD		inU
+	MUL		kP
+	DIV		SiN
+	LIMIT	lowLimit, highLimit
+	ST		outP
+
+l3_PID:
+
+(*	Parte derivativa	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kD
+	EQ		0
+
+	(*	Se diverso da zero salto a calcolo parte derivativa	*)
+
+	JMPCN	l4_PID
+
+	(*	Se zero outD=0 e salto a parte integrativa	*)
+
+	LD		0
+	ST		outD
+
+	JMP		l5_PID
+
+l4_PID:
+
+	(*	Calcolo parte derivativa	*)
+	(*	outD=kD/SiN*Derivative_PB[inU] limitato da lowLimit e highLimit 	*)
+
+	LD		inU
+	ST		fbD.inU
+
+	LD		fS
+	ST		fbD.fS
+
+	LD		tauP
+	ST		fbD.tauP
+
+	LD		TiN
+	ST		fbD.TiN
+
+	CAL		fbD
+
+	LD		fbD.outY
+	MUL		kD
+	DIV		SiN
+	LIMIT	lowLimit, highLimit
+	ST		outD
+
+l5_PID:
+
+(*	Parte integrativa	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kI
+	EQ		0
+
+	(*	Se diverso da zero salto a calcolo parte integrativa	*)
+
+	JMPCN	l6_PID
+
+	(*	Se zero outI=0 e salto a calcolo uscita	*)
+
+	LD		0
+	ST		outI
+
+	JMP		lEndPID
+
+l6_PID:
+
+	(*	Calcolo parte integrativa	*)
+	(*	outI=kI/SiN*Integrator[inU]	*)
+
+	LD		inU
+	ST		fbI.inU
+
+	LD		preset
+	ST		fbI.preset
+
+	LD		fS
+	ST		fbI.fS
+
+	LD		lowLimit
+	MUL		SiN
+	DIV		kI
+	ST		fbI.lowLimit
+
+	LD		highLimit
+	MUL		SiN
+	DIV		kI
+	ST		fbI.highLimit
+
+	LD		presetBit
+	ST		fbI.presetBit
+
+	CAL		fbI
+
+	LD		fbI.outY
+	MUL		kI
+	DIV		SiN
+	LIMIT	lowLimit, highLimit
+	ST		outI
+
+lEndPID:
+
+	(*	Calcolo uscita	*)
+	(*	outY=outP+outI+outD. Limitata da lowLimit e highLimit 	*)
+
+	LD		outP
+	ADD		outI
+	ADD		outD
+	LIMIT	lowLimit, highLimit
+	ST		outY
+
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK PidR
+
+{ DE:"PID REAL
+
+Versione1.0	22/8/2001		by SSS
+
+Standard PID control with anti-windup function with floating point variables
+
+Transfer functions.
+Continuous time:outY(s)/inU(s)=kP+kI*1/s+kD*s/(1+s*tauP)
+
+Particular functions:
+-	Preset of the starting value (presetValue) when presetBit=TRUE;
+        The interìgarl part value is set to presetValue - Ki*inU/Ts
+-	Minimum and maximum limits with anti-windup function.
+-	The three corrections (P, I, D) are singularly limited by lowLimit and highLimit
+-	Each of the three corrections can be disabled by setting with 0 the specific gain." }
+
+
+
+
+
+	VAR_INPUT
+	inU : REAL; { DE:"Input signal" }
+	kP : REAL; { DE:"Proportional gain [Y/U]" }
+	kI : REAL; { DE:"Integral gain [Y/U*rad/s]" }
+	kD : REAL; { DE:"Derivative gain [Y/U*s/rad]" }
+	tauP : REAL; { DE:"Pole Time constant on derivative part  [s]" }
+	presetValue : REAL; { DE:"Preset value [Y]" }
+	presetBit : BOOL; { DE:"Preset command of integral part
+                                See note in Description " }
+	lowLimit : REAL; { DE:"Lower limit [Y]" }
+	highLimit : REAL; { DE:"Upper limit [Y]" }
+	Ts : REAL; { DE:"Sampling time [Ts]" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output signal [Y]" }
+	outP : REAL; { DE:"Output proportional correction [Y]" }
+	outI : REAL; { DE:"Output integral correction [Y]" }
+	outD : REAL; { DE:"Output derivative correction [Y]" }
+	END_VAR
+
+	VAR
+	fbI : IntegratorR; { DE:"FB Integrator" }
+	fbD : DerivativeR; { DE:"FB derivative" }
+	END_VAR
+
+	{ CODE:IL }
+	(*	Verifica Preset command	*)
+
+	LD		presetBit
+
+	(*	Se FALSE salto a calcolo PID	*)
+
+	JMPCN	l1_PID
+
+	(*	Se TRUE reset outP, outD	*)
+
+	LD		0.0
+	ST		outP
+	LD		0.0
+	ST		outD
+
+	(*	Salto a parte integrativa	*)
+
+	JMP		l5_PID
+
+l1_PID:
+
+(*	Parte proporzionale	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kP
+	EQ		0.0
+
+	(*	Se diverso da zero salto a calcolo parte proporzionale	*)
+
+	JMPCN	l2_PID
+
+	(*	Se zero outP=0 e salto a parte derivativa	*)
+
+	LD		0.0
+	ST		outP
+
+	JMP		l3_PID
+
+l2_PID:
+
+	(*	Calcolo parte proporzionale	*)
+	(*	outP=kP*inU limitato da lowLimit e highLimit *)
+
+	LD		inU
+	MUL		kP
+	LIMIT_R	lowLimit, highLimit
+	ST		outP
+
+l3_PID:
+
+(*	Parte derivativa	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kD
+	EQ		0.0
+
+	(*	Se diverso da zero salto a calcolo parte derivativa	*)
+
+	JMPCN	l4_PID
+
+	(*	Se zero outD=0 e salto a parte integrativa	*)
+
+	LD		0.0
+	ST		outD
+
+	JMP		l5_PID
+
+l4_PID:
+
+	(*	Calcolo parte derivativa	*)
+	(*	outD=kD*DerivativeR[inU] limitato da lowLimit e highLimit 	*)
+
+	LD		inU
+	ST		fbD.inU
+
+	LD		tauP
+	ST		fbD.tauP
+
+	LD		Ts
+	ST		fbD.Ts
+
+	CAL		fbD
+
+	LD		fbD.outY
+	MUL		kD
+	LIMIT_R	lowLimit, highLimit
+	ST		outD
+
+l5_PID:
+
+(*	Parte integrativa	*)
+
+	(*	Verifico guadagno	*)
+
+	LD		kI
+	EQ		0.0
+
+	(*	Se diverso da zero salto a calcolo parte integrativa	*)
+
+	JMPCN	l6_PID
+
+	(*	Se zero outI=0 e salto a calcolo uscita	*)
+
+	LD		0.0
+	ST		outI
+
+	JMP		lEndPID
+
+l6_PID:
+
+	(*	Calcolo parte integrativa	*)
+	(*	outI=kI*Integrator[inU]	*)
+
+	LD		inU
+	MUL		kI
+	ST		fbI.inU
+
+	LD		presetValue
+	ST		fbI.presetValue
+
+	LD		Ts
+	ST		fbI.Ts
+
+	LD		lowLimit
+	ST		fbI.lowLimit
+
+	LD		highLimit
+	ST		fbI.highLimit
+
+	LD		presetBit
+	ST		fbI.presetBit
+
+	CAL		fbI
+
+	LD		fbI.outY
+	ST		outI
+
+lEndPID:
+
+	(*	Calcolo uscita	*)
+	(*	outY=outP+outI+outD. Limitata da lowLimit e highLimit 	*)
+
+	LD		outP
+	ADD		outI
+	ADD		outD
+	LIMIT_R	lowLimit, highLimit
+	ST		outY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK LinearRampR
+
+{ DE:"	LINEAR RAMP FLOAT
+Rev.0	26/2/2001 	by SSS
+
+Linear ramp with the possibility to set the acceleration and deceleration values.
+Version for floating point data
+
+The acceleration/deceleration time range is 0 -> uBase
+The minimum acceleration time is equal to Ts
+
+The acc/dec time is the duration of the ramp to
+change the output from 0 to uBase vale,
+
+i.e.
+ LRampR.uBase 	:= 1000;   
+ LRampR.fS 	:= 1000.0;  (* 1/fast cycle time *)
+ LRampR.tAcc 	:= 0.2;	
+ LRampR.tDec 	:= 0.3;
+ LRampR.enable 	:= TRUE;
+ LRampR();
+ 
+ sysPad3     	:= TO_DINT(LRampR.outY);
+
+running in fast cycle (1mSec) the output will take 200 msec to swing 
+from 0 to 1000, 300 msec to move from 1000 to 0.
+
+" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"	Input signal" }
+	uBase : REAL; { DE:"	base value for input signal	" }
+	fS : REAL; { DE:"  sampling frequency =1/Ts [1/s]	" }
+	tAcc : REAL; { DE:"	Acceleration ramp time [s]			" }
+	tDec : REAL; { DE:"	Deceleration ramp time [s]			" }
+	enable : BOOL; { DE:"	Ramp enable						" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"	Output signal						" }
+	END_VAR
+
+	VAR
+	precOutY : REAL; { DE:"	Prec output value				" }
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Verifica abilitazione rampa		*)
+
+	LD		enable
+	JMPC	l1_Ramp
+
+	(*	Se non abilitata setta outY=inU ed esce		*)
+
+	LD		inU
+	ST		outY
+
+	RET
+
+l1_Ramp:
+
+	(*	Verifica tAcc, tDec					*)
+	(*	Se uguali a zero -> forzati a Ts	*)
+
+	LD		tAcc
+	LE		0.0
+	JMPCN	l11_Ramp
+
+	LD		1.0
+	DIV		fS
+	ST		tAcc
+
+l11_Ramp:
+
+	LD		tDec
+	LE		0.0
+	JMPCN	l12_Ramp
+
+	LD		1.0
+	DIV		fS
+	ST		tDec
+
+l12_Ramp:
+
+	(*	Verifica segno uscita precedente	*)
+
+	LD		precOutY
+	GE		0.0
+	JMPC	l2_Ramp
+
+	(*	Se negativo inverto input/output	*)
+
+	LD		0.0
+	SUB		inU
+	ST		inU
+
+	LD		0.0
+	SUB		outY
+	ST		outY
+
+l2_Ramp:
+
+	(*	Verifico stato ingresso/uscita	*)
+
+	LD		outY
+	LE		inU
+	JMPC	l3_Ramp
+
+	(*	Calcolo uscita se maggiore	*)
+	(*	outY=outY-uBase/tDec/fS		*)
+
+
+	LD		outY
+	SUB(	uBase
+	DIV		tDec
+	DIV		fS
+	)
+	ST		outY
+
+	(*	Verifico nuova uscita	*)
+
+	LD		outY
+	GE		inU
+	JMPC	l4_Ramp
+
+	(*	Se minore limito a inU	*)
+
+	LD		inU
+	ST		outY
+
+	JMP		l4_Ramp
+
+l3_Ramp:
+
+	(*	Verifico se uguale	*)
+
+	LD		outY
+	EQ		inU
+	JMPC	l4_Ramp
+
+	(*	Calcolo uscita interna se minore	*)
+	(*	outY=outY+uBase/tAcc/fS		*)
+
+	LD		uBase
+	DIV		tAcc
+	DIV		fS
+	ADD		outY
+	ST		outY
+
+	(*	Verifico nuova uscita	*)
+
+	LD		outY
+	LE		inU
+	JMPC	l4_Ramp
+
+	(*	Se maggiore limito a inU	*)
+
+	LD		inU
+	ST		outY
+
+l4_Ramp:
+
+	(*	Verifica segno uscita precedente	*)
+
+	LD		precOutY
+	GE		0.0
+	JMPC	l5_Ramp
+
+	(*	Se negativo scalo e inverto output	*)
+
+	LD		0.0
+	SUB		outY
+	ST		outY
+
+l5_Ramp:
+
+	(*	Salvo uscita precedente	*)
+
+	LD		outY
+	ST		precOutY
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK TorqueFFwd
+
+{ DE:"27/9/2001		by SSS
+
+Torque feed forward calculation for the winder.
+It can be applied to any roll moved by a motor which applies tension on the material.
+It calculates the theoretical required torque according to the tension, friction and acceleration.
+
+
+ffWdTorque=staticLossesTorqueFact+dinLossesTorqueFact*wMotSpeed/
+	     /inSignalBase+inertiaTorqueFact*lineAcc/rollDiameter+
+	     tensionRef*rollDiameter/inSignalBase
+
+The sign of the line and motor speeds has to be positive while functioning as motor (winder)
+ and negative while functioning as brake (unwinder).
+
+The calculations are performed in counts with the following meaning:
+-	Torques and torque factors: inSignalBase corresponding to the motor rated torque (rated torque constant*rated current)
+-	inSignalBase tension corresponding to the rated tension (2*reduction ratio*rated torque / rated diameter.
+-	inSignalBase diameter corresponding to the rated diameter (=max. diameter for winders)
+-	inSignalBase line speed corresponding to the rated line speed (=maximum)
+-	inSignalBase motor speed corresponding to the motor rated speed (2*reduction ratio*rated line speed/rated diameter)
+-	inSignalBase line acceleration corresponding to the line rated acceleration (line rated speed in one second)
+-	inSignalBase dynamic friction coefficient corresponding to the rated coefficient (rated torque/rated motor speed)
+-	inSignal base inertia corresponding to the rated inertia (rated torque/rate angular acceleration)" }
+
+	VAR_INPUT
+	tensionRef : DINT; { DE:"tension reference [cnts]. inSignalBase=MaxTension" }
+	lineAcc : DINT; { DE:"Line acceleration [cnts]. inSignalBase=MaxLineSpd/1s" }
+	rollDiameter : DINT; { DE:"Roll diameter [cnts]. inSignalBase=MaxDiameter" }
+	wMotSpeed : DINT; { DE:"Motor speed [cnts]. inSignalBase=NomMotSpd" }
+	staticLossesWMotThr : DINT; { DE:"Static losses calculation threshold [cnts]" }
+	statLossesTorqueFact : DINT; { DE:"Static losses torque [cnts]" }
+	dinLossesTorqueFact : DINT; { DE:"Dinamic losses factor [cnts]. Torque at NomMotSpd " }
+	inertia : DINT; { DE:"Total inertia [cnts]. Corresponds to torque necessary to acc. to MaxLineAcc" }
+	inSignalBase : DINT; { DE:"signals base value. " }
+	END_VAR
+
+	VAR_OUTPUT
+	ffwdTorque : DINT; { DE:"feed forward torque [cnts]. inSignalBase=NomMotTorque" }
+	tensionTorque : DINT; { DE:"tension torque [cnts]" }
+	staticLossesTorque : DINT; { DE:"Static losses torque [cnts]" }
+	dinLossesTorque : DINT; { DE:"Dinamic losses torque [cnts]" }
+	inertiaTorque : DINT; { DE:"Inertia comp torque [cnts]" }
+	END_VAR
+
+	{ CODE:IL }
+	(*	Coppia di tiro	*)
+	(*	tensionTorque = tensionRef * rollDiameter / inSignalBase	*)
+
+	LD		tensionRef
+	MUL		rollDiameter
+	DIV		inSignalBase
+	ST		tensionTorque
+
+	(*	Compensazione attriti statici	*)
+	(*	L'uscita è positiva se wMotspeed è positiva e viceversa	*)
+	(*	L'uscita è nulla se MOD(wMotSpeed)<staticLossesWMotThr	*)
+
+	LD		wMotSpeed
+	ABS
+	LT		staticLossesWMotThr
+	JMPCN	l0_TorqueFFwd
+
+	LD		0
+	ST		staticLossesTorque
+
+	JMP		l1_TorqueFFwd
+
+l0_TorqueFFwd:
+
+	LD		wMotSpeed
+	GE		staticLossesWMotThr
+	JMPC	l10_TorqueFFwd
+
+	LD		statLossesTorqueFact
+	MUL		-1
+	ST		staticLossesTorque
+
+	JMP		l1_TorqueFFwd
+
+l10_TorqueFFwd:
+
+	LD		statLossesTorqueFact
+	ST		staticLossesTorque
+
+l1_TorqueFFwd:
+
+	(*	Compensazione attriti dinamici	*)
+	(*	dinLossesTorque=dinLossesTorqueFact*wMotspeed/inSignalBase	*)
+
+	LD		wMotSpeed
+	MUL		dinLossesTorqueFact
+	DIV		inSignalBase
+	ST		dinLossesTorque
+
+	(*	Compensazione di inerzia	*)
+	(*	inertiaTorque=lineAcc*inertiaTorqueFact/rollDiameter	*)
+
+	LD		lineAcc
+	MUL		inertia
+	DIV		rollDiameter
+	ST		inertiaTorque
+
+	(*	Calcolo coppia totale	*)
+	(*	ffwdTorque=tensionTorque+staticLossesTorque+diLossesTorque+inertiaTorque	*)
+
+	LD		tensionTorque
+	ADD		staticLossesTorque
+	ADD		dinLossesTorque
+	ADD		inertiaTorque
+	ST		ffwdTorque
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK UpDown
+
+{ DE:"UP/DOWN
+
+Rev.0	5/2/2001 	by SSS
+
+Up/down function from input to bit.
+
+For complete DW.
+The block input has to be connected to the output in the calling code.
+tUpDown is the time required to pass from 0 to the signal base.
+The maximum time to be set is SiN*tSample, corresponding to 1 count per sampling" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	up : BOOL; { DE:"input signal increment" }
+	down : BOOL; { DE:"input signal decrement" }
+	tUpDown : DINT; { DE:"up/down time. Referred to times base value" }
+	tSample : DINT; { DE:"Sampling time. Referred to times base value" }
+	negOutLim : DINT; { DE:"Negative output limit" }
+	posOutLim : DINT; { DE:"Positive output limit" }
+	SiN : DINT; { DE:"signals base value" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	END_VAR
+
+	VAR
+	upStep : DINT; { DE:"sampling increment step" }
+	downStep : DINT; { DE:"sampling decrement step" }
+	aux_1 : DINT;
+	END_VAR
+
+	{ CODE:IL }
+
+
+	(*	Calcolo step per campionamento	*)
+
+	LD		SiN
+	MUL		tSample
+	DIV		tUpDown
+	ST		upStep
+	MUL		-1
+	ST		downStep
+
+	(*	Test decremento	*)
+
+
+	LD		down
+	SEL		0, upStep
+	ST		aux_1
+
+	(*	Test incremento	*)
+
+	LD		up
+	SEL		aux_1, downStep
+
+	(*	Scrittura uscita	*)
+
+	ADD		inU
+	LIMIT	negOutLim, posOutLim
+	ST		outY
+
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK DelayDW
+
+{ DE:"DELAY DW	(z(-1))
+
+Rev.0	26/1/2001 	by SSS
+
+It causes a delay of one cycle of the input
+The output is equal at the last previous input value
+
+" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal" }
+	END_VAR
+
+	VAR
+	prevInU : DINT; { DE:"prec step input signal." }
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Scrittura uscita	*)
+
+	LD		prevInU
+	ST		outY
+
+	(*	Memorizzazione valore precedente ingresso		*)
+
+	LD		inU
+	ST		prevInU
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK UpDownR
+
+{ DE:"Function block:
+UP/DOWN	FLOAT
+Rev.0	5/2/2001 	by SSS
+
+The block implement a motopotentiometer function
+the output goes up or down according to the 'up' 'down' signal
+the two signals are no interlocked
+
+floating point operation
+
+The block input has to be connected to the output in the calling code
+tUpDown is the time to pass from 0 to uBase
+
+example
+
+	fbUpDw.inU 	:= fbUpDw.outY; 	(* REAL (* Input signal *)
+	fbUpDw.uBase 	:= 1000; 		(* REAL (* signals base value *)
+	fbUpDw.up 	:= sysDIBitWordBit1; 	(* BOOL (* input signal increment *)
+	fbUpDw.down 	:= sysDIBitWordBit2; 	(* BOOL (* input signal decrement *)
+	fbUpDw.tUpDown 	:= 2.0 			(* REAL (* up/down time[s] (time to go from 0 to uBase) *)
+	fbUpDw.tSample 	:= 0.001; 		(* REAL (* Sampling time [s] *)
+	fbUpDw.negOutLim:= -1500.0; 		(* REAL (* minumum output limit *)
+	fbUpDw.posOutLim:=  1500.0; 		(* REAL (* maximum output limit *)
+	fbUpDw();
+(*	Output vars num	: 1*)
+	sysPad3 := TO_DINT(fbUpDw.outY); 	(*: REAL (* Output signal *)
+
+" }
+
+	VAR_INPUT
+	inU :           REAL; { DE:"Input signal" }
+	uBase :         REAL; { DE:"signals base value" }
+	up :            BOOL; { DE:"input signal increment" }
+	down :          BOOL; { DE:"input signal decrement" }
+	tUpDown :       REAL; { DE:"up/down time[s] (time to go from 0 to uBase)" }
+	tSample :       REAL; { DE:"Sampling time [s]" }
+	negOutLim :     REAL; { DE:"minumum output limit" }
+	posOutLim :     REAL; { DE:"maximum output limit" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output signal" }
+	END_VAR
+
+	VAR
+	upStep : REAL; { DE:"sampling increment step" }
+	downStep : REAL; { DE:"sampling decrement step" }
+	aux_1 : REAL;
+	aux_2 : REAL;
+	aux_3 : REAL;
+	END_VAR
+
+	{ CODE:IL }
+
+	(*	Calcolo step per campionamento	*)
+
+	LD		uBase
+	MUL		tSample
+	DIV		tUpDown
+	ST		upStep
+
+	LD		0.0
+	SUB		upStep
+	ST		downStep
+
+	(*	Test decremento	*)
+
+	LD		down
+	JMPC	l01_UpDown
+
+	LD		0.0
+	ST		aux_1
+
+	JMP		l02_UpDown
+
+l01_UpDown:
+
+	LD		downStep
+	ST		aux_1
+
+l02_UpDown:
+
+	(*	Test incremento	*)
+
+	LD		up
+	JMPC	l03_UpDown
+
+	LD		aux_1
+	ST		aux_3
+
+	JMP		l04_UpDown
+
+l03_UpDown:
+
+	LD		upStep
+	ST		aux_3
+
+l04_UpDown:
+
+	(*	Scrittura uscita	*)
+
+	LD		aux_3
+	ADD		inU
+	ST		aux_2
+
+	LD		aux_2
+	LE		negOutLim
+	JMPC	l0_UpDown
+
+	LD		aux_2
+	GE		posOutLim
+	JMPC	l1_UpDown
+
+	LD		aux_2
+	ST		outY
+
+	RET
+
+l0_UpDown:
+
+	LD		negOutLim
+	ST		outY
+
+	RET
+
+l1_UpDown:
+
+	LD		posOutLim
+	ST		outY
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK LinearRamp
+
+{ DE:"LINEAR RAMP
+
+Rev.1	14/7/2003 	by SSS
+
+Linear ramp with the possibility to set the acceleration and deceleration values.
+The acceleration/deceleration time range is 0 -> SiN.
+The minimum acceleration time is equal to Ts" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" }
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." }
+	expRamp : UINT; { DE:"Ramp extension factor.It must be >= 1, <1000" }
+	tAcc : DINT; { DE:"Acceleration ramp time. Referred to times base value" }
+	tDec : DINT; { DE:"Deceleration ramp time. Referred to times base value" }
+	TiN : DINT; { DE:"Times base value" }
+	SiN : DINT; { DE:"signals base value" }
+	enable : BOOL; { DE:"Ramp enable" }
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" }
+	tMax : DINT; { DE:"maximum ramp time. Referred to times base value" }
+	END_VAR
+
+	VAR
+	kBase : DINT; { DE:"internal base/external base" }
+	inc : DINT; { DE:"Ramp increment" }
+	Yint : DINT; { DE:"internal signal with ramp" }
+	Uint : DINT; { DE:"internal input signal" }
+	END_VAR
+
+	{ CODE:IL }
+	(*	Calcolo	costante moltiplicativa fra base segnali interna e SiN	*)
+
+	LD		expRamp
+	TO_DINT
+	LIMIT	1, 1000
+	ST		kBase
+
+	(*	Calcolo tempo massimo di rampa in base ai vari fattori	*)
+
+	MUL		SiN
+	DIV		fS
+	MUL		TiN
+	ST		tMax
+
+	(*	Verifica abilitazione rampa		*)
+
+	LD		enable
+	JMPC	l1_Ramp
+
+	(*	Se non abilitata setta outY=inU ed esce		*)
+
+	LD		inU
+	ST		outY
+
+	RET
+
+l1_Ramp:
+
+	(*	Verifica segno uscita precedente	*)
+
+	LD		outY
+	GE		0
+	JMPC	l2_Ramp
+
+	(*	Se negativo scalo e inverto input/output	*)
+
+	LD		inU
+	MUL		-1
+	MUL		kBase
+	ST		Uint
+
+	LD		outY
+	MUL		-1
+	MUL		kBase
+	ST		Yint
+
+	JMP		l21_Ramp
+
+l2_Ramp:
+
+	(*	Se positivo scalo e lascio invariato il segno	*)
+
+	LD		inU
+	MUL		kBase
+	ST		Uint
+
+	LD		outY
+	MUL		kBase
+	ST		Yint
+
+l21_Ramp:
+
+	(*	Verifico stato ingresso/uscita	*)
+
+	LD		Yint
+	LE		Uint
+	JMPC	l3_Ramp
+
+
+	(*	Calcolo uscita interna se maggiore	*)
+	(*	Yint=Yint-tMax/tDec					*)
+
+	LD		tMax
+	DIV		tDec
+	MUL		-1
+	ADD		Yint
+	ST		Yint
+
+	(*	Verifico nuova uscita	*)
+
+	LD		Yint
+	GE		Uint
+	JMPC	l4_Ramp
+
+	(*	Se minore limito a Uint	*)
+
+	LD		Uint
+	ST		Yint
+
+	JMP		l4_Ramp
+
+l3_Ramp:
+
+	(*	Verifico se uguale	*)
+
+	LD		Yint
+	EQ		Uint
+	JMPC	l4_Ramp
+
+	(*	Calcolo uscita interna se minore	*)
+	(*	Yint=Yint+tMax/tAcc					*)
+
+	LD		tMax
+	DIV		tAcc
+	ADD		Yint
+	ST		Yint
+
+	(*	Verifico nuova uscita	*)
+
+	LD		Yint
+	LE		Uint
+	JMPC	l4_Ramp
+
+	(*	Se maggiore limito a Uint	*)
+
+	LD		Uint
+	ST		Yint
+
+	JMP		l4_Ramp
+
+l4_Ramp:
+
+	(*	Verifica segno uscita precedente	*)
+
+	LD		outY
+	GE		0
+	JMPC	l5_Ramp
+
+	(*	Se negativo scalo e inverto output	*)
+
+	LD		Yint
+	MUL		-1
+	DIV		kBase
+	ST		outY
+
+	RET
+
+l5_Ramp:
+
+	(*	Se positivo scalo e lascio invariato il segno	*)
+
+	LD		Yint
+	DIV		kBase
+	ST		outY
+
+
+END_FUNCTION_BLOCK
+

@@ -1,0 +1,18 @@
+;
+;	PLC Project workspace status
+;
+
+
+GENERAL
+	COLS: 120 80 70 90 70 70 90 300 
+END_GENERAL
+
+SOURCE: cyclic_prg
+	DIMY: 109
+	COLS: 120 80 70 70 70 300 0 
+END_SOURCE
+
+SOURCE: state_machine
+	DIMY: 65535
+	COLS: 120 80 70 70 70 300 0 
+END_SOURCE

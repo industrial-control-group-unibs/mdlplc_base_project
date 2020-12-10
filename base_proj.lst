@@ -1,0 +1,5623 @@
+***********************************************************************
+*
+*	CODE GENERATION LISTING FOR: base_proj
+*	COMPILER VERSION: 5.98.9.8
+*
+***********************************************************************
+
+**************************************************
+	List function: _InOutVersion
+**************************************************
+
+FUNCTION _InOutVersion : UDINT
+
+{ DE:"LIBRERIA: ADV200 InOut
+
+Rev.01.20.00	14/12/2006 By FRD
+Rev.01.30.00	28/05/2008 By RNC
+
+
+This library contains functions and function blocks for the input/output management:
+Motor current conversion to/from FW;
+Motor speed conversion   to/from FW.
+
+Note:
+No global variables are used, so that the library can be used regardless the FW version" }
+
+	VAR_INPUT
+	in : BOOL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+
+#0		{SRC:_InOutVersion}
+#1		
+#2		
+#3			LD		in
+(*) UNDEF
+A0010080  F1F0400B		mov d15, d4
+
+#4			JMPC	l0_Version
+(-) BOOL
+A0010084  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA00100A0
+
+#5		
+#6			LD		0
+(*) UNDEF
+A0010088  F000003B		mov d15, #0
+
+#7			ST		_InOutVersion
+(*) USINT
+A001008C  21F0F00B		mov d2, d15
+
+#8		
+#9			RET
+(-) USINT
+A0010090  FA001091		movh.a a15, #0xA001 ; 0xA00100A8
+A0010094  2028FFD9		lea a15,[a15]0x00A8
+A0010098  0000000D		nop
+A001009C  00300F2D		ji a15
+
+#10		
+#11		l0_Version:
+#12		
+#13			(*	Indice di revisione.						*)
+#14			(*	L'indice si legge nella seguente maniera:	*)
+#15			(*	XXYYZZ => XX.YY.ZZ 							*)
+#16			(*	XX = Revisione								*)
+#17			(*	YY = Sotto revisione						*)
+#18			(*	ZZ = Correzione								*)
+#19		
+#20			LD		013000
+(*) UNDEF
+A00100A0  F32C803B		mov d15, #13000
+
+#21			ST		_InOutVersion
+(*) UINT
+A00100A4  21F0F00B		mov d2, d15
+
+A00100A8  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: TrqToCount
+**************************************************
+
+FUNCTION TrqToCount : DINT
+
+{ DE:"F Name: TrqToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert torque in percentage to torque in internal unit (Counts)
+16#20000000 counts correspond to 100% motor torque
+100% of motor torque is the torque obtained with the
+maximum Torque current (nominal current cleaned of 
+magnetizing current)" }
+
+	VAR_INPUT
+	InTrqPerc : REAL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InTrqPerc: REGISTER d4
+
+#0		{SRC:TrqToCount}
+#1		
+#2			(* TrqToCount := TO_DINT(InTrqPerc * 5368709.12); *)
+#3			LD		InTrqPerc	{L:6}
+(*) UNDEF
+A00100AC  F1F0400B		mov d15, d4
+
+#4			MUL		5368709.12	{L:6}
+(*) REAL
+A00100B0  8D70A0BB		mov.u d8, #0xD70A ; COSTREAL 5368709.120000
+A00100B4  84AA389B		addih d8, d8, #0x4AA3
+A00100B8  F0418F4B		mul.f d15, d15, d8
+
+#5			TO_DINT	{L:6}
+(*) REAL
+A00100BC  F1010F4B		ftoi d15, d15
+
+#6			ST		TrqToCount	{L:6}
+(*) DINT
+A00100C0  21F0F00B		mov d2, d15
+
+A00100C4  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: CountToTrq
+**************************************************
+
+FUNCTION CountToTrq : REAL
+
+{ DE:"F Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert torque in internal unit (Count) to torque in percentage  
+16#20000000 counts correspond to 100% motor torque
+100% of motor torque is the torque obtained with the
+maximum Torque current (nominal current cleaned of 
+magnetizing current)" }
+
+	VAR_INPUT
+	InTrqCnt : DINT; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InTrqCnt: REGISTER d4
+
+#0		{SRC:CountToTrq}
+#1		
+#2			(* CountToTrq := TO_REAL(InTrqCnt) / 5368709.12; *)
+#3			LD		InTrqCnt	{L:6}
+(*) UNDEF
+A00100C8  F1F0400B		mov d15, d4
+
+#4			TO_REAL	{L:6}
+(*) DINT
+A00100CC  F1410F4B		itof d15, d15
+
+#5			DIV		5368709.12	{L:6}
+(*) REAL
+A00100D0  8D70A0BB		mov.u d8, #0xD70A ; COSTREAL 5368709.120000
+A00100D4  84AA389B		addih d8, d8, #0x4AA3
+A00100D8  F0518F4B		div.f d15, d15, d8
+
+#6			ST		CountToTrq	{L:6}
+(*) REAL
+A00100DC  21F0F00B		mov d2, d15
+
+A00100E0  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: AmpToCount
+**************************************************
+
+FUNCTION AmpToCount : DINT
+
+{ DE:"F Name: RpmToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert current in Amp to current internal units (Counts)
+16#20000000 counts correspond to Drive cont current" }
+
+	VAR_INPUT
+	InCurrAmp : REAL; 
+	inFSDriveCntCurrent : REAL; { DE:"Drive cont current set in the drive " } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InCurrAmp: REGISTER d4
+	Par inFSDriveCntCurrent: REGISTER d5
+
+#0		{SRC:AmpToCount}
+#1		
+#2			(* AmpToCount := TO_DINT(InCurrAmp * 536870912.0 / inFSDriveCntCurrent); *)
+#3			LD		InCurrAmp	{L:6}
+(*) UNDEF
+A00100E4  F1F0400B		mov d15, d4
+
+#4			MUL		536870912.0	{L:6}
+(*) REAL
+A00100E8  800000BB		mov.u d8, #0x0000 ; COSTREAL 536870912.000000
+A00100EC  84E0089B		addih d8, d8, #0x4E00
+A00100F0  F0418F4B		mul.f d15, d15, d8
+
+#5			DIV		inFSDriveCntCurrent	{L:6}
+(*) REAL
+A00100F4  81F0500B		mov d8, d5
+A00100F8  F0518F4B		div.f d15, d15, d8
+
+#6			TO_DINT	{L:6}
+(*) REAL
+A00100FC  F1010F4B		ftoi d15, d15
+
+#7			ST		AmpToCount	{L:6}
+(*) DINT
+A0010100  21F0F00B		mov d2, d15
+
+A0010104  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: CountToAmp
+**************************************************
+
+FUNCTION CountToAmp : REAL
+
+{ DE:"FBlock Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert current in internal unit (Count) to current in Amp  
+16#20000000 counts correspond to Drive cont current 
+" }
+
+	VAR_INPUT
+	InCurrCnt : DINT; 
+	inFSDriveCntCurrent : REAL; { DE:"Drive cont current set in the drive" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InCurrCnt: REGISTER d4
+	Par inFSDriveCntCurrent: REGISTER d5
+
+#0		{SRC:CountToAmp}
+#1		
+#2			(* CountToAmp := (TO_REAL(InCurrCnt) * inFSDriveCntCurrent) / 536870912.0  ; *)
+#3			LD		InCurrCnt	{L:6}
+(*) UNDEF
+A0010108  F1F0400B		mov d15, d4
+
+#4			TO_REAL	{L:6}
+(*) DINT
+A001010C  F1410F4B		itof d15, d15
+
+#5			MUL		inFSDriveCntCurrent	{L:6}
+(*) REAL
+A0010110  F0415F4B		mul.f d15, d15, d5
+
+#6			DIV		536870912.0	{L:6}
+(*) REAL
+A0010114  800000BB		mov.u d8, #0x0000 ; COSTREAL 536870912.000000
+A0010118  84E0089B		addih d8, d8, #0x4E00
+A001011C  F0518F4B		div.f d15, d15, d8
+
+#7			ST		CountToAmp	{L:6}
+(*) REAL
+A0010120  21F0F00B		mov d2, d15
+
+A0010124  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: RpmToCount
+**************************************************
+
+FUNCTION RpmToCount : DINT
+
+{ DE:"F Name: RpmToCount ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert speed in RPM to speed internal units (Count)
+16#40000000 counts correspond to FullScaleSpeed" }
+
+	VAR_INPUT
+	InSpdRpm : REAL; 
+	inFSSpeed : DINT; { DE:"Full Scale Speed set in the drive " } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InSpdRpm: REGISTER d4
+	Par inFSSpeed: REGISTER d5
+
+#0		{SRC:RpmToCount}
+#1		
+#2			(* RpmToCount := TO_DINT(InSpdRpm * 1073741824.0 / TO_REAL(inFSSpeed)); *)
+#3			LD		InSpdRpm	{L:6}
+(*) UNDEF
+A0010128  F1F0400B		mov d15, d4
+
+#4			MUL		1073741824.0	{L:6}
+(*) REAL
+A001012C  800000BB		mov.u d8, #0x0000 ; COSTREAL 1073741824.000000
+A0010130  84E8089B		addih d8, d8, #0x4E80
+A0010134  F0418F4B		mul.f d15, d15, d8
+
+#5			DIV(		inFSSpeed	{L:6}
+(*) REAL
+A0010138  F53CAF89		st.w [-sp]4, d15 
+A001013C  F1F0500B		mov d15, d5
+
+#6			TO_REAL	{L:6}
+(*) DINT
+A0010140  F1410F4B		itof d15, d15
+
+#7			)	{L:6}
+(*) REAL
+A0010144  01F0F00B		mov d0, d15
+A0010148  0104AF09		ld.w d15, [sp+]4
+A001014C  81F0000B		mov d8, d0
+A0010150  F0518F4B		div.f d15, d15, d8
+
+#8			TO_DINT	{L:6}
+(*) REAL
+A0010154  F1010F4B		ftoi d15, d15
+
+#9			ST		RpmToCount	{L:6}
+(*) DINT
+A0010158  21F0F00B		mov d2, d15
+
+A001015C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: CountToRpm
+**************************************************
+
+FUNCTION CountToRpm : REAL
+
+{ DE:"FBlock Name: CountToRpm ADV200
+Copyright © 2008, SIEI SpA. All Rights Reserved.
+
+ Version     : 01.00
+ Data        :  2008
+ Author      : Gefran
+
+Description:
+Convert speed in internal units (Count) to speed RPM  
+16#40000000 counts correspond to FullScaleSpeed
+" }
+
+	VAR_INPUT
+	InSpdCnt : DINT; 
+	inFSSpeed : DINT; { DE:"Full Scale Speed set in the drive" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par InSpdCnt: REGISTER d4
+	Par inFSSpeed: REGISTER d5
+
+#0		{SRC:CountToRpm}
+#1		
+#2			(* CountToRpm := (TO_REAL(InSpdCnt) * TO_REAL(inFSSpeed)) / 1073741824.0  ; *)
+#3			LD		inFSSpeed	{L:6}
+(*) UNDEF
+A0010160  F1F0500B		mov d15, d5
+
+#4			TO_REAL	{L:6}
+(*) DINT
+A0010164  F1410F4B		itof d15, d15
+
+#5			MUL(		InSpdCnt	{L:6}
+(*) REAL
+A0010168  F53CAF89		st.w [-sp]4, d15 
+A001016C  F1F0400B		mov d15, d4
+
+#6			TO_REAL	{L:6}
+(*) DINT
+A0010170  F1410F4B		itof d15, d15
+
+#7			)	{L:6}
+(*) REAL
+A0010174  01F0F00B		mov d0, d15
+A0010178  0104AF09		ld.w d15, [sp+]4
+A001017C  F0410F4B		mul.f d15, d15, d0
+
+#8			DIV		1073741824.0	{L:6}
+(*) REAL
+A0010180  800000BB		mov.u d8, #0x0000 ; COSTREAL 1073741824.000000
+A0010184  84E8089B		addih d8, d8, #0x4E80
+A0010188  F0518F4B		div.f d15, d15, d8
+
+#9			ST		CountToRpm	{L:6}
+(*) REAL
+A001018C  21F0F00B		mov d2, d15
+
+A0010190  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: UnitToAo
+**************************************************
+
+FUNCTION UnitToAo : DINT
+
+{ DE:"9/10/2001		by MCC/SSS
+05 giu 08       Rnc
+
+UnitToAo: Convert phisycal unit (rpm. Amp, Trq) to Analog Out. FullScale correspond to 10V.
+" }
+
+	VAR_INPUT
+	inp : REAL; { DE:"Unit Input value " } 
+	inSignalBase : REAL; { DE:"FullScaleSpeed for rpm, DriveCntCurr for amp, 100.0 for trq" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inp: REGISTER d4
+	Par inSignalBase: REGISTER d5
+
+#0		{SRC:UnitToAo}
+#1		
+#2			(* UnitToAo := TO_DINT(inp*1073741824.0/inSignalBase); *)
+#3			LD		inp	{L:2}
+(*) UNDEF
+A0010194  F1F0400B		mov d15, d4
+
+#4			MUL		1073741824.0	{L:2}
+(*) REAL
+A0010198  800000BB		mov.u d8, #0x0000 ; COSTREAL 1073741824.000000
+A001019C  84E8089B		addih d8, d8, #0x4E80
+A00101A0  F0418F4B		mul.f d15, d15, d8
+
+#5			DIV		inSignalBase	{L:2}
+(*) REAL
+A00101A4  81F0500B		mov d8, d5
+A00101A8  F0518F4B		div.f d15, d15, d8
+
+#6			TO_DINT	{L:2}
+(*) REAL
+A00101AC  F1010F4B		ftoi d15, d15
+
+#7			ST		UnitToAo	{L:2}
+(*) DINT
+A00101B0  21F0F00B		mov d2, d15
+
+A00101B4  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: AiToUnit
+**************************************************
+
+FUNCTION AiToUnit : REAL
+
+{ DE:"9/10/2001		by MCC/SSS
+05 giu 08       Rnc
+
+AiToUnit: Convert input voltage in phisycal unit (rpm. Amp, Trq). 10V correspond FullScale.
+" }
+
+	VAR_INPUT
+	inp : DINT; { DE:"analog input value value " } 
+	inSignalBase : REAL; { DE:"FullScaleSpeed for rpm, DriveCntCurr for amp, 100.0 for trq" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inp: REGISTER d4
+	Par inSignalBase: REGISTER d5
+
+#0		{SRC:AiToUnit}
+#1		
+#2			(* AiToUnit := TO_REAL(inp)*inSignalBase/1073741824.0; *)
+#3			LD		inp	{L:2}
+(*) UNDEF
+A00101B8  F1F0400B		mov d15, d4
+
+#4			TO_REAL	{L:2}
+(*) DINT
+A00101BC  F1410F4B		itof d15, d15
+
+#5			MUL		inSignalBase	{L:2}
+(*) REAL
+A00101C0  F0415F4B		mul.f d15, d15, d5
+
+#6			DIV		1073741824.0	{L:2}
+(*) REAL
+A00101C4  800000BB		mov.u d8, #0x0000 ; COSTREAL 1073741824.000000
+A00101C8  84E8089B		addih d8, d8, #0x4E80
+A00101CC  F0518F4B		div.f d15, d15, d8
+
+#7			ST		AiToUnit	{L:2}
+(*) REAL
+A00101D0  21F0F00B		mov d2, d15
+
+A00101D4  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: ReadCommand
+**************************************************
+
+FUNCTION ReadCommand : BOOL
+
+{ DE:"Digital command management
+
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+selection selecs which source to read:
+-2= digital parameter, -1= remote command, >=0 = digital input
+
+the function result is reset to FALSE
+then the digital command is copied in the output (if selected)
+if a digital input is selected, its value will be the function output (if selected
+if not, the remote command bit will be the function output (if selected)
+" }
+
+	VAR_INPUT
+	digpar : BOOL; 
+	digitalInputs : UINT; 
+	selection : INT; { DE:"-2=digpar, -1=remote, >=0= digital input" } 
+	remoteCommand : UINT; 
+	nBitRemoteCommand : UINT; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par digpar: REGISTER d4
+	Par digitalInputs: REGISTER d5
+	Par selection: REGISTER d6
+	Par remoteCommand: REGISTER d7
+	Par nBitRemoteCommand: LOCAL STACK FRAME AT 0(sp)
+
+A00101D8  A1F0400B		mov d10, d4
+A00101DC  B1F0500B		mov d11, d5
+A00101E0  C1F0600B		mov d12, d6
+A00101E4  D1F0700B		mov d13, d7
+A00101E8  C000A001		mov.aa a12, sp
+A00101EC  800040BB		mov.u d8, #4
+A00101F0  E6308001		mov.a a14, d8
+A00101F4  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:ReadCommand}
+#1		
+#2			(* ReadCommand := FALSE; *)
+#3			LD		FALSE	{L:3}
+(*) UNDEF
+A00101F8  F000003B		mov d15, #0
+
+#4			ST		ReadCommand	{L:3}
+(*) BOOL
+A00101FC  21F0F00B		mov d2, d15
+
+#5		
+#6		
+#7			(* IF selection = -1 *)
+#8			LD		selection	{L:8}
+(*) UNDEF
+A0010200  F1F0C00B		mov d15, d12
+
+#9			EQ		-1	{L:8}
+(*) INT
+A0010204  8FFFF03B		mov d8, #-1
+A0010208  F1008F0B		eq d15, d15, d8
+
+#10			JMPCN	$label0	{L:8}
+(-) BOOL
+A001020C  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA0010228
+
+#11		
+#12			(* THEN *)
+#13		
+#14				(* ReadCommand := digpar; *)
+#15				LD		digpar	{L:11}
+(*) UNDEF
+A0010210  F1F0A00B		mov d15, d10
+
+#16				ST		ReadCommand	{L:11}
+(*) BOOL
+A0010214  21F0F00B		mov d2, d15
+
+#17		
+#18				(* RETURN *)
+#19				RET
+(-) BOOL
+A0010218  FA001091		movh.a a15, #0xA001 ; 0xA00102BC
+A001021C  A03CFFD9		lea a15,[a15]0x02BC
+A0010220  0000000D		nop
+A0010224  00300F2D		ji a15
+
+#20		
+#21		$label0:
+#22			(* END_IF *)
+#23		
+#24		
+#25			(* IF selection >= 0 *)
+#26			LD		selection	{L:20}
+(*) UNDEF
+A0010228  F1F0C00B		mov d15, d12
+
+#27			GE		0	{L:20}
+(*) INT
+A001022C  8000003B		mov d8, #0
+A0010230  F1408F0B		ge d15, d15, d8
+
+#28			JMPCN	$label1	{L:20}
+(-) BOOL
+A0010234  001E0FDF		jeq d15, #0, #0x001E ; JUMP 0xA0010270
+
+#29		
+#30			(* THEN *)
+#31		
+#32				(* ReadCommand := RBit(digitalInputs, TO_UINT(selection)); *)
+#33				LD		selection	{L:22}
+(*) UNDEF
+A0010238  F1F0C00B		mov d15, d12
+
+#34				TO_UINT	{L:22}
+(*) INT
+#35				ST		$$TMP0	{L:22}
+(*) UINT
+A001023C  F000A001		mov.aa a15, sp
+A0010240  0880FF89		st.h [a15], d15
+
+#36				LD		digitalInputs	{L:22}
+(*) UNDEF
+A0010244  F1F0B00B		mov d15, d11
+
+#37				RBit		$$TMP0	{L:22}
+(-) UINT
+A0010248  F000A001		mov.aa a15, sp
+A001024C  08C0F509		ld.hu d5, [a15]
+A0010250  41F0F00B		mov d4, d15
+A0010254  0382006D		call #0x000382 ; CALL 0xA0010958
+A0010258  F1F0200B		mov d15, d2
+
+#38				ST		ReadCommand	{L:22}
+(*) BOOL
+A001025C  21F0F00B		mov d2, d15
+
+#39		
+#40				(* RETURN *)
+#41				RET
+(-) BOOL
+A0010260  FA001091		movh.a a15, #0xA001 ; 0xA00102BC
+A0010264  A03CFFD9		lea a15,[a15]0x02BC
+A0010268  0000000D		nop
+A001026C  00300F2D		ji a15
+
+#42		
+#43		$label1:
+#44			(* END_IF *)
+#45		
+#46		
+#47			(* IF selection = -2) AND (nBitRemoteCommand >= 0 *)
+#48			LD		nBitRemoteCommand	{L:30}
+(*) UNDEF
+A0010270  F000C001		mov.aa a15, a12
+A0010274  08C0FF09		ld.hu d15, [a15]
+
+#49			GE		0	{L:30}
+(*) UINT
+A0010278  8000003B		mov d8, #0
+A001027C  F1508F0B		ge.u d15, d15, d8
+
+#50			AND(		selection	{L:30}
+(*) BOOL
+A0010280  F53CAF89		st.w [-sp]4, d15 
+A0010284  F1F0C00B		mov d15, d12
+
+#51			EQ		-2	{L:30}
+(*) INT
+A0010288  8FFFE03B		mov d8, #-2
+A001028C  F1008F0B		eq d15, d15, d8
+
+#52			)	{L:30}
+(*) BOOL
+A0010290  01F0F00B		mov d0, d15
+A0010294  0104AF09		ld.w d15, [sp+]4
+A0010298  F0800F0F		and d15, d15, d0
+
+#53			JMPCN	$label2	{L:30}
+(-) BOOL
+A001029C  00100FDF		jeq d15, #0, #0x0010 ; JUMP 0xA00102BC
+
+#54		
+#55			(* THEN *)
+#56		
+#57				(* ReadCommand := RBit(remoteCommand, nBitRemoteCommand); *)
+#58				LD		remoteCommand	{L:32}
+(*) UNDEF
+A00102A0  F1F0D00B		mov d15, d13
+
+#59				RBit		nBitRemoteCommand	{L:32}
+(-) UINT
+A00102A4  F000C001		mov.aa a15, a12
+A00102A8  08C0F509		ld.hu d5, [a15]
+A00102AC  41F0F00B		mov d4, d15
+A00102B0  0354006D		call #0x000354 ; CALL 0xA0010958
+A00102B4  F1F0200B		mov d15, d2
+
+#60				ST		ReadCommand	{L:32}
+(*) BOOL
+A00102B8  21F0F00B		mov d2, d15
+
+#61		
+#62				(* RETURN *)
+#63				RET
+(-) BOOL
+A00102BC  800040BB		mov.u d8, #4
+A00102C0  E6308001		mov.a a14, d8
+A00102C4  A010EA01		add.a sp, sp, a14
+
+A00102C8  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: ReadCommandAnd
+**************************************************
+
+FUNCTION ReadCommandAnd : BOOL
+
+{ DE:"Digital command management (AND)
+
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+there is a mask that enables the sources:
+bit0= digital parameter, bit1= digital input, bit2=remote command
+
+the function performs AND between the sources (bit0,1,2) which bit is set TRUE.
+
+Note: if bit0=bit1=bit2=0 the function return TRUE
+" }
+
+	VAR_INPUT
+	digpar : BOOL; { DE:"digital parameter" } 
+	digitalInputs : UINT; { DE:"digital inputs bitword" } 
+	nBitDigitalInputs : INT; { DE:"digital input bit number" } 
+	remoteCommand : UINT; { DE:"remote command bitword" } 
+	nBitRemoteCommand : UINT; { DE:"remote command bit" } 
+	enableMask : UINT; { DE:"enable mask: bit0=dig par, bit1=dig input, bit2=remote command)" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par digpar: REGISTER d4
+	Par digitalInputs: REGISTER d5
+	Par nBitDigitalInputs: REGISTER d6
+	Par remoteCommand: REGISTER d7
+	Par nBitRemoteCommand: LOCAL STACK FRAME AT 0(sp)
+	Par enableMask: CALLER STACK FRAME AT 4(sp)
+
+A00102CC  A1F0400B		mov d10, d4
+A00102D0  B1F0500B		mov d11, d5
+A00102D4  C1F0600B		mov d12, d6
+A00102D8  D1F0700B		mov d13, d7
+A00102DC  C000A001		mov.aa a12, sp
+A00102E0  800040BB		mov.u d8, #4
+A00102E4  E6308001		mov.a a14, d8
+A00102E8  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:ReadCommandAnd}
+#1		
+#2		
+#3			(* IF enableMask AND 1) <> 0 *)
+#4			LD		enableMask	{L:3}
+(*) UNDEF
+A00102EC  800040BB		mov.u d8, #0x4
+A00102F0  F600C801		addsc.a a15, a12, d8, #0
+A00102F4  08C0FF09		ld.hu d15, [a15]
+
+#5			AND		1	{L:3}
+(*) UINT
+A00102F8  8000103B		mov d8, #1
+A00102FC  F0808F0F		and d15, d15, d8
+
+#6			NE		0	{L:3}
+(*) UINT
+A0010300  8000003B		mov d8, #0
+A0010304  F1108F0B		ne d15, d15, d8
+
+#7			JMPCN	$label0	{L:3}
+(-) BOOL
+A0010308  00180FDF		jeq d15, #0, #0x0018 ; JUMP 0xA0010338
+
+#8		
+#9			(* THEN *)
+#10		
+#11		
+#12				(* IF digpar *)
+#13				LD		digpar	{L:4}
+(*) UNDEF
+A001030C  F1F0A00B		mov d15, d10
+
+#14				NOT	{L:4}
+(*) BOOL
+A0010310  8000103B		mov d8, #1
+A0010314  9000003B		mov d9, #0
+A0010318  FF40892B		sel d15, d15, d9, d8
+
+#15				JMPCN	$label1	{L:4}
+(-) BOOL
+A001031C  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA0010338
+
+#16		
+#17				(* THEN *)
+#18		
+#19					(* ReadCommandAnd := FALSE; *)
+#20					LD		FALSE	{L:5}
+(*) UNDEF
+A0010320  F000003B		mov d15, #0
+
+#21					ST		ReadCommandAnd	{L:5}
+(*) BOOL
+A0010324  21F0F00B		mov d2, d15
+
+#22		
+#23					(* RETURN *)
+#24					RET
+(-) BOOL
+A0010328  FA001091		movh.a a15, #0xA001 ; 0xA0010430
+A001032C  0070FFD9		lea a15,[a15]0x0430
+A0010330  0000000D		nop
+A0010334  00300F2D		ji a15
+
+#25		
+#26		$label1:
+#27				(* END_IF *)
+#28		
+#29		$label0:
+#30			(* END_IF *)
+#31		
+#32		
+#33			(* IF enableMask AND 2) <> 0 *)
+#34			LD		enableMask	{L:11}
+(*) UNDEF
+A0010338  800040BB		mov.u d8, #0x4
+A001033C  F600C801		addsc.a a15, a12, d8, #0
+A0010340  08C0FF09		ld.hu d15, [a15]
+
+#35			AND		2	{L:11}
+(*) UINT
+A0010344  8000203B		mov d8, #2
+A0010348  F0808F0F		and d15, d15, d8
+
+#36			NE		0	{L:11}
+(*) UINT
+A001034C  8000003B		mov d8, #0
+A0010350  F1108F0B		ne d15, d15, d8
+
+#37			JMPCN	$label2	{L:11}
+(-) BOOL
+A0010354  00300FDF		jeq d15, #0, #0x0030 ; JUMP 0xA00103B4
+
+#38		
+#39			(* THEN *)
+#40		
+#41		
+#42				(* IF nBitDigitalInputs >= 0 *)
+#43				LD		nBitDigitalInputs	{L:12}
+(*) UNDEF
+A0010358  F1F0C00B		mov d15, d12
+
+#44				GE		0	{L:12}
+(*) INT
+A001035C  8000003B		mov d8, #0
+A0010360  F1408F0B		ge d15, d15, d8
+
+#45				JMPCN	$label3	{L:12}
+(-) BOOL
+A0010364  00280FDF		jeq d15, #0, #0x0028 ; JUMP 0xA00103B4
+
+#46		
+#47				(* THEN *)
+#48		
+#49		
+#50					(* IF digitalInputs, TO_UINT(nBitDigitalInputs)) *)
+#51					LD		nBitDigitalInputs	{L:13}
+(*) UNDEF
+A0010368  F1F0C00B		mov d15, d12
+
+#52					TO_UINT	{L:13}
+(*) INT
+#53					ST		$$TMP0	{L:13}
+(*) UINT
+A001036C  F000A001		mov.aa a15, sp
+A0010370  0880FF89		st.h [a15], d15
+
+#54					LD		digitalInputs	{L:13}
+(*) UNDEF
+A0010374  F1F0B00B		mov d15, d11
+
+#55					RBit		$$TMP0	{L:13}
+(-) UINT
+A0010378  F000A001		mov.aa a15, sp
+A001037C  08C0F509		ld.hu d5, [a15]
+A0010380  41F0F00B		mov d4, d15
+A0010384  02EA006D		call #0x0002EA ; CALL 0xA0010958
+A0010388  F1F0200B		mov d15, d2
+
+#56					NOT	{L:13}
+(*) BOOL
+A001038C  8000103B		mov d8, #1
+A0010390  9000003B		mov d9, #0
+A0010394  FF40892B		sel d15, d15, d9, d8
+
+#57					JMPCN	$label4	{L:13}
+(-) BOOL
+A0010398  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA00103B4
+
+#58		
+#59					(* THEN *)
+#60		
+#61						(* ReadCommandAnd := FALSE; *)
+#62						LD		FALSE	{L:14}
+(*) UNDEF
+A001039C  F000003B		mov d15, #0
+
+#63						ST		ReadCommandAnd	{L:14}
+(*) BOOL
+A00103A0  21F0F00B		mov d2, d15
+
+#64		
+#65						(* RETURN *)
+#66						RET
+(-) BOOL
+A00103A4  FA001091		movh.a a15, #0xA001 ; 0xA0010430
+A00103A8  0070FFD9		lea a15,[a15]0x0430
+A00103AC  0000000D		nop
+A00103B0  00300F2D		ji a15
+
+#67		
+#68		$label4:
+#69					(* END_IF *)
+#70		
+#71		$label3:
+#72				(* END_IF *)
+#73		
+#74		$label2:
+#75			(* END_IF *)
+#76		
+#77		
+#78			(* IF enableMask AND 4) <> 0 *)
+#79			LD		enableMask	{L:21}
+(*) UNDEF
+A00103B4  800040BB		mov.u d8, #0x4
+A00103B8  F600C801		addsc.a a15, a12, d8, #0
+A00103BC  08C0FF09		ld.hu d15, [a15]
+
+#80			AND		4	{L:21}
+(*) UINT
+A00103C0  8000403B		mov d8, #4
+A00103C4  F0808F0F		and d15, d15, d8
+
+#81			NE		0	{L:21}
+(*) UINT
+A00103C8  8000003B		mov d8, #0
+A00103CC  F1108F0B		ne d15, d15, d8
+
+#82			JMPCN	$label5	{L:21}
+(-) BOOL
+A00103D0  002C0FDF		jeq d15, #0, #0x002C ; JUMP 0xA0010428
+
+#83		
+#84			(* THEN *)
+#85		
+#86		
+#87				(* IF nBitRemoteCommand >= 0 *)
+#88				LD		nBitRemoteCommand	{L:22}
+(*) UNDEF
+A00103D4  F000C001		mov.aa a15, a12
+A00103D8  08C0FF09		ld.hu d15, [a15]
+
+#89				GE		0	{L:22}
+(*) UINT
+A00103DC  8000003B		mov d8, #0
+A00103E0  F1508F0B		ge.u d15, d15, d8
+
+#90				JMPCN	$label6	{L:22}
+(-) BOOL
+A00103E4  00220FDF		jeq d15, #0, #0x0022 ; JUMP 0xA0010428
+
+#91		
+#92				(* THEN *)
+#93		
+#94		
+#95					(* IF remoteCommand, nBitRemoteCommand) *)
+#96					LD		remoteCommand	{L:23}
+(*) UNDEF
+A00103E8  F1F0D00B		mov d15, d13
+
+#97					RBit		nBitRemoteCommand	{L:23}
+(-) UINT
+A00103EC  F000C001		mov.aa a15, a12
+A00103F0  08C0F509		ld.hu d5, [a15]
+A00103F4  41F0F00B		mov d4, d15
+A00103F8  02B0006D		call #0x0002B0 ; CALL 0xA0010958
+A00103FC  F1F0200B		mov d15, d2
+
+#98					NOT	{L:23}
+(*) BOOL
+A0010400  8000103B		mov d8, #1
+A0010404  9000003B		mov d9, #0
+A0010408  FF40892B		sel d15, d15, d9, d8
+
+#99					JMPCN	$label7	{L:23}
+(-) BOOL
+A001040C  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA0010428
+
+#100		
+#101					(* THEN *)
+#102		
+#103						(* ReadCommandAnd := FALSE; *)
+#104						LD		FALSE	{L:24}
+(*) UNDEF
+A0010410  F000003B		mov d15, #0
+
+#105						ST		ReadCommandAnd	{L:24}
+(*) BOOL
+A0010414  21F0F00B		mov d2, d15
+
+#106		
+#107						(* RETURN *)
+#108						RET
+(-) BOOL
+A0010418  FA001091		movh.a a15, #0xA001 ; 0xA0010430
+A001041C  0070FFD9		lea a15,[a15]0x0430
+A0010420  0000000D		nop
+A0010424  00300F2D		ji a15
+
+#109		
+#110		$label7:
+#111					(* END_IF *)
+#112		
+#113		$label6:
+#114				(* END_IF *)
+#115		
+#116		$label5:
+#117			(* END_IF *)
+#118		
+#119			(* ReadCommandAnd := TRUE; *)
+#120			LD		TRUE	{L:33}
+(*) UNDEF
+A0010428  F000103B		mov d15, #1
+
+#121			ST		ReadCommandAnd	{L:33}
+(*) BOOL
+A001042C  21F0F00B		mov d2, d15
+
+A0010430  800040BB		mov.u d8, #4
+A0010434  E6308001		mov.a a14, d8
+A0010438  A010EA01		add.a sp, sp, a14
+
+A001043C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: ReadCommandOr
+**************************************************
+
+FUNCTION ReadCommandOr : BOOL
+
+{ DE:"Digital command management (OR)
+3 sources are available:
+digital parameter
+digital input
+remote command (typically fieldbus)
+
+there is a mask that enables the sources:
+bit0= digital parameter, bit1= digital input, bit2=remote command
+
+the function performs and OR between the sources (bit0,1,2) which bit is set TRUE.
+
+Note: if bit0=bit1=bit2=0 the function return FALSE
+" }
+
+	VAR_INPUT
+	digpar : BOOL; { DE:"digital parameter" } 
+	digitalInputs : UINT; { DE:"digital inputs bitword" } 
+	nBitDigitalInputs : INT; { DE:"digital input bit number" } 
+	remoteCommand : UINT; { DE:"remote command bitword" } 
+	nBitRemoteCommand : UINT; { DE:"remote command bit" } 
+	enableMask : UINT; { DE:"enable mask: bit0=dig par, bit1=dig input, bit2=remote command)" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par digpar: REGISTER d4
+	Par digitalInputs: REGISTER d5
+	Par nBitDigitalInputs: REGISTER d6
+	Par remoteCommand: REGISTER d7
+	Par nBitRemoteCommand: LOCAL STACK FRAME AT 0(sp)
+	Par enableMask: CALLER STACK FRAME AT 4(sp)
+
+A0010440  A1F0400B		mov d10, d4
+A0010444  B1F0500B		mov d11, d5
+A0010448  C1F0600B		mov d12, d6
+A001044C  D1F0700B		mov d13, d7
+A0010450  C000A001		mov.aa a12, sp
+A0010454  800040BB		mov.u d8, #4
+A0010458  E6308001		mov.a a14, d8
+A001045C  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:ReadCommandOr}
+#1		
+#2		
+#3			(* IF enableMask AND 1) <> 0 *)
+#4			LD		enableMask	{L:3}
+(*) UNDEF
+A0010460  800040BB		mov.u d8, #0x4
+A0010464  F600C801		addsc.a a15, a12, d8, #0
+A0010468  08C0FF09		ld.hu d15, [a15]
+
+#5			AND		1	{L:3}
+(*) UINT
+A001046C  8000103B		mov d8, #1
+A0010470  F0808F0F		and d15, d15, d8
+
+#6			NE		0	{L:3}
+(*) UINT
+A0010474  8000003B		mov d8, #0
+A0010478  F1108F0B		ne d15, d15, d8
+
+#7			JMPCN	$label0	{L:3}
+(-) BOOL
+A001047C  00120FDF		jeq d15, #0, #0x0012 ; JUMP 0xA00104A0
+
+#8		
+#9			(* THEN *)
+#10		
+#11		
+#12				(* IF digpar *)
+#13				LD		digpar	{L:4}
+(*) UNDEF
+A0010480  F1F0A00B		mov d15, d10
+
+#14				JMPCN	$label1	{L:4}
+(-) BOOL
+A0010484  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA00104A0
+
+#15		
+#16				(* THEN *)
+#17		
+#18					(* ReadCommandOr := TRUE; *)
+#19					LD		TRUE	{L:5}
+(*) UNDEF
+A0010488  F000103B		mov d15, #1
+
+#20					ST		ReadCommandOr	{L:5}
+(*) BOOL
+A001048C  21F0F00B		mov d2, d15
+
+#21		
+#22					(* RETURN *)
+#23					RET
+(-) BOOL
+A0010490  FA001091		movh.a a15, #0xA001 ; 0xA0010580
+A0010494  6040FFD9		lea a15,[a15]0x0580
+A0010498  0000000D		nop
+A001049C  00300F2D		ji a15
+
+#24		
+#25		$label1:
+#26				(* END_IF *)
+#27		
+#28		$label0:
+#29			(* END_IF *)
+#30		
+#31		
+#32			(* IF enableMask AND 2) <> 0 *)
+#33			LD		enableMask	{L:11}
+(*) UNDEF
+A00104A0  800040BB		mov.u d8, #0x4
+A00104A4  F600C801		addsc.a a15, a12, d8, #0
+A00104A8  08C0FF09		ld.hu d15, [a15]
+
+#34			AND		2	{L:11}
+(*) UINT
+A00104AC  8000203B		mov d8, #2
+A00104B0  F0808F0F		and d15, d15, d8
+
+#35			NE		0	{L:11}
+(*) UINT
+A00104B4  8000003B		mov d8, #0
+A00104B8  F1108F0B		ne d15, d15, d8
+
+#36			JMPCN	$label2	{L:11}
+(-) BOOL
+A00104BC  002A0FDF		jeq d15, #0, #0x002A ; JUMP 0xA0010510
+
+#37		
+#38			(* THEN *)
+#39		
+#40		
+#41				(* IF nBitDigitalInputs >= 0 *)
+#42				LD		nBitDigitalInputs	{L:12}
+(*) UNDEF
+A00104C0  F1F0C00B		mov d15, d12
+
+#43				GE		0	{L:12}
+(*) INT
+A00104C4  8000003B		mov d8, #0
+A00104C8  F1408F0B		ge d15, d15, d8
+
+#44				JMPCN	$label3	{L:12}
+(-) BOOL
+A00104CC  00220FDF		jeq d15, #0, #0x0022 ; JUMP 0xA0010510
+
+#45		
+#46				(* THEN *)
+#47		
+#48		
+#49					(* IF digitalInputs, TO_UINT(nBitDigitalInputs *)
+#50					LD		nBitDigitalInputs	{L:13}
+(*) UNDEF
+A00104D0  F1F0C00B		mov d15, d12
+
+#51					TO_UINT	{L:13}
+(*) INT
+#52					ST		$$TMP0	{L:13}
+(*) UINT
+A00104D4  F000A001		mov.aa a15, sp
+A00104D8  0880FF89		st.h [a15], d15
+
+#53					LD		digitalInputs	{L:13}
+(*) UNDEF
+A00104DC  F1F0B00B		mov d15, d11
+
+#54					RBit		$$TMP0	{L:13}
+(-) UINT
+A00104E0  F000A001		mov.aa a15, sp
+A00104E4  08C0F509		ld.hu d5, [a15]
+A00104E8  41F0F00B		mov d4, d15
+A00104EC  0236006D		call #0x000236 ; CALL 0xA0010958
+A00104F0  F1F0200B		mov d15, d2
+
+#55					JMPCN	$label4	{L:13}
+(-) BOOL
+A00104F4  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA0010510
+
+#56		
+#57					(* THEN *)
+#58		
+#59						(* ReadCommandOr := TRUE; *)
+#60						LD		TRUE	{L:14}
+(*) UNDEF
+A00104F8  F000103B		mov d15, #1
+
+#61						ST		ReadCommandOr	{L:14}
+(*) BOOL
+A00104FC  21F0F00B		mov d2, d15
+
+#62		
+#63						(* RETURN *)
+#64						RET
+(-) BOOL
+A0010500  FA001091		movh.a a15, #0xA001 ; 0xA0010580
+A0010504  6040FFD9		lea a15,[a15]0x0580
+A0010508  0000000D		nop
+A001050C  00300F2D		ji a15
+
+#65		
+#66		$label4:
+#67					(* END_IF *)
+#68		
+#69		$label3:
+#70				(* END_IF *)
+#71		
+#72		$label2:
+#73			(* END_IF *)
+#74		
+#75		
+#76			(* IF enableMask AND 4) <> 0 *)
+#77			LD		enableMask	{L:21}
+(*) UNDEF
+A0010510  800040BB		mov.u d8, #0x4
+A0010514  F600C801		addsc.a a15, a12, d8, #0
+A0010518  08C0FF09		ld.hu d15, [a15]
+
+#78			AND		4	{L:21}
+(*) UINT
+A001051C  8000403B		mov d8, #4
+A0010520  F0808F0F		and d15, d15, d8
+
+#79			NE		0	{L:21}
+(*) UINT
+A0010524  8000003B		mov d8, #0
+A0010528  F1108F0B		ne d15, d15, d8
+
+#80			JMPCN	$label5	{L:21}
+(-) BOOL
+A001052C  00260FDF		jeq d15, #0, #0x0026 ; JUMP 0xA0010578
+
+#81		
+#82			(* THEN *)
+#83		
+#84		
+#85				(* IF nBitRemoteCommand >= 0 *)
+#86				LD		nBitRemoteCommand	{L:22}
+(*) UNDEF
+A0010530  F000C001		mov.aa a15, a12
+A0010534  08C0FF09		ld.hu d15, [a15]
+
+#87				GE		0	{L:22}
+(*) UINT
+A0010538  8000003B		mov d8, #0
+A001053C  F1508F0B		ge.u d15, d15, d8
+
+#88				JMPCN	$label6	{L:22}
+(-) BOOL
+A0010540  001C0FDF		jeq d15, #0, #0x001C ; JUMP 0xA0010578
+
+#89		
+#90				(* THEN *)
+#91		
+#92		
+#93					(* IF remoteCommand, nBitRemoteCommand *)
+#94					LD		remoteCommand	{L:23}
+(*) UNDEF
+A0010544  F1F0D00B		mov d15, d13
+
+#95					RBit		nBitRemoteCommand	{L:23}
+(-) UINT
+A0010548  F000C001		mov.aa a15, a12
+A001054C  08C0F509		ld.hu d5, [a15]
+A0010550  41F0F00B		mov d4, d15
+A0010554  0202006D		call #0x000202 ; CALL 0xA0010958
+A0010558  F1F0200B		mov d15, d2
+
+#96					JMPCN	$label7	{L:23}
+(-) BOOL
+A001055C  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA0010578
+
+#97		
+#98					(* THEN *)
+#99		
+#100						(* ReadCommandOr := TRUE; *)
+#101						LD		TRUE	{L:24}
+(*) UNDEF
+A0010560  F000103B		mov d15, #1
+
+#102						ST		ReadCommandOr	{L:24}
+(*) BOOL
+A0010564  21F0F00B		mov d2, d15
+
+#103		
+#104						(* RETURN *)
+#105						RET
+(-) BOOL
+A0010568  FA001091		movh.a a15, #0xA001 ; 0xA0010580
+A001056C  6040FFD9		lea a15,[a15]0x0580
+A0010570  0000000D		nop
+A0010574  00300F2D		ji a15
+
+#106		
+#107		$label7:
+#108					(* END_IF *)
+#109		
+#110		$label6:
+#111				(* END_IF *)
+#112		
+#113		$label5:
+#114			(* END_IF *)
+#115		
+#116			(* ReadCommandOr := FALSE; *)
+#117			LD		FALSE	{L:31}
+(*) UNDEF
+A0010578  F000003B		mov d15, #0
+
+#118			ST		ReadCommandOr	{L:31}
+(*) BOOL
+A001057C  21F0F00B		mov d2, d15
+
+A0010580  800040BB		mov.u d8, #4
+A0010584  E6308001		mov.a a14, d8
+A0010588  A010EA01		add.a sp, sp, a14
+
+A001058C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: _GeneralVersion
+**************************************************
+
+FUNCTION _GeneralVersion : UDINT
+
+{ DE:"LIBRARY: General
+
+Rev.02.00.00    10/06/2008
+
+
+library with general functions and FB:
+bits reading from a word;
+bits writing in a word;
+bit to word;
+word to bit;
+byte to bit;
+word to byte;
+two bytes to word;
+two words to dword;
+four bytes to dword;
+
+Note:
+no global vars are used, so that this library can be used regardless the drive FW version" }
+
+	VAR_INPUT
+	in : BOOL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+
+#0		{SRC:_GeneralVersion}
+#1		
+#2		
+#3			LD		in
+(*) UNDEF
+A0010590  F1F0400B		mov d15, d4
+
+#4			JMPC	l0_Version
+(-) BOOL
+A0010594  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA00105B0
+
+#5		
+#6			LD		0
+(*) UNDEF
+A0010598  F000003B		mov d15, #0
+
+#7			ST		_GeneralVersion
+(*) USINT
+A001059C  21F0F00B		mov d2, d15
+
+#8		
+#9			RET
+(-) USINT
+A00105A0  FA001091		movh.a a15, #0xA001 ; 0xA00105B8
+A00105A4  6078FFD9		lea a15,[a15]0x05B8
+A00105A8  0000000D		nop
+A00105AC  00300F2D		ji a15
+
+#10		
+#11		l0_Version:
+#12		
+#13			(*	Indice di revisione.						*)
+#14			(*	L'indice si legge nella seguente maniera:	*)
+#15			(*	XXYYZZ => XX.YY.ZZ 							*)
+#16			(*	XX = Revisione								*)
+#17			(*	YY = Sotto revisione						*)
+#18			(*	ZZ = Correzione								*)
+#19		
+#20			LD		020000
+(*) UNDEF
+A00105B0  F4E2003B		mov d15, #20000
+
+#21			ST		_GeneralVersion
+(*) UINT
+A00105B4  21F0F00B		mov d2, d15
+
+A00105B8  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: BitToWord
+**************************************************
+
+FUNCTION BitToWord : UINT
+
+{ DE:"Compose a word from 16 bits
+The inputs are aligned according bit number. 
+i.e.
+        b0  in position 0
+        b1  in position 1
+        ...
+        b15 in position 15" }
+
+	VAR_INPUT
+	b0 : BOOL; 
+	b1 : BOOL; 
+	b2 : BOOL; 
+	b3 : BOOL; 
+	b4 : BOOL; 
+	b5 : BOOL; 
+	b6 : BOOL; 
+	b7 : BOOL; 
+	b8 : BOOL; 
+	b9 : BOOL; 
+	b10 : BOOL; 
+	b11 : BOOL; 
+	b12 : BOOL; 
+	b13 : BOOL; 
+	b14 : BOOL; 
+	b15 : BOOL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par b0: REGISTER d4
+	Par b1: REGISTER d5
+	Par b2: REGISTER d6
+	Par b3: REGISTER d7
+	Par b4: LOCAL STACK FRAME AT 0(sp)
+	Par b5: CALLER STACK FRAME AT 4(sp)
+	Par b6: CALLER STACK FRAME AT 8(sp)
+	Par b7: CALLER STACK FRAME AT 12(sp)
+	Par b8: CALLER STACK FRAME AT 16(sp)
+	Par b9: CALLER STACK FRAME AT 20(sp)
+	Par b10: CALLER STACK FRAME AT 24(sp)
+	Par b11: CALLER STACK FRAME AT 28(sp)
+	Par b12: CALLER STACK FRAME AT 32(sp)
+	Par b13: CALLER STACK FRAME AT 36(sp)
+	Par b14: CALLER STACK FRAME AT 40(sp)
+	Par b15: CALLER STACK FRAME AT 44(sp)
+
+A00105BC  C000A001		mov.aa a12, sp
+
+#0		{SRC:BitToWord}
+#1		
+#2			LD		b15
+(*) UNDEF
+A00105C0  8002C0BB		mov.u d8, #0x2C
+A00105C4  F600C801		addsc.a a15, a12, d8, #0
+A00105C8  0000FF19		ld.w d15, [a15]
+
+#3			TO_UINT
+(*) BOOL
+#4			SHL		15
+(*) UINT
+A00105CC  F000FF8F		sh d15, d15, #15
+
+#5			ST		BitToWord
+(*) UINT
+A00105D0  21F0F00B		mov d2, d15
+
+#6		
+#7			LD		b14
+(*) UNDEF
+A00105D4  800280BB		mov.u d8, #0x28
+A00105D8  F600C801		addsc.a a15, a12, d8, #0
+A00105DC  0000FF19		ld.w d15, [a15]
+
+#8			TO_UINT
+(*) BOOL
+#9			SHL		14
+(*) UINT
+A00105E0  F000EF8F		sh d15, d15, #14
+
+#10			ADD		BitToWord
+(*) UINT
+A00105E4  F0002F0B		add d15, d15, d2
+
+#11			ST		BitToWord
+(*) UINT
+A00105E8  21F0F00B		mov d2, d15
+
+#12		
+#13			LD		b13
+(*) UNDEF
+A00105EC  800240BB		mov.u d8, #0x24
+A00105F0  F600C801		addsc.a a15, a12, d8, #0
+A00105F4  0000FF19		ld.w d15, [a15]
+
+#14			TO_UINT
+(*) BOOL
+#15			SHL		13
+(*) UINT
+A00105F8  F000DF8F		sh d15, d15, #13
+
+#16			ADD		BitToWord
+(*) UINT
+A00105FC  F0002F0B		add d15, d15, d2
+
+#17			ST		BitToWord
+(*) UINT
+A0010600  21F0F00B		mov d2, d15
+
+#18		
+#19			LD		b12
+(*) UNDEF
+A0010604  800200BB		mov.u d8, #0x20
+A0010608  F600C801		addsc.a a15, a12, d8, #0
+A001060C  0000FF19		ld.w d15, [a15]
+
+#20			TO_UINT
+(*) BOOL
+#21			SHL		12
+(*) UINT
+A0010610  F000CF8F		sh d15, d15, #12
+
+#22			ADD		BitToWord
+(*) UINT
+A0010614  F0002F0B		add d15, d15, d2
+
+#23			ST		BitToWord
+(*) UINT
+A0010618  21F0F00B		mov d2, d15
+
+#24		
+#25			LD		b11
+(*) UNDEF
+A001061C  8001C0BB		mov.u d8, #0x1C
+A0010620  F600C801		addsc.a a15, a12, d8, #0
+A0010624  0000FF19		ld.w d15, [a15]
+
+#26			TO_UINT
+(*) BOOL
+#27			SHL		11
+(*) UINT
+A0010628  F000BF8F		sh d15, d15, #11
+
+#28			ADD		BitToWord
+(*) UINT
+A001062C  F0002F0B		add d15, d15, d2
+
+#29			ST		BitToWord
+(*) UINT
+A0010630  21F0F00B		mov d2, d15
+
+#30		
+#31			LD		b10
+(*) UNDEF
+A0010634  800180BB		mov.u d8, #0x18
+A0010638  F600C801		addsc.a a15, a12, d8, #0
+A001063C  0000FF19		ld.w d15, [a15]
+
+#32			TO_UINT
+(*) BOOL
+#33			SHL		10
+(*) UINT
+A0010640  F000AF8F		sh d15, d15, #10
+
+#34			ADD		BitToWord
+(*) UINT
+A0010644  F0002F0B		add d15, d15, d2
+
+#35			ST		BitToWord
+(*) UINT
+A0010648  21F0F00B		mov d2, d15
+
+#36		
+#37			LD		b9
+(*) UNDEF
+A001064C  800140BB		mov.u d8, #0x14
+A0010650  F600C801		addsc.a a15, a12, d8, #0
+A0010654  0000FF19		ld.w d15, [a15]
+
+#38			TO_UINT
+(*) BOOL
+#39			SHL		9
+(*) UINT
+A0010658  F0009F8F		sh d15, d15, #9
+
+#40			ADD		BitToWord
+(*) UINT
+A001065C  F0002F0B		add d15, d15, d2
+
+#41			ST		BitToWord
+(*) UINT
+A0010660  21F0F00B		mov d2, d15
+
+#42		
+#43			LD		b8
+(*) UNDEF
+A0010664  800100BB		mov.u d8, #0x10
+A0010668  F600C801		addsc.a a15, a12, d8, #0
+A001066C  0000FF19		ld.w d15, [a15]
+
+#44			TO_UINT
+(*) BOOL
+#45			SHL		8
+(*) UINT
+A0010670  F0008F8F		sh d15, d15, #8
+
+#46			ADD		BitToWord
+(*) UINT
+A0010674  F0002F0B		add d15, d15, d2
+
+#47			ST		BitToWord
+(*) UINT
+A0010678  21F0F00B		mov d2, d15
+
+#48		
+#49			LD		b7
+(*) UNDEF
+A001067C  8000C0BB		mov.u d8, #0xC
+A0010680  F600C801		addsc.a a15, a12, d8, #0
+A0010684  0000FF19		ld.w d15, [a15]
+
+#50			TO_UINT
+(*) BOOL
+#51			SHL		7
+(*) UINT
+A0010688  F0007F8F		sh d15, d15, #7
+
+#52			ADD		BitToWord
+(*) UINT
+A001068C  F0002F0B		add d15, d15, d2
+
+#53			ST		BitToWord
+(*) UINT
+A0010690  21F0F00B		mov d2, d15
+
+#54		
+#55			LD		b6
+(*) UNDEF
+A0010694  800080BB		mov.u d8, #0x8
+A0010698  F600C801		addsc.a a15, a12, d8, #0
+A001069C  0000FF19		ld.w d15, [a15]
+
+#56			TO_UINT
+(*) BOOL
+#57			SHL		6
+(*) UINT
+A00106A0  F0006F8F		sh d15, d15, #6
+
+#58			ADD		BitToWord
+(*) UINT
+A00106A4  F0002F0B		add d15, d15, d2
+
+#59			ST		BitToWord
+(*) UINT
+A00106A8  21F0F00B		mov d2, d15
+
+#60		
+#61			LD		b5
+(*) UNDEF
+A00106AC  800040BB		mov.u d8, #0x4
+A00106B0  F600C801		addsc.a a15, a12, d8, #0
+A00106B4  0000FF19		ld.w d15, [a15]
+
+#62			TO_UINT
+(*) BOOL
+#63			SHL		5
+(*) UINT
+A00106B8  F0005F8F		sh d15, d15, #5
+
+#64			ADD		BitToWord
+(*) UINT
+A00106BC  F0002F0B		add d15, d15, d2
+
+#65			ST		BitToWord
+(*) UINT
+A00106C0  21F0F00B		mov d2, d15
+
+#66		
+#67			LD		b4
+(*) UNDEF
+A00106C4  F000C001		mov.aa a15, a12
+A00106C8  0000FF19		ld.w d15, [a15]
+
+#68			TO_UINT
+(*) BOOL
+#69			SHL		4
+(*) UINT
+A00106CC  F0004F8F		sh d15, d15, #4
+
+#70			ADD		BitToWord
+(*) UINT
+A00106D0  F0002F0B		add d15, d15, d2
+
+#71			ST		BitToWord
+(*) UINT
+A00106D4  21F0F00B		mov d2, d15
+
+#72		
+#73			LD		b3
+(*) UNDEF
+A00106D8  F1F0700B		mov d15, d7
+
+#74			TO_UINT
+(*) BOOL
+#75			SHL		3
+(*) UINT
+A00106DC  F0003F8F		sh d15, d15, #3
+
+#76			ADD		BitToWord
+(*) UINT
+A00106E0  F0002F0B		add d15, d15, d2
+
+#77			ST		BitToWord
+(*) UINT
+A00106E4  21F0F00B		mov d2, d15
+
+#78		
+#79			LD		b2
+(*) UNDEF
+A00106E8  F1F0600B		mov d15, d6
+
+#80			TO_UINT
+(*) BOOL
+#81			SHL		2
+(*) UINT
+A00106EC  F0002F8F		sh d15, d15, #2
+
+#82			ADD		BitToWord
+(*) UINT
+A00106F0  F0002F0B		add d15, d15, d2
+
+#83			ST		BitToWord
+(*) UINT
+A00106F4  21F0F00B		mov d2, d15
+
+#84		
+#85			LD		b1
+(*) UNDEF
+A00106F8  F1F0500B		mov d15, d5
+
+#86			TO_UINT
+(*) BOOL
+#87			SHL		1
+(*) UINT
+A00106FC  F0001F8F		sh d15, d15, #1
+
+#88			ADD		BitToWord
+(*) UINT
+A0010700  F0002F0B		add d15, d15, d2
+
+#89			ST		BitToWord
+(*) UINT
+A0010704  21F0F00B		mov d2, d15
+
+#90		
+#91			LD		b0
+(*) UNDEF
+A0010708  F1F0400B		mov d15, d4
+
+#92			TO_UINT
+(*) BOOL
+#93			ADD		BitToWord
+(*) UINT
+A001070C  F0002F0B		add d15, d15, d2
+
+#94			ST		BitToWord
+(*) UINT
+A0010710  21F0F00B		mov d2, d15
+
+A0010714  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: Line
+**************************************************
+
+FUNCTION Line : DINT
+
+{ DE:"02/01/2001			by SSS
+The function return the y(x) value. The function is the linear inter(extra)polation
+of the line passing through two points.
+The points are defined with the following coordinates:
+(xIni, yIni), (xEnd, yEnd).
+
+The returned value is:
+Result=yIni+(yEnd-yIni)/(xEnd-xIni)*(x-xIni)" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"input X [cnts]" } 
+	xIni : DINT; { DE:"initial X [cnts]" } 
+	yIni : DINT; { DE:"initial Y [cnts]" } 
+	xEnd : DINT; { DE:"final X [cnts]" } 
+	yEnd : DINT; { DE:"final Y [cnts]" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inX: REGISTER d4
+	Par xIni: REGISTER d5
+	Par yIni: REGISTER d6
+	Par xEnd: REGISTER d7
+	Par yEnd: LOCAL STACK FRAME AT 0(sp)
+
+A0010718  C000A001		mov.aa a12, sp
+
+#0		{SRC:Line}
+#1		
+#2			LD		inX
+(*) UNDEF
+A001071C  F1F0400B		mov d15, d4
+
+#3			SUB		xIni
+(*) DINT
+A0010720  F0805F0B		sub d15, d15, d5
+
+#4			MUL(	yEnd
+(*) DINT
+A0010724  F53CAF89		st.w [-sp]4, d15 
+A0010728  F000C001		mov.aa a15, a12
+A001072C  0000FF19		ld.w d15, [a15]
+
+#5			SUB		yIni
+(*) DINT
+A0010730  F0806F0B		sub d15, d15, d6
+
+#6			)
+(*) DINT
+A0010734  01F0F00B		mov d0, d15
+A0010738  0104AF09		ld.w d15, [sp+]4
+A001073C  F00A0F73		mul d15, d15, d0
+
+#7			DIV(	xEnd
+(*) DINT
+A0010740  F53CAF89		st.w [-sp]4, d15 
+A0010744  F1F0700B		mov d15, d7
+
+#8			SUB		xIni
+(*) DINT
+A0010748  F0805F0B		sub d15, d15, d5
+
+#9			)
+(*) DINT
+A001074C  01F0F00B		mov d0, d15
+A0010750  0104AF09		ld.w d15, [sp+]4
+A0010754  81F0000B		mov d8, d0
+A0010758  21A08F4B		dvinit d2/d3, d15, d8
+A001075C  9000303B		mov d9, #3
+A0010760  F6309001		mov.a a15, d9
+A0010764  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010768  7FFEF0FD		loop a15, #-2
+A001076C  22D0806B		dvadj d2/d3, d2/d3, d8
+A0010770  F1F0200B		mov d15, d2
+
+#10			ADD		yIni
+(*) DINT
+A0010774  F0006F0B		add d15, d15, d6
+
+#11			ST		Line
+(*) DINT
+A0010778  21F0F00B		mov d2, d15
+
+A001077C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: ScaleDW
+**************************************************
+
+FUNCTION ScaleDW : DINT
+
+{ DE:"SCALE DW
+
+Rev.0	1/2/2001 	by SSS
+
+Scaling with rest recovery
+
+ScaleDw=in/inDiv*inMol
+The input is divided by inDiv and the result is multiplied by inMol.
+In order to avoid the overflow, the function must be inMol*inDiv<2^31" }
+
+	VAR_INPUT
+	in : DINT; { DE:"input" } 
+	inMol : DINT; { DE:"scale multiplier" } 
+	inDiv : DINT; { DE:"scale divider" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+	Par inMol: REGISTER d5
+	Par inDiv: REGISTER d6
+
+#0		{SRC:ScaleDW}
+#1		
+#2		
+#3			LD		in
+(*) UNDEF
+A0010780  F1F0400B		mov d15, d4
+
+#4			DIV		inDiv
+(*) DINT
+A0010784  81F0600B		mov d8, d6
+A0010788  21A08F4B		dvinit d2/d3, d15, d8
+A001078C  9000303B		mov d9, #3
+A0010790  F6309001		mov.a a15, d9
+A0010794  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010798  7FFEF0FD		loop a15, #-2
+A001079C  22D0806B		dvadj d2/d3, d2/d3, d8
+A00107A0  F1F0200B		mov d15, d2
+
+#5			MUL		inMol
+(*) DINT
+A00107A4  F00A5F73		mul d15, d15, d5
+
+#6			ADD(	in
+(*) DINT
+A00107A8  F53CAF89		st.w [-sp]4, d15 
+A00107AC  F1F0400B		mov d15, d4
+
+#7			MOD		inDiv
+(*) DINT
+A00107B0  81F0600B		mov d8, d6
+A00107B4  21A08F4B		dvinit d2/d3, d15, d8
+A00107B8  9000303B		mov d9, #3
+A00107BC  F6309001		mov.a a15, d9
+A00107C0  22F0806B		dvstep d2/d3, d2/d3, d8
+A00107C4  7FFEF0FD		loop a15, #-2
+A00107C8  22D0806B		dvadj d2/d3, d2/d3, d8
+A00107CC  F1F0300B		mov d15, d3
+
+#8			MUL		inMol
+(*) DINT
+A00107D0  F00A5F73		mul d15, d15, d5
+
+#9			DIV		inDiv
+(*) DINT
+A00107D4  81F0600B		mov d8, d6
+A00107D8  21A08F4B		dvinit d2/d3, d15, d8
+A00107DC  9000303B		mov d9, #3
+A00107E0  F6309001		mov.a a15, d9
+A00107E4  22F0806B		dvstep d2/d3, d2/d3, d8
+A00107E8  7FFEF0FD		loop a15, #-2
+A00107EC  22D0806B		dvadj d2/d3, d2/d3, d8
+A00107F0  F1F0200B		mov d15, d2
+
+#10			)
+(*) DINT
+A00107F4  01F0F00B		mov d0, d15
+A00107F8  0104AF09		ld.w d15, [sp+]4
+A00107FC  F0000F0B		add d15, d15, d0
+
+#11			ST		ScaleDW
+(*) DINT
+A0010800  21F0F00B		mov d2, d15
+
+A0010804  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: RBitIn
+**************************************************
+
+FUNCTION RBitIn : BOOL
+
+{ DE:"8/10/2001		by SSS
+Selector beetween a status 'inPar' and a bit in a word 'inWord'
+If 'bitNumber' is from 0 to 15 the bit inWord[bitNumber] will be returned
+else the inPar will be the output.
+
+Inputs:
+- inWord
+- inPar
+- bitNumber
+
+Result:
+- If 0<=bitNumber<=15	RESULT = RBit (inWord, bitNumber)
+- If bitNumber >=16	RESULT = inPar" }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"input word" } 
+	inPar : BOOL; { DE:"input parameter" } 
+	bitNumber : UINT; { DE:"number of bit to be read" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inWord: REGISTER d4
+	Par inPar: REGISTER d5
+	Par bitNumber: REGISTER d6
+
+A0010808  A1F0400B		mov d10, d4
+A001080C  B1F0500B		mov d11, d5
+A0010810  C1F0600B		mov d12, d6
+
+#0		{SRC:RBitIn}
+#1		
+#2			LD		bitNumber
+(*) UNDEF
+A0010814  F1F0C00B		mov d15, d12
+
+#3			GE		16
+(*) UINT
+A0010818  8001003B		mov d8, #16
+A001081C  F1508F0B		ge.u d15, d15, d8
+
+#4			JMPC	l0_RBitIn
+(-) BOOL
+A0010820  80160FDF		jne d15, #0, #0x0016 ; JUMP 0xA001084C
+
+#5		
+#6			LD		inWord
+(*) UNDEF
+A0010824  F1F0A00B		mov d15, d10
+
+#7			RBit	bitNumber
+(-) UINT
+A0010828  51F0C00B		mov d5, d12
+A001082C  41F0F00B		mov d4, d15
+A0010830  0094006D		call #0x000094 ; CALL 0xA0010958
+A0010834  F1F0200B		mov d15, d2
+
+#8			ST		RBitIn
+(*) BOOL
+A0010838  21F0F00B		mov d2, d15
+
+#9		
+#10			RET
+(-) BOOL
+A001083C  FA001091		movh.a a15, #0xA001 ; 0xA0010854
+A0010840  1094FFD9		lea a15,[a15]0x0854
+A0010844  0000000D		nop
+A0010848  00300F2D		ji a15
+
+#11		
+#12		l0_RBitIn:
+#13		
+#14			LD		inPar
+(*) UNDEF
+A001084C  F1F0B00B		mov d15, d11
+
+#15			ST		RBitIn
+(*) BOOL
+A0010850  21F0F00B		mov d2, d15
+
+A0010854  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: Segment
+**************************************************
+
+FUNCTION Segment : DINT
+
+{ DE:"2/1/2001			by SSS
+
+Segment passing through two points.
+The function return the y(x) value. The function is the linear inter(extra)polation 
+of the line passing through two points.
+If the input value is outside the xIni, xEnd range the output will be 
+yIni or yEnd according to the exceeding side.
+
+
+The points are [xIni,yIni], [xEnd,yEnd
+
+Result:
+yIni			if	inX < xIni
+Line(xIni, yIni, xEnd, yEnd)	if	xIni <= inX <= xEnd
+yEnd			if	inX > xEnd" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"input X [cnts]" } 
+	xIni : DINT; { DE:"initial X [cnts]" } 
+	yIni : DINT; { DE:"initial Y [cnts]" } 
+	xEnd : DINT; { DE:"final X [cnts]" } 
+	yEnd : DINT; { DE:"final Y [cnts]" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inX: REGISTER d4
+	Par xIni: REGISTER d5
+	Par yIni: REGISTER d6
+	Par xEnd: REGISTER d7
+	Par yEnd: LOCAL STACK FRAME AT 0(sp)
+
+A0010858  A1F0400B		mov d10, d4
+A001085C  B1F0500B		mov d11, d5
+A0010860  C1F0600B		mov d12, d6
+A0010864  D1F0700B		mov d13, d7
+A0010868  C000A001		mov.aa a12, sp
+
+#0		{SRC:Segment}
+#1		
+#2			LD		inX
+(*) UNDEF
+A001086C  F1F0A00B		mov d15, d10
+
+#3			LT		xIni
+(*) DINT
+A0010870  F120BF0B		lt d15, d15, d11
+
+#4			JMPCN	l0_Segment
+(-) BOOL
+A0010874  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0010884
+
+#5		
+#6			(*	inX < xIni	*)
+#7		
+#8			LD		yIni
+(*) UNDEF
+A0010878  F1F0C00B		mov d15, d12
+
+#9			ST		Segment
+(*) DINT
+A001087C  21F0F00B		mov d2, d15
+
+#10		
+#11			JMP		lEnd_Segment
+(-) DINT
+A0010880  002C001D		j #0x00002C ; JUMP 0xA00108D8
+
+#12		
+#13		l0_Segment:
+#14		
+#15			LD		inX
+(*) UNDEF
+A0010884  F1F0A00B		mov d15, d10
+
+#16			GT		xEnd
+(*) DINT
+A0010888  F120FD0B		lt d15, d13, d15
+
+#17			JMPC	l1_Segment
+(-) BOOL
+A001088C  80200FDF		jne d15, #0, #0x0020 ; JUMP 0xA00108CC
+
+#18		
+#19			(*	xIni <= inX <= xEnd	*)
+#20		
+#21			LD		inX
+(*) UNDEF
+A0010890  F1F0A00B		mov d15, d10
+
+#22			Line	xIni, yIni, xEnd, yEnd
+(-) DINT
+A0010894  F000C001		mov.aa a15, a12
+A0010898  0000F819		ld.w d8, [a15]
+A001089C  F53CA889		st.w [-sp]4, d8 
+A00108A0  71F0D00B		mov d7, d13
+A00108A4  61F0C00B		mov d6, d12
+A00108A8  51F0B00B		mov d5, d11
+A00108AC  41F0F00B		mov d4, d15
+A00108B0  FF34FF6D		call #0xFFFF34 ; CALL 0xA0010718
+A00108B4  F1F0200B		mov d15, d2
+A00108B8  800040BB		mov.u d8, #4
+A00108BC  E6308001		mov.a a14, d8
+A00108C0  A010EA01		add.a sp, sp, a14
+
+#23			ST		Segment
+(*) DINT
+A00108C4  21F0F00B		mov d2, d15
+
+#24		
+#25			JMP		lEnd_Segment
+(-) DINT
+A00108C8  0008001D		j #0x000008 ; JUMP 0xA00108D8
+
+#26		
+#27		l1_Segment:
+#28		
+#29			(*	inX > xEnd	*)
+#30		
+#31			LD		yEnd
+(*) UNDEF
+A00108CC  F000C001		mov.aa a15, a12
+A00108D0  0000FF19		ld.w d15, [a15]
+
+#32			ST		Segment
+(*) DINT
+A00108D4  21F0F00B		mov d2, d15
+
+A00108D8  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: WBit
+**************************************************
+
+FUNCTION WBit : UINT
+
+{ DE:"WRITE BIT
+
+Rev.0	29/1/2001 	by SSS
+
+Writing of a bit into a word.
+The 'bitValue' will be written in position 'bitNumber' of 'inWord'
+
+" }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"word to be written" } 
+	bitNumber : UINT; { DE:"bit number to be written" } 
+	bitValue : BOOL; { DE:"value of the bit to be written" } 
+	END_VAR
+
+	VAR
+	wApp : UINT; { DE:"temp" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inWord: REGISTER d4
+	Par bitNumber: REGISTER d5
+	Par bitValue: REGISTER d6
+	Var wApp: LOCAL STACK FRAME AT 0(sp)
+
+A00108DC  800040BB		mov.u d8, #4
+A00108E0  E6308001		mov.a a14, d8
+A00108E4  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:WBit}
+#1		
+#2		
+#3		
+#4			(*	Azzeramento bit numero bitNumber di inWord	*)
+#5		
+#6			LD		1
+(*) UNDEF
+A00108E8  F000103B		mov d15, #1
+
+#7			ST		wApp
+(*) USINT
+A00108EC  F000A001		mov.aa a15, sp
+A00108F0  0880FF89		st.h [a15], d15
+
+#8			SHL		bitNumber
+(*) UINT
+A00108F4  81F0500B		mov d8, d5
+A00108F8  0002003B		mov d0, #32
+A00108FC  0006087F		jge d8, d0, #0x0006
+A0010900  F0008F0F		sh d15, d15, d8
+A0010904  0004001D		j #0x000004
+A0010908  F000003B		mov d15, #0
+
+#9			NOT
+(*) UINT
+A001090C  F1600F8F		nor d15, d15, #0
+
+#10			AND		inWord
+(*) UINT
+A0010910  F0804F0F		and d15, d15, d4
+
+#11			ST		wApp
+(*) UINT
+A0010914  F000A001		mov.aa a15, sp
+A0010918  0880FF89		st.h [a15], d15
+
+#12		
+#13			(*	Scrittura bit	*)
+#14		
+#15			LD		bitValue
+(*) UNDEF
+A001091C  F1F0600B		mov d15, d6
+
+#16			TO_UINT
+(*) BOOL
+#17			SHL		bitNumber
+(*) UINT
+A0010920  81F0500B		mov d8, d5
+A0010924  0002003B		mov d0, #32
+A0010928  0006087F		jge d8, d0, #0x0006
+A001092C  F0008F0F		sh d15, d15, d8
+A0010930  0004001D		j #0x000004
+A0010934  F000003B		mov d15, #0
+
+#18			OR		wApp
+(*) UINT
+A0010938  F000A001		mov.aa a15, sp
+A001093C  08C0F809		ld.hu d8, [a15]
+A0010940  F0A08F0F		or d15, d15, d8
+
+#19			ST		WBit
+(*) UINT
+A0010944  21F0F00B		mov d2, d15
+
+A0010948  800040BB		mov.u d8, #4
+A001094C  E6308001		mov.a a14, d8
+A0010950  A010EA01		add.a sp, sp, a14
+
+A0010954  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: RBit
+**************************************************
+
+FUNCTION RBit : BOOL
+
+{ DE:"READ BIT
+
+Rev.0	29/1/2001 	by SSS
+
+Reading of a bit in 'bitWord' position inside 'inWord'." }
+
+	VAR_INPUT
+	inWord : UINT; { DE:"Word to be read" } 
+	bitNumber : UINT; { DE:"bit number to be read" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par inWord: REGISTER d4
+	Par bitNumber: REGISTER d5
+
+#0		{SRC:RBit}
+#1		
+#2		
+#3			(*	Azzeramento bit numero bitNumber di inWord	*)
+#4		
+#5			LD		inWord
+(*) UNDEF
+A0010958  F1F0400B		mov d15, d4
+
+#6			SHR		bitNumber
+(*) UINT
+A001095C  81F0500B		mov d8, d5
+A0010960  0002003B		mov d0, #32
+A0010964  0008087F		jge d8, d0, #0x0008
+A0010968  8100088B		rsub d8, d8, #0
+A001096C  F0008F0F		sh d15, d15, d8
+A0010970  0004001D		j #0x000004
+A0010974  F000003B		mov d15, #0
+
+#7			AND		1
+(*) UINT
+A0010978  8000103B		mov d8, #1
+A001097C  F0808F0F		and d15, d15, d8
+
+#8			TO_BOOL
+(*) UINT
+A0010980  F2200F8B		ne d15, d15, #0
+
+#9			ST		RBit
+(*) BOOL
+A0010984  21F0F00B		mov d2, d15
+
+A0010988  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: GAIN_LIM
+**************************************************
+
+FUNCTION GAIN_LIM : INT
+
+{ DE:"Limited Gain Block
+
+OUT= IN * M(on 32 bits) / D
+
+the output is limited to +/-32767" }
+
+	VAR_INPUT
+	IN : INT; 
+	M : INT; 
+	D : INT; 
+	END_VAR
+
+	VAR
+	temp : DINT; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par IN: REGISTER d4
+	Par M: REGISTER d5
+	Par D: REGISTER d6
+	Var temp: LOCAL STACK FRAME AT 0(sp)
+
+A001098C  A1F0400B		mov d10, d4
+A0010990  B1F0500B		mov d11, d5
+A0010994  C1F0600B		mov d12, d6
+A0010998  800040BB		mov.u d8, #4
+A001099C  E6308001		mov.a a14, d8
+A00109A0  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:GAIN_LIM}
+#1		
+#2			(* temp := MUL32( IN , M ); *)
+#3			LD		IN	{L:1}
+(*) UNDEF
+A00109A4  F1F0A00B		mov d15, d10
+
+#4			MUL32		M	{L:1}
+(-) INT
+A00109A8  51F0B00B		mov d5, d11
+A00109AC  41F0F00B		mov d4, d15
+A00109B0  F8009091		movh.a a15, #0x8009 ; MUL32 AT 0x800922F0
+A00109B4  B230FFD9		lea a15,[a15]0x22F0
+A00109B8  0000000D		nop
+A00109BC  00000F2D		calli a15
+A00109C0  F1F0200B		mov d15, d2
+
+#5			ST		temp	{L:1}
+(*) DINT
+A00109C4  F000A001		mov.aa a15, sp
+A00109C8  0000FF59		st.w [a15], d15
+
+#6		
+#7			(* GAIN_LIM := DIV32_LIM(temp ,  D) ; *)
+#8			LD		temp	{L:3}
+(*) UNDEF
+A00109CC  F000A001		mov.aa a15, sp
+A00109D0  0000FF19		ld.w d15, [a15]
+
+#9			DIV32_LIM		D	{L:3}
+(-) DINT
+A00109D4  51F0C00B		mov d5, d12
+A00109D8  41F0F00B		mov d4, d15
+A00109DC  F8009091		movh.a a15, #0x8009 ; DIV32_LIM AT 0x80092310
+A00109E0  C210FFD9		lea a15,[a15]0x2310
+A00109E4  0000000D		nop
+A00109E8  00000F2D		calli a15
+A00109EC  F1F0200B		mov d15, d2
+
+#10			ST		GAIN_LIM	{L:3}
+(*) INT
+A00109F0  21F0F00B		mov d2, d15
+
+A00109F4  800040BB		mov.u d8, #4
+A00109F8  E6308001		mov.a a14, d8
+A00109FC  A010EA01		add.a sp, sp, a14
+
+A0010A00  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: CLAMP
+**************************************************
+
+FUNCTION CLAMP : INT
+
+{ DE:"CLAMP
+
+Output equal input value limited to +/- Clamp Value" }
+
+	VAR_INPUT
+	input : INT; 
+	clampval : INT; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par input: REGISTER d4
+	Par clampval: REGISTER d5
+
+#0		{SRC:CLAMP}
+#1		
+#2		
+#3			(* IF input > clampval *)
+#4			LD		input	{L:1}
+(*) UNDEF
+A0010A04  F1F0400B		mov d15, d4
+
+#5			GT		clampval	{L:1}
+(*) INT
+A0010A08  F120F50B		lt d15, d5, d15
+
+#6			JMPCN	$label0	{L:1}
+(-) BOOL
+A0010A0C  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0010A1C
+
+#7		
+#8			(* THEN *)
+#9		
+#10				(* CLAMP := clampval; *)
+#11				LD		clampval	{L:2}
+(*) UNDEF
+A0010A10  F1F0500B		mov d15, d5
+
+#12				ST		CLAMP	{L:2}
+(*) INT
+A0010A14  21F0F00B		mov d2, d15
+
+#13				JMP		$label2
+(-) INT
+A0010A18  0022001D		j #0x000022 ; JUMP 0xA0010A5C
+
+#14		$label0:
+#15		
+#16			(* ELSIF input < (-clampval *)
+#17			LD		input	{L:3}
+(*) UNDEF
+A0010A1C  F1F0400B		mov d15, d4
+
+#18			LT(		clampval	{L:3}
+(*) INT
+A0010A20  F53CAF89		st.w [-sp]4, d15 
+A0010A24  F1F0500B		mov d15, d5
+
+#19			MUL		-1	{L:3}
+(*) INT
+A0010A28  8FFFF03B		mov d8, #-1
+A0010A2C  F00A8F73		mul d15, d15, d8
+
+#20			)	{L:3}
+(*) INT
+A0010A30  01F0F00B		mov d0, d15
+A0010A34  0104AF09		ld.w d15, [sp+]4
+A0010A38  F1200F0B		lt d15, d15, d0
+
+#21			JMPCN	$label1	{L:3}
+(-) BOOL
+A0010A3C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA0010A54
+
+#22		
+#23			(* THEN *)
+#24		
+#25				(* CLAMP := -clampval; *)
+#26				LD		clampval	{L:4}
+(*) UNDEF
+A0010A40  F1F0500B		mov d15, d5
+
+#27				MUL		-1	{L:4}
+(*) INT
+A0010A44  8FFFF03B		mov d8, #-1
+A0010A48  F00A8F73		mul d15, d15, d8
+
+#28				ST		CLAMP	{L:4}
+(*) INT
+A0010A4C  21F0F00B		mov d2, d15
+
+#29				JMP		$label2
+(-) INT
+A0010A50  0006001D		j #0x000006 ; JUMP 0xA0010A5C
+
+#30		$label1:
+#31		
+#32			(* ELSE *)
+#33		
+#34				(* CLAMP := input; *)
+#35				LD		input	{L:6}
+(*) UNDEF
+A0010A54  F1F0400B		mov d15, d4
+
+#36				ST		CLAMP	{L:6}
+(*) INT
+A0010A58  21F0F00B		mov d2, d15
+
+A0010A5C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: Line_int
+**************************************************
+
+FUNCTION Line_int : INT
+
+{ DE:"The function return the y(x) value. The function is the linear inter(extra)polation
+of the line passing through two points.
+The points are defined with the following coordinates:
+(x0, y0), (x1, y1).
+
+The returned value is:
+Result = y0+(y1-y0)/(x1-x0)*(x-x0)
+
+result is of type integer" }
+
+	VAR_INPUT
+	x : INT; 
+	x0 : INT; 
+	y0 : INT; 
+	x1 : INT; 
+	y1 : INT; 
+	END_VAR
+
+	VAR
+	help_long : DINT; 
+	help_int : INT; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par x: REGISTER d4
+	Par x0: REGISTER d5
+	Par y0: REGISTER d6
+	Par x1: REGISTER d7
+	Par y1: LOCAL STACK FRAME AT 0(sp)
+	Var help_long: LOCAL STACK FRAME AT 0(sp)
+	Var help_int: CALLER STACK FRAME AT 4(sp)
+
+A0010A60  A1F0400B		mov d10, d4
+A0010A64  B1F0500B		mov d11, d5
+A0010A68  C1F0600B		mov d12, d6
+A0010A6C  D1F0700B		mov d13, d7
+A0010A70  C000A001		mov.aa a12, sp
+A0010A74  800080BB		mov.u d8, #8
+A0010A78  E6308001		mov.a a14, d8
+A0010A7C  A020EA01		sub.a sp, sp, a14
+
+#0		{SRC:Line_int}
+#1		
+#2			(* Line_int := (y1-y0); *)
+#3			LD		y1	{L:2}
+(*) UNDEF
+A0010A80  F000C001		mov.aa a15, a12
+A0010A84  0880FF09		ld.h d15, [a15]
+
+#4			SUB		y0	{L:2}
+(*) INT
+A0010A88  F080CF0B		sub d15, d15, d12
+
+#5			ST		Line_int	{L:2}
+(*) INT
+A0010A8C  21F0F00B		mov d2, d15
+
+#6		
+#7			(* help_int := (x - x0); *)
+#8			LD		x	{L:4}
+(*) UNDEF
+A0010A90  F1F0A00B		mov d15, d10
+
+#9			SUB		x0	{L:4}
+(*) INT
+A0010A94  F080BF0B		sub d15, d15, d11
+
+#10			ST		help_int	{L:4}
+(*) INT
+A0010A98  800040BB		mov.u d8, #0x4
+A0010A9C  F600A801		addsc.a a15, sp, d8, #0
+A0010AA0  0880FF89		st.h [a15], d15
+
+#11		
+#12			(* help_long:=	MUL32( Line_int , help_int ); *)
+#13			LD		Line_int	{L:6}
+(*) UNDEF
+A0010AA4  F1F0200B		mov d15, d2
+
+#14			MUL32		help_int	{L:6}
+(-) INT
+A0010AA8  800040BB		mov.u d8, #0x4
+A0010AAC  F600A801		addsc.a a15, sp, d8, #0
+A0010AB0  0880F509		ld.h d5, [a15]
+A0010AB4  41F0F00B		mov d4, d15
+A0010AB8  F8009091		movh.a a15, #0x8009 ; MUL32 AT 0x800922F0
+A0010ABC  B230FFD9		lea a15,[a15]0x22F0
+A0010AC0  0000000D		nop
+A0010AC4  00000F2D		calli a15
+A0010AC8  F1F0200B		mov d15, d2
+
+#15			ST		help_long	{L:6}
+(*) DINT
+A0010ACC  F000A001		mov.aa a15, sp
+A0010AD0  0000FF59		st.w [a15], d15
+
+#16		
+#17			(* help_int := (x1-x0); *)
+#18			LD		x1	{L:8}
+(*) UNDEF
+A0010AD4  F1F0D00B		mov d15, d13
+
+#19			SUB		x0	{L:8}
+(*) INT
+A0010AD8  F080BF0B		sub d15, d15, d11
+
+#20			ST		help_int	{L:8}
+(*) INT
+A0010ADC  800040BB		mov.u d8, #0x4
+A0010AE0  F600A801		addsc.a a15, sp, d8, #0
+A0010AE4  0880FF89		st.h [a15], d15
+
+#21		
+#22			(* help_int := DIV32( help_long, help_int	); *)
+#23			LD		help_long	{L:10}
+(*) UNDEF
+A0010AE8  F000A001		mov.aa a15, sp
+A0010AEC  0000FF19		ld.w d15, [a15]
+
+#24			DIV32		help_int	{L:10}
+(-) DINT
+A0010AF0  800040BB		mov.u d8, #0x4
+A0010AF4  F600A801		addsc.a a15, sp, d8, #0
+A0010AF8  0880F509		ld.h d5, [a15]
+A0010AFC  41F0F00B		mov d4, d15
+A0010B00  F8009091		movh.a a15, #0x8009 ; DIV32 AT 0x80092326
+A0010B04  C226FFD9		lea a15,[a15]0x2326
+A0010B08  0000000D		nop
+A0010B0C  00000F2D		calli a15
+A0010B10  F1F0200B		mov d15, d2
+
+#25			ST		help_int	{L:10}
+(*) INT
+A0010B14  800040BB		mov.u d8, #0x4
+A0010B18  F600A801		addsc.a a15, sp, d8, #0
+A0010B1C  0880FF89		st.h [a15], d15
+
+#26		
+#27			(* Line_int := help_int + y0; *)
+#28			LD		help_int	{L:12}
+(*) UNDEF
+A0010B20  800040BB		mov.u d8, #0x4
+A0010B24  F600A801		addsc.a a15, sp, d8, #0
+A0010B28  0880FF09		ld.h d15, [a15]
+
+#29			ADD		y0	{L:12}
+(*) INT
+A0010B2C  F000CF0B		add d15, d15, d12
+
+#30			ST		Line_int	{L:12}
+(*) INT
+A0010B30  21F0F00B		mov d2, d15
+
+A0010B34  800080BB		mov.u d8, #8
+A0010B38  E6308001		mov.a a14, d8
+A0010B3C  A010EA01		add.a sp, sp, a14
+
+A0010B40  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: _ControlVersion
+**************************************************
+
+FUNCTION _ControlVersion : UDINT
+
+{ DE:"LIBRERIA: Control
+
+Rev.01.10.00	14/7/2003 	by SSS
+Rev.01.20.00	27/05/2008 	Rnc
+
+Regulation and control funcions and function blocks
+Derivative;
+Integral;
+Low pass filter;
+PID;
+Delay;
+Torque feed.fwd calculation
+Diameter calculation;
+Limits;
+Ramp;
+Up down.
+
+Notes:
+The library doesn't contain references to global variables, thus it is compatible with all the FW versions." }
+
+	VAR_INPUT
+	in : BOOL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+
+#0		{SRC:_ControlVersion}
+#1		
+#2		
+#3			LD		in
+(*) UNDEF
+A0010B44  F1F0400B		mov d15, d4
+
+#4			JMPC	l0_Version
+(-) BOOL
+A0010B48  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA0010B64
+
+#5		
+#6			LD		0
+(*) UNDEF
+A0010B4C  F000003B		mov d15, #0
+
+#7			ST		_ControlVersion
+(*) USINT
+A0010B50  21F0F00B		mov d2, d15
+
+#8		
+#9			RET
+(-) USINT
+A0010B54  FA001091		movh.a a15, #0xA001 ; 0xA0010B6C
+A0010B58  D0ACFFD9		lea a15,[a15]0x0B6C
+A0010B5C  0000000D		nop
+A0010B60  00300F2D		ji a15
+
+#10		
+#11		l0_Version:
+#12		
+#13			(*	Indice di revisione.						*)
+#14			(*	L'indice si legge nella seguente maniera:	*)
+#15			(*	XXYYZZ => XX.YY.ZZ 							*)
+#16			(*	XX = Revisione								*)
+#17			(*	YY = Sotto revisione						*)
+#18			(*	ZZ = Correzione								*)
+#19		
+#20			LD		012000
+(*) UNDEF
+A0010B64  F2EE003B		mov d15, #12000
+
+#21			ST		_ControlVersion
+(*) UINT
+A0010B68  21F0F00B		mov d2, d15
+
+A0010B6C  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: LIMIT_R
+**************************************************
+
+FUNCTION LIMIT_R : REAL
+
+{ DE:"LIMITI REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Limits function with float vars
+
+Notes:
+	- If highLimit<lowLimit then highLimit=lowLimit
+
+
+" }
+
+	VAR_INPUT
+	in : REAL; { DE:"Input var" } 
+	lowLimit : REAL; { DE:"Ouput low limit" } 
+	highLimit : REAL; { DE:"Output high limit" } 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+	Par lowLimit: REGISTER d5
+	Par highLimit: REGISTER d6
+
+#0		{SRC:LIMIT_R}
+#1			(*	check limits	*)
+#2		
+#3			LD		highLimit
+(*) UNDEF
+A0010B70  F1F0600B		mov d15, d6
+
+#4			LT		lowLimit
+(*) REAL
+A0010B74  F0015F4B		cmp.f d15, d15, d5
+A0010B78  F2001F8B		eq d15, d15, #1
+
+#5			JMPCN	l0
+(-) BOOL
+A0010B7C  00060FDF		jeq d15, #0, #0x0006 ; JUMP 0xA0010B88
+
+#6		
+#7			(*	if highLimit<lowLimit then highLimit=lowLimit	*)
+#8		
+#9			LD		lowLimit
+(*) UNDEF
+A0010B80  F1F0500B		mov d15, d5
+
+#10			ST		highLimit
+(*) REAL
+A0010B84  61F0F00B		mov d6, d15
+
+#11		
+#12		l0:
+#13		
+#14			(*	input >= low limit ?	*)
+#15		
+#16			LD		in
+(*) UNDEF
+A0010B88  F1F0400B		mov d15, d4
+
+#17			GE		lowLimit
+(*) REAL
+A0010B8C  F0015F4B		cmp.f d15, d15, d5
+A0010B90  F2201F8B		ne d15, d15, #1
+
+#18			JMPC	l1
+(-) BOOL
+A0010B94  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA0010BB0
+
+#19		
+#20			(*	set output to low limit	*)
+#21		
+#22			LD		lowLimit
+(*) UNDEF
+A0010B98  F1F0500B		mov d15, d5
+
+#23			ST		LIMIT_R
+(*) REAL
+A0010B9C  21F0F00B		mov d2, d15
+
+#24		
+#25			RET
+(-) REAL
+A0010BA0  FA001091		movh.a a15, #0xA001 ; 0xA0010BE4
+A0010BA4  F0A4FFD9		lea a15,[a15]0x0BE4
+A0010BA8  0000000D		nop
+A0010BAC  00300F2D		ji a15
+
+#26		
+#27		l1:
+#28		
+#29			(*	input  <= high limit	*)
+#30		
+#31			LD		in
+(*) UNDEF
+A0010BB0  F1F0400B		mov d15, d4
+
+#32			LE		highLimit
+(*) REAL
+A0010BB4  51F0600B		mov d5, d6
+A0010BB8  F0015F4B		cmp.f d15, d15, d5
+A0010BBC  F2204F8B		ne d15, d15, #4
+
+#33			JMPC	l2
+(-) BOOL
+A0010BC0  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA0010BDC
+
+#34		
+#35			(*	set output to high limit	*)
+#36		
+#37			LD		highLimit
+(*) UNDEF
+A0010BC4  F1F0600B		mov d15, d6
+
+#38			ST		LIMIT_R
+(*) REAL
+A0010BC8  21F0F00B		mov d2, d15
+
+#39		
+#40			RET
+(-) REAL
+A0010BCC  FA001091		movh.a a15, #0xA001 ; 0xA0010BE4
+A0010BD0  F0A4FFD9		lea a15,[a15]0x0BE4
+A0010BD4  0000000D		nop
+A0010BD8  00300F2D		ji a15
+
+#41		
+#42		l2:
+#43		
+#44			(*     out = input		*)
+#45		
+#46			LD		in
+(*) UNDEF
+A0010BDC  F1F0400B		mov d15, d4
+
+#47			ST		LIMIT_R
+(*) REAL
+A0010BE0  21F0F00B		mov d2, d15
+
+A0010BE4  0180000D		ret
+
+END_FUNCTION
+**************************************************
+	List function: _BasicVersion
+**************************************************
+
+FUNCTION _BasicVersion : UDINT
+
+{ DE:"LIBRERIA: Basic
+
+Rev.01.00.00	18/02/2002 	by Axel/SSS
+Rev.01.01.00	27/05/2008 	Rnc
+
+standard IEC 1131 functions and function blocks :
+Timer;
+Bistable;
+Rising and falling edges detection;
+Flip-flop.
+
+Note:
+no system or global variables are used, so that the library an be used regardless the FW version" }
+
+	VAR_INPUT
+	in : BOOL; 
+	END_VAR
+
+	*** Function data allocation
+
+	Par in: REGISTER d4
+
+#0		{SRC:_BasicVersion}
+#1		
+#2		
+#3			LD		in
+(*) UNDEF
+A0010BE8  F1F0400B		mov d15, d4
+
+#4			JMPC	l0_Version
+(-) BOOL
+A0010BEC  800E0FDF		jne d15, #0, #0x000E ; JUMP 0xA0010C08
+
+#5		
+#6			LD		0
+(*) UNDEF
+A0010BF0  F000003B		mov d15, #0
+
+#7			ST		_BasicVersion
+(*) USINT
+A0010BF4  21F0F00B		mov d2, d15
+
+#8		
+#9			RET
+(-) USINT
+A0010BF8  FA001091		movh.a a15, #0xA001 ; 0xA0010C10
+A0010BFC  00D0FFD9		lea a15,[a15]0x0C10
+A0010C00  0000000D		nop
+A0010C04  00300F2D		ji a15
+
+#10		
+#11		l0_Version:
+#12		
+#13			(*	Indice di revisione.						*)
+#14			(*	L'indice si legge nella seguente maniera:	*)
+#15			(*	XXYYZZ => XX.YY.ZZ 							*)
+#16			(*	XX = Revisione								*)
+#17			(*	YY = Sotto revisione						*)
+#18			(*	ZZ = Correzione								*)
+#19		
+#20			LD		010100
+(*) UNDEF
+A0010C08  F277403B		mov d15, #10100
+
+#21			ST		_BasicVersion
+(*) UINT
+A0010C0C  21F0F00B		mov d2, d15
+
+A0010C10  0180000D		ret
+
+END_FUNCTION
+***********************************************************************
+UNUSED FUNCTION BLOCKS:
+
+	matrixProd
+	matrixTranspose
+	sysDBReadIntegerFieldMin
+	sysDBReadIntegerFieldMax
+	sysDBReadIntegerFieldEu
+	sysDBReadIntegerFieldScale
+	sysDBReadIntegerField
+	sysDBReadRealFieldMin
+	sysDBReadRealFieldMax
+	sysDBReadRealFieldEu
+	sysDBReadRealFieldScale
+	sysDBReadRealField
+	sysDBGetIntegerPar
+	sysDBGetIntegerFieldMin
+	sysDBGetIntegerFieldMax
+	sysDBGetIntegerFieldEu
+	sysDBGetIntegerFieldScale
+	sysDBGetIntegerField
+	sysDBGetRealPar
+	sysDBGetRealFieldMin
+	sysDBGetRealFieldMax
+	sysDBGetRealFieldEu
+	sysDBGetRealFieldScale
+	sysDBGetRealField
+	Counter
+	Pulse
+	SegmentFB
+	ByteToBit
+	WordToBit
+	WordtoByte
+	SquareWave
+	TwoByteToWord
+	TwoWordToDWord
+	FourByteToDWord
+	DiameterCalculation
+	LP_FilterR
+	PID
+	PidR
+	LinearRampR
+	TorqueFFwd
+	UpDown
+	DelayDW
+	UpDownR
+	LinearRamp
+	TON
+	TOF
+	SR
+	RS
+	R_TRIG
+	FF_D
+	F_TRIG
+
+***********************************************************************
+**************************************************
+	List function block: InputConversionADV200
+**************************************************
+
+FUNCTION_BLOCK InputConversionADV200
+
+	VAR_INPUT
+	Krpm : REAL; { DE:"Costante di conversione [rpm/count]" } 
+	Krad_s : REAL; { DE:"Costante di conversione [rad/s/count]" } 
+	KArms : REAL; { DE:"Costante di conversione Corrente [Arms/count]" } 
+	KCnt2Nm : REAL; { DE:"Conversione da count a Nm [cnt/Nm]" } 
+	sysPos : DINT; { DE:"Posizione letta dall'azionamento " } 
+	sysSpd : DINT; { DE:"VelocitÃ  letta dall'azionamento " } 
+	sysIq : DINT; { DE:"Corrente letta dall'azionamento" } 
+	sysTrqRef : DINT; { DE:"Coppia letta dall'azionamento" } 
+	PosDINT : DINT; { DE:"Posizione letta dall'azionamento in funzione della velocitÃ " } 
+	offset : REAL; { DE:"Offset di Posizione [rad]" } 
+	sysRev : DINT; { DE:"Numero di rivoluzioni dell'encoder" } 
+	END_VAR
+
+	VAR_OUTPUT
+	pos : REAL; { DE:"Posizione angolare del motore [rad]" } 
+	vel_rpm : REAL; { DE:"VelocitÃ  del motore [rpm]" } 
+	vel : REAL; { DE:"VelocitÃ  angolare del motore [rad/s]" } 
+	trq : REAL; { DE:"Coppia erogata dal motore [N*m]" } 
+	curr : REAL; { DE:"Corrente di coppia del motore [Arms]" } 
+	END_VAR
+
+	VAR_EXTERNAL
+	v_Position : REAL; 
+	v_Speed : REAL; 
+	v_Torque : REAL; 
+	END_VAR
+
+A0010C14  C0004001		mov.aa a12, a4
+
+#0		{SRC:InputConversionADV200}
+#1		
+#2			(* pos:=(TO_REAL(sysPos)/PosDINT+sysRev)*2.0*PI + offset; *)
+#3			LD		sysPos	{L:4}
+(*) UNDEF
+A0010C18  800100BB		mov.u d8, #0x10
+A0010C1C  F600C801		addsc.a a15, a12, d8, #0
+A0010C20  0000FF19		ld.w d15, [a15]
+
+#4			TO_REAL	{L:4}
+(*) DINT
+A0010C24  F1410F4B		itof d15, d15
+
+#5			DIV		PosDINT	{L:4}
+(*) REAL
+A0010C28  800200BB		mov.u d8, #0x20
+A0010C2C  F600C801		addsc.a a15, a12, d8, #0
+A0010C30  0000F819		ld.w d8, [a15]
+A0010C34  8141084B		itof d8, d8
+A0010C38  F0518F4B		div.f d15, d15, d8
+
+#6			ADD		sysRev	{L:4}
+(*) REAL
+A0010C3C  800280BB		mov.u d8, #0x28
+A0010C40  F600C801		addsc.a a15, a12, d8, #0
+A0010C44  0000F819		ld.w d8, [a15]
+A0010C48  8141084B		itof d8, d8
+A0010C4C  FF21086B		add.f d15, d15, d8
+
+#7			MUL		2.0	{L:4}
+(*) REAL
+A0010C50  800000BB		mov.u d8, #0x0000 ; COSTREAL 2.000000
+A0010C54  8400089B		addih d8, d8, #0x4000
+A0010C58  F0418F4B		mul.f d15, d15, d8
+
+#8			MUL		PI	{L:4}
+(*) REAL
+A0010C5C  80FDB0BB		mov.u d8, #0x0FDB ; COSTREAL 3.141593
+A0010C60  8404989B		addih d8, d8, #0x4049
+A0010C64  F0418F4B		mul.f d15, d15, d8
+
+#9			ADD		offset	{L:4}
+(*) REAL
+A0010C68  800240BB		mov.u d8, #0x24
+A0010C6C  F600C801		addsc.a a15, a12, d8, #0
+A0010C70  0000F819		ld.w d8, [a15]
+A0010C74  FF21086B		add.f d15, d15, d8
+
+#10			ST		pos	{L:4}
+(*) REAL
+A0010C78  8002C0BB		mov.u d8, #0x2C
+A0010C7C  F600C801		addsc.a a15, a12, d8, #0
+A0010C80  0000FF59		st.w [a15], d15
+
+#11		
+#12			(* vel_rpm:= TO_REAL(sysSpd)*Krpm; *)
+#13			LD		sysSpd	{L:6}
+(*) UNDEF
+A0010C84  800140BB		mov.u d8, #0x14
+A0010C88  F600C801		addsc.a a15, a12, d8, #0
+A0010C8C  0000FF19		ld.w d15, [a15]
+
+#14			TO_REAL	{L:6}
+(*) DINT
+A0010C90  F1410F4B		itof d15, d15
+
+#15			MUL		Krpm	{L:6}
+(*) REAL
+A0010C94  F000C001		mov.aa a15, a12
+A0010C98  0000F819		ld.w d8, [a15]
+A0010C9C  F0418F4B		mul.f d15, d15, d8
+
+#16			ST		vel_rpm	{L:6}
+(*) REAL
+A0010CA0  800300BB		mov.u d8, #0x30
+A0010CA4  F600C801		addsc.a a15, a12, d8, #0
+A0010CA8  0000FF59		st.w [a15], d15
+
+#17		
+#18			(* vel:=TO_REAL(sysSpd)*Krad_s; *)
+#19			LD		sysSpd	{L:8}
+(*) UNDEF
+A0010CAC  800140BB		mov.u d8, #0x14
+A0010CB0  F600C801		addsc.a a15, a12, d8, #0
+A0010CB4  0000FF19		ld.w d15, [a15]
+
+#20			TO_REAL	{L:8}
+(*) DINT
+A0010CB8  F1410F4B		itof d15, d15
+
+#21			MUL		Krad_s	{L:8}
+(*) REAL
+A0010CBC  800040BB		mov.u d8, #0x4
+A0010CC0  F600C801		addsc.a a15, a12, d8, #0
+A0010CC4  0000F819		ld.w d8, [a15]
+A0010CC8  F0418F4B		mul.f d15, d15, d8
+
+#22			ST		vel	{L:8}
+(*) REAL
+A0010CCC  800340BB		mov.u d8, #0x34
+A0010CD0  F600C801		addsc.a a15, a12, d8, #0
+A0010CD4  0000FF59		st.w [a15], d15
+
+#23		
+#24			(* curr:=TO_REAL(sysIq)*KArms; *)
+#25			LD		sysIq	{L:10}
+(*) UNDEF
+A0010CD8  800180BB		mov.u d8, #0x18
+A0010CDC  F600C801		addsc.a a15, a12, d8, #0
+A0010CE0  0000FF19		ld.w d15, [a15]
+
+#26			TO_REAL	{L:10}
+(*) DINT
+A0010CE4  F1410F4B		itof d15, d15
+
+#27			MUL		KArms	{L:10}
+(*) REAL
+A0010CE8  800080BB		mov.u d8, #0x8
+A0010CEC  F600C801		addsc.a a15, a12, d8, #0
+A0010CF0  0000F819		ld.w d8, [a15]
+A0010CF4  F0418F4B		mul.f d15, d15, d8
+
+#28			ST		curr	{L:10}
+(*) REAL
+A0010CF8  8003C0BB		mov.u d8, #0x3C
+A0010CFC  F600C801		addsc.a a15, a12, d8, #0
+A0010D00  0000FF59		st.w [a15], d15
+
+#29		
+#30			(* trq := TO_REAL(sysTrqRef) * KCnt2Nm; *)
+#31			LD		sysTrqRef	{L:12}
+(*) UNDEF
+A0010D04  8001C0BB		mov.u d8, #0x1C
+A0010D08  F600C801		addsc.a a15, a12, d8, #0
+A0010D0C  0000FF19		ld.w d15, [a15]
+
+#32			TO_REAL	{L:12}
+(*) DINT
+A0010D10  F1410F4B		itof d15, d15
+
+#33			MUL		KCnt2Nm	{L:12}
+(*) REAL
+A0010D14  8000C0BB		mov.u d8, #0xC
+A0010D18  F600C801		addsc.a a15, a12, d8, #0
+A0010D1C  0000F819		ld.w d8, [a15]
+A0010D20  F0418F4B		mul.f d15, d15, d8
+
+#34			ST		trq	{L:12}
+(*) REAL
+A0010D24  800380BB		mov.u d8, #0x38
+A0010D28  F600C801		addsc.a a15, a12, d8, #0
+A0010D2C  0000FF59		st.w [a15], d15
+
+#35		
+#36			(* v_Position := pos; *)
+#37			LD		pos	{L:14}
+(*) UNDEF
+A0010D30  8002C0BB		mov.u d8, #0x2C
+A0010D34  F600C801		addsc.a a15, a12, d8, #0
+A0010D38  0000FF19		ld.w d15, [a15]
+
+#38			ST		v_Position	{L:14}
+(*) REAL
+A0010D3C  0230CFA5		st.w #0x32030, d15 ; ADR 0xC0002030
+A0010D40  0000000D		nop
+
+#39		
+#40			(* v_Speed := vel; *)
+#41			LD		vel	{L:16}
+(*) UNDEF
+A0010D44  800340BB		mov.u d8, #0x34
+A0010D48  F600C801		addsc.a a15, a12, d8, #0
+A0010D4C  0000FF19		ld.w d15, [a15]
+
+#42			ST		v_Speed	{L:16}
+(*) REAL
+A0010D50  0234CFA5		st.w #0x32034, d15 ; ADR 0xC0002034
+A0010D54  0000000D		nop
+
+#43		
+#44			(* v_Torque := trq; *)
+#45			LD		trq	{L:18}
+(*) UNDEF
+A0010D58  800380BB		mov.u d8, #0x38
+A0010D5C  F600C801		addsc.a a15, a12, d8, #0
+A0010D60  0000FF19		ld.w d15, [a15]
+
+#46			ST		v_Torque	{L:18}
+(*) REAL
+A0010D64  0238CFA5		st.w #0x32038, d15 ; ADR 0xC0002038
+A0010D68  0000000D		nop
+
+A0010D6C  0180000D		ret
+
+
+Frame allocation:
+
+	0000       : VAR Krpm
+	0004       : VAR Krad_s
+	0008       : VAR KArms
+	000C       : VAR KCnt2Nm
+	0010       : VAR sysPos
+	0014       : VAR sysSpd
+	0018       : VAR sysIq
+	001C       : VAR sysTrqRef
+	0020       : VAR PosDINT
+	0024       : VAR offset
+	0028       : VAR sysRev
+	002C       : VAR pos
+	0030       : VAR vel_rpm
+	0034       : VAR vel
+	0038       : VAR trq
+	003C       : VAR curr
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: LineFB
+**************************************************
+
+FUNCTION_BLOCK LineFB
+
+{ DE:"4/10/2001			by SSS
+
+Calculation of the line passing through two points with the following coordinates (xIni,yIni), (xEnd,yEnd)
+
+Result=yIni+(yEnd-yIni)/(xEnd-xIni)*(x-xIni)" }
+
+	VAR_INPUT
+	inX : DINT; { DE:"Input X [cnts]" } 
+	xIni : DINT; { DE:"Initial X [cnts]" } 
+	yIni : DINT; { DE:"Initial Y [cnts]" } 
+	xEnd : DINT; { DE:"Final X [cnts]" } 
+	yEnd : DINT; { DE:"Final Y [cnts]" } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output Y [cnts]" } 
+	END_VAR
+
+A0010D70  C0004001		mov.aa a12, a4
+
+#0		{SRC:LineFB}
+#1		
+#2			LD		inX
+(*) UNDEF
+A0010D74  F000C001		mov.aa a15, a12
+A0010D78  0000FF19		ld.w d15, [a15]
+
+#3			SUB		xIni
+(*) DINT
+A0010D7C  800040BB		mov.u d8, #0x4
+A0010D80  F600C801		addsc.a a15, a12, d8, #0
+A0010D84  0000F819		ld.w d8, [a15]
+A0010D88  F0808F0B		sub d15, d15, d8
+
+#4			MUL(	yEnd
+(*) DINT
+A0010D8C  F53CAF89		st.w [-sp]4, d15 
+A0010D90  800100BB		mov.u d8, #0x10
+A0010D94  F600C801		addsc.a a15, a12, d8, #0
+A0010D98  0000FF19		ld.w d15, [a15]
+
+#5			SUB		yIni
+(*) DINT
+A0010D9C  800080BB		mov.u d8, #0x8
+A0010DA0  F600C801		addsc.a a15, a12, d8, #0
+A0010DA4  0000F819		ld.w d8, [a15]
+A0010DA8  F0808F0B		sub d15, d15, d8
+
+#6			)
+(*) DINT
+A0010DAC  01F0F00B		mov d0, d15
+A0010DB0  0104AF09		ld.w d15, [sp+]4
+A0010DB4  F00A0F73		mul d15, d15, d0
+
+#7			DIV(	xEnd
+(*) DINT
+A0010DB8  F53CAF89		st.w [-sp]4, d15 
+A0010DBC  8000C0BB		mov.u d8, #0xC
+A0010DC0  F600C801		addsc.a a15, a12, d8, #0
+A0010DC4  0000FF19		ld.w d15, [a15]
+
+#8			SUB		xIni
+(*) DINT
+A0010DC8  800040BB		mov.u d8, #0x4
+A0010DCC  F600C801		addsc.a a15, a12, d8, #0
+A0010DD0  0000F819		ld.w d8, [a15]
+A0010DD4  F0808F0B		sub d15, d15, d8
+
+#9			)
+(*) DINT
+A0010DD8  01F0F00B		mov d0, d15
+A0010DDC  0104AF09		ld.w d15, [sp+]4
+A0010DE0  81F0000B		mov d8, d0
+A0010DE4  21A08F4B		dvinit d2/d3, d15, d8
+A0010DE8  9000303B		mov d9, #3
+A0010DEC  F6309001		mov.a a15, d9
+A0010DF0  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010DF4  7FFEF0FD		loop a15, #-2
+A0010DF8  22D0806B		dvadj d2/d3, d2/d3, d8
+A0010DFC  F1F0200B		mov d15, d2
+
+#10			ADD		yIni
+(*) DINT
+A0010E00  800080BB		mov.u d8, #0x8
+A0010E04  F600C801		addsc.a a15, a12, d8, #0
+A0010E08  0000F819		ld.w d8, [a15]
+A0010E0C  F0008F0B		add d15, d15, d8
+
+#11			ST		outY
+(*) DINT
+A0010E10  800140BB		mov.u d8, #0x14
+A0010E14  F600C801		addsc.a a15, a12, d8, #0
+A0010E18  0000FF59		st.w [a15], d15
+
+A0010E1C  0180000D		ret
+
+
+Frame allocation:
+
+	0000       : VAR inX
+	0004       : VAR xIni
+	0008       : VAR yIni
+	000C       : VAR xEnd
+	0010       : VAR yEnd
+	0014       : VAR outY
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: Derivative_PB
+**************************************************
+
+FUNCTION_BLOCK Derivative_PB
+
+{ DE:"DERIVATIVE + LOW PASS FILTER	(s/(1+s*TauP))
+
+Rev.0	10/12/99 	by SSS
+Suggestion: If there is no cpu time issue use DerivativeR.
+
+Derivativ + Low pass filter with TAUP constant.
+The basic values do not have to cause an overflow (2^31) in case two of them 
+are multiplied each other.
+
+I valori base devono essere tali da non provocare overflow
+quando moltiplicati tra loro
+
+Values to be used:
+Signals	10000		Limits	-20000 -> +20000
+Times	1000		Limits  0 -> 25000
+
+Note:
+1000 ms  max. filter (suggested < 80 ms)
+Output: max. 32.000.000 counts" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" } 
+	fS : DINT; { DE:"sampling freq =1/Ts [1/s]. 
+                     i.e. cycle time =1msec -> fS:=1000 sampling freq = 1kz" } 
+	tauP : DINT; { DE:"Time constant. Referred to times base value" } 
+	TiN : DINT; { DE:"Times base value
+                        i.e. to set TimeBase = 1 sec, tau = 10msec
+                        set
+                        TiN := 1000
+                        tauP:= 10" } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" } 
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Internal signal. Rferred to Kr * signals base value" } 
+	prevInU : DINT; { DE:"Prec step input signal" } 
+	Kr : DINT; { DE:"signals scale" } 
+	KrN : DINT; { DE:"signals scale numerator" } 
+	KrD : DINT; { DE:"signals scale denominator" } 
+	END_VAR
+
+A0010E20  C0004001		mov.aa a12, a4
+
+#0		{SRC:Derivative_PB}
+#1		
+#2		
+#3		
+#4			(*	Calcolo Kr = KrN/KrD					*)
+#5			(*	= (TAUi+TiC)/TiN = (fS*tauP+TiN/fS*TiN)	*)
+#6		
+#7			LD		fS
+(*) UNDEF
+A0010E24  800180BB		mov.u d8, #0x18
+A0010E28  F600C801		addsc.a a15, a12, d8, #0
+A0010E2C  0000FF19		ld.w d15, [a15]
+
+#8			MUL		tauP
+(*) DINT
+A0010E30  8001C0BB		mov.u d8, #0x1C
+A0010E34  F600C801		addsc.a a15, a12, d8, #0
+A0010E38  0000F819		ld.w d8, [a15]
+A0010E3C  F00A8F73		mul d15, d15, d8
+
+#9			ADD		TiN
+(*) DINT
+A0010E40  800200BB		mov.u d8, #0x20
+A0010E44  F600C801		addsc.a a15, a12, d8, #0
+A0010E48  0000F819		ld.w d8, [a15]
+A0010E4C  F0008F0B		add d15, d15, d8
+
+#10			ST		KrN
+(*) DINT
+A0010E50  8000C0BB		mov.u d8, #0xC
+A0010E54  F600C801		addsc.a a15, a12, d8, #0
+A0010E58  0000FF59		st.w [a15], d15
+
+#11		
+#12			LD		fS
+(*) UNDEF
+A0010E5C  800180BB		mov.u d8, #0x18
+A0010E60  F600C801		addsc.a a15, a12, d8, #0
+A0010E64  0000FF19		ld.w d15, [a15]
+
+#13			MUL		TiN
+(*) DINT
+A0010E68  800200BB		mov.u d8, #0x20
+A0010E6C  F600C801		addsc.a a15, a12, d8, #0
+A0010E70  0000F819		ld.w d8, [a15]
+A0010E74  F00A8F73		mul d15, d15, d8
+
+#14			ST		KrD
+(*) DINT
+A0010E78  800100BB		mov.u d8, #0x10
+A0010E7C  F600C801		addsc.a a15, a12, d8, #0
+A0010E80  0000FF59		st.w [a15], d15
+
+#15		
+#16			(*	Corpo derivativo							*)
+#17			(*	Yint[k]=tauP/TiN*outY[k-1]+inU[k]-inU[k-1]	*)
+#18			(*  Il segnale è referred to Yint*Kr				*)
+#19		
+#20			LD		tauP
+(*) UNDEF
+A0010E84  8001C0BB		mov.u d8, #0x1C
+A0010E88  F600C801		addsc.a a15, a12, d8, #0
+A0010E8C  0000FF19		ld.w d15, [a15]
+
+#21			MUL		outY
+(*) DINT
+A0010E90  800240BB		mov.u d8, #0x24
+A0010E94  F600C801		addsc.a a15, a12, d8, #0
+A0010E98  0000F819		ld.w d8, [a15]
+A0010E9C  F00A8F73		mul d15, d15, d8
+
+#22			DIV		TiN
+(*) DINT
+A0010EA0  800200BB		mov.u d8, #0x20
+A0010EA4  F600C801		addsc.a a15, a12, d8, #0
+A0010EA8  0000F819		ld.w d8, [a15]
+A0010EAC  21A08F4B		dvinit d2/d3, d15, d8
+A0010EB0  9000303B		mov d9, #3
+A0010EB4  F6309001		mov.a a15, d9
+A0010EB8  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010EBC  7FFEF0FD		loop a15, #-2
+A0010EC0  22D0806B		dvadj d2/d3, d2/d3, d8
+A0010EC4  F1F0200B		mov d15, d2
+
+#23			ADD		inU
+(*) DINT
+A0010EC8  800140BB		mov.u d8, #0x14
+A0010ECC  F600C801		addsc.a a15, a12, d8, #0
+A0010ED0  0000F819		ld.w d8, [a15]
+A0010ED4  F0008F0B		add d15, d15, d8
+
+#24			SUB		prevInU
+(*) DINT
+A0010ED8  800040BB		mov.u d8, #0x4
+A0010EDC  F600C801		addsc.a a15, a12, d8, #0
+A0010EE0  0000F819		ld.w d8, [a15]
+A0010EE4  F0808F0B		sub d15, d15, d8
+
+#25			ST		Yint
+(*) DINT
+A0010EE8  F000C001		mov.aa a15, a12
+A0010EEC  0000FF59		st.w [a15], d15
+
+#26		
+#27			(*	Scalatura uscita			*)
+#28			(*	outY=Yint/Kr				*)
+#29		
+#30			LD		KrN
+(*) UNDEF
+A0010EF0  8000C0BB		mov.u d8, #0xC
+A0010EF4  F600C801		addsc.a a15, a12, d8, #0
+A0010EF8  0000FF19		ld.w d15, [a15]
+
+#31			GE		KrD
+(*) DINT
+A0010EFC  800100BB		mov.u d8, #0x10
+A0010F00  F600C801		addsc.a a15, a12, d8, #0
+A0010F04  0000F819		ld.w d8, [a15]
+A0010F08  F1408F0B		ge d15, d15, d8
+
+#32			JMPCN	l1
+(-) BOOL
+A0010F0C  002A0FDF		jeq d15, #0, #0x002A ; JUMP 0xA0010F60
+
+#33		
+#34			LD		Yint
+(*) UNDEF
+A0010F10  F000C001		mov.aa a15, a12
+A0010F14  0000FF19		ld.w d15, [a15]
+
+#35			DIV		KrN
+(*) DINT
+A0010F18  8000C0BB		mov.u d8, #0xC
+A0010F1C  F600C801		addsc.a a15, a12, d8, #0
+A0010F20  0000F819		ld.w d8, [a15]
+A0010F24  21A08F4B		dvinit d2/d3, d15, d8
+A0010F28  9000303B		mov d9, #3
+A0010F2C  F6309001		mov.a a15, d9
+A0010F30  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010F34  7FFEF0FD		loop a15, #-2
+A0010F38  22D0806B		dvadj d2/d3, d2/d3, d8
+A0010F3C  F1F0200B		mov d15, d2
+
+#36			MUL		KrD
+(*) DINT
+A0010F40  800100BB		mov.u d8, #0x10
+A0010F44  F600C801		addsc.a a15, a12, d8, #0
+A0010F48  0000F819		ld.w d8, [a15]
+A0010F4C  F00A8F73		mul d15, d15, d8
+
+#37			ST		outY
+(*) DINT
+A0010F50  800240BB		mov.u d8, #0x24
+A0010F54  F600C801		addsc.a a15, a12, d8, #0
+A0010F58  0000FF59		st.w [a15], d15
+
+#38			JMP		l2
+(-) DINT
+A0010F5C  0034001D		j #0x000034 ; JUMP 0xA0010FC4
+
+#39		
+#40		l1:
+#41		
+#42			LD		KrD
+(*) UNDEF
+A0010F60  800100BB		mov.u d8, #0x10
+A0010F64  F600C801		addsc.a a15, a12, d8, #0
+A0010F68  0000FF19		ld.w d15, [a15]
+
+#43			DIV		KrN
+(*) DINT
+A0010F6C  8000C0BB		mov.u d8, #0xC
+A0010F70  F600C801		addsc.a a15, a12, d8, #0
+A0010F74  0000F819		ld.w d8, [a15]
+A0010F78  21A08F4B		dvinit d2/d3, d15, d8
+A0010F7C  9000303B		mov d9, #3
+A0010F80  F6309001		mov.a a15, d9
+A0010F84  22F0806B		dvstep d2/d3, d2/d3, d8
+A0010F88  7FFEF0FD		loop a15, #-2
+A0010F8C  22D0806B		dvadj d2/d3, d2/d3, d8
+A0010F90  F1F0200B		mov d15, d2
+
+#44			ST		Kr
+(*) DINT
+A0010F94  800080BB		mov.u d8, #0x8
+A0010F98  F600C801		addsc.a a15, a12, d8, #0
+A0010F9C  0000FF59		st.w [a15], d15
+
+#45			LD		Yint
+(*) UNDEF
+A0010FA0  F000C001		mov.aa a15, a12
+A0010FA4  0000FF19		ld.w d15, [a15]
+
+#46			MUL		Kr
+(*) DINT
+A0010FA8  800080BB		mov.u d8, #0x8
+A0010FAC  F600C801		addsc.a a15, a12, d8, #0
+A0010FB0  0000F819		ld.w d8, [a15]
+A0010FB4  F00A8F73		mul d15, d15, d8
+
+#47			ST		outY
+(*) DINT
+A0010FB8  800240BB		mov.u d8, #0x24
+A0010FBC  F600C801		addsc.a a15, a12, d8, #0
+A0010FC0  0000FF59		st.w [a15], d15
+
+#48		
+#49		l2:
+#50		
+#51			LD		inU
+(*) UNDEF
+A0010FC4  800140BB		mov.u d8, #0x14
+A0010FC8  F600C801		addsc.a a15, a12, d8, #0
+A0010FCC  0000FF19		ld.w d15, [a15]
+
+#52			ST		prevInU
+(*) DINT
+A0010FD0  800040BB		mov.u d8, #0x4
+A0010FD4  F600C801		addsc.a a15, a12, d8, #0
+A0010FD8  0000FF59		st.w [a15], d15
+
+A0010FDC  0180000D		ret
+
+
+Frame allocation:
+
+	0014       : VAR inU
+	0018       : VAR fS
+	001C       : VAR tauP
+	0020       : VAR TiN
+	0024       : VAR outY
+	0000       : VAR Yint
+	0004       : VAR prevInU
+	0008       : VAR Kr
+	000C       : VAR KrN
+	0010       : VAR KrD
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: DerivativeR
+**************************************************
+
+FUNCTION_BLOCK DerivativeR
+
+{ DE:"DERIVATIVE REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Derivative with low passing filter with floating point variables
+
+Transfer function:
+Continous time:	outY(s)/inU(s)=s/(1+tauP*s)
+Discrete time:	outY(z)/inU(z)={[1-z(-1)]/Ts}/{1+[1-z(-1)]*tauP/Ts}
+" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"input signal" } 
+	tauP : REAL; { DE:"filter time constant in sec" } 
+	Ts : REAL; { DE:"Sampling time; i.e. in Fast Cycle Ts := 0.001" } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output signal" } 
+	END_VAR
+
+	VAR
+	prevInU : REAL; { DE:"input at prec step" } 
+	END_VAR
+
+A0010FE0  C0004001		mov.aa a12, a4
+
+#0		{SRC:DerivativeR}
+#1			(*	Corpo derivativo												*)
+#2			(*	outY[k]=1/(tauP+Ts)*outY[k-1]+tauP/(tauP+Ts)*(inU[k]-inU[k-1])	*)
+#3		
+#4			LD		outY
+(*) UNDEF
+A0010FE4  800100BB		mov.u d8, #0x10
+A0010FE8  F600C801		addsc.a a15, a12, d8, #0
+A0010FEC  0000FF19		ld.w d15, [a15]
+
+#5			MUL		tauP
+(*) REAL
+A0010FF0  800080BB		mov.u d8, #0x8
+A0010FF4  F600C801		addsc.a a15, a12, d8, #0
+A0010FF8  0000F819		ld.w d8, [a15]
+A0010FFC  F0418F4B		mul.f d15, d15, d8
+
+#6			ADD		inU
+(*) REAL
+A0011000  800040BB		mov.u d8, #0x4
+A0011004  F600C801		addsc.a a15, a12, d8, #0
+A0011008  0000F819		ld.w d8, [a15]
+A001100C  FF21086B		add.f d15, d15, d8
+
+#7			SUB		prevInU
+(*) REAL
+A0011010  F000C001		mov.aa a15, a12
+A0011014  0000F819		ld.w d8, [a15]
+A0011018  FF31086B		sub.f d15, d15, d8
+
+#8			DIV(	tauP
+(*) REAL
+A001101C  F53CAF89		st.w [-sp]4, d15 
+A0011020  800080BB		mov.u d8, #0x8
+A0011024  F600C801		addsc.a a15, a12, d8, #0
+A0011028  0000FF19		ld.w d15, [a15]
+
+#9			ADD		Ts
+(*) REAL
+A001102C  8000C0BB		mov.u d8, #0xC
+A0011030  F600C801		addsc.a a15, a12, d8, #0
+A0011034  0000F819		ld.w d8, [a15]
+A0011038  FF21086B		add.f d15, d15, d8
+
+#10			)
+(*) REAL
+A001103C  01F0F00B		mov d0, d15
+A0011040  0104AF09		ld.w d15, [sp+]4
+A0011044  81F0000B		mov d8, d0
+A0011048  F0518F4B		div.f d15, d15, d8
+
+#11			ST		outY
+(*) REAL
+A001104C  800100BB		mov.u d8, #0x10
+A0011050  F600C801		addsc.a a15, a12, d8, #0
+A0011054  0000FF59		st.w [a15], d15
+
+#12		
+#13			(*	Aggiornamento prevInU	*)
+#14		
+#15			LD		inU
+(*) UNDEF
+A0011058  800040BB		mov.u d8, #0x4
+A001105C  F600C801		addsc.a a15, a12, d8, #0
+A0011060  0000FF19		ld.w d15, [a15]
+
+#16			ST		prevInU
+(*) REAL
+A0011064  F000C001		mov.aa a15, a12
+A0011068  0000FF59		st.w [a15], d15
+
+A001106C  0180000D		ret
+
+
+Frame allocation:
+
+	0004       : VAR inU
+	0008       : VAR tauP
+	000C       : VAR Ts
+	0010       : VAR outY
+	0000       : VAR prevInU
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: IntegratorDW
+**************************************************
+
+FUNCTION_BLOCK IntegratorDW
+
+{ DE:"INTEGRATOR DOUBLE WORD
+
+Version 1.0	25/10/2001		by SSS
+
+Integrator with anti-windup function with double word variables
+
+Transfer functions
+Continuous time:
+outY(s)/inU(s)=1/s
+Discrete time
+OutY(z)/inU(z)=Ts/[1-z(-1)]
+
+Particular functions:
+- Preset of the starting value (presetValue) when presetBit=TRUE;
+- Minimum and maximum limits with anti-windup function.
+
+Basic values to  be used:
+Signals	16384
+Times	4000" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" } 
+	preset : DINT; { DE:"Preset value. Referred to signals base value" } 
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." } 
+	lowLimit : DINT; { DE:"Lower limit. Referred to signals base value" } 
+	highLimit : DINT; { DE:"Upper limit. Referred to signals base value" } 
+	presetBit : BOOL; { DE:"Preset bit" } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" } 
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Integrated internal signal. Referred to fS * signals base value" } 
+	prevYint : DINT; { DE:"preceeding value of integrated internal signal" } 
+	intLowLim : DINT; { DE:"Min internal limt. referred to fS * signals base value" } 
+	intHighLim : DINT; { DE:"Max internal limit. referred to fS * signals base value" } 
+	END_VAR
+
+A0011070  C0004001		mov.aa a12, a4
+
+#0		{SRC:IntegratorDW}
+#1		
+#2		
+#3			(*	Calcolo limiti interni		*)
+#4			(*	= extLimit*fS				*)
+#5		
+#6			LD		lowLimit
+(*) UNDEF
+A0011074  8001C0BB		mov.u d8, #0x1C
+A0011078  F600C801		addsc.a a15, a12, d8, #0
+A001107C  0000FF19		ld.w d15, [a15]
+
+#7			MUL		fS
+(*) DINT
+A0011080  800180BB		mov.u d8, #0x18
+A0011084  F600C801		addsc.a a15, a12, d8, #0
+A0011088  0000F819		ld.w d8, [a15]
+A001108C  F00A8F73		mul d15, d15, d8
+
+#8			ST		intLowLim
+(*) DINT
+A0011090  800080BB		mov.u d8, #0x8
+A0011094  F600C801		addsc.a a15, a12, d8, #0
+A0011098  0000FF59		st.w [a15], d15
+
+#9		
+#10			LD		highLimit
+(*) UNDEF
+A001109C  800200BB		mov.u d8, #0x20
+A00110A0  F600C801		addsc.a a15, a12, d8, #0
+A00110A4  0000FF19		ld.w d15, [a15]
+
+#11			MUL		fS
+(*) DINT
+A00110A8  800180BB		mov.u d8, #0x18
+A00110AC  F600C801		addsc.a a15, a12, d8, #0
+A00110B0  0000F819		ld.w d8, [a15]
+A00110B4  F00A8F73		mul d15, d15, d8
+
+#12			ST		intHighLim
+(*) DINT
+A00110B8  8000C0BB		mov.u d8, #0xC
+A00110BC  F600C801		addsc.a a15, a12, d8, #0
+A00110C0  0000FF59		st.w [a15], d15
+
+#13		
+#14			(*	Settaggio Preset value	*)
+#15		
+#16			LD		presetBit
+(*) UNDEF
+A00110C4  800240BB		mov.u d8, #0x24
+A00110C8  F600C801		addsc.a a15, a12, d8, #0
+A00110CC  0000FF19		ld.w d15, [a15]
+
+#17			JMPCN	l1
+(-) BOOL
+A00110D0  00160FDF		jeq d15, #0, #0x0016 ; JUMP 0xA00110FC
+
+#18			LD		preset
+(*) UNDEF
+A00110D4  800140BB		mov.u d8, #0x14
+A00110D8  F600C801		addsc.a a15, a12, d8, #0
+A00110DC  0000FF19		ld.w d15, [a15]
+
+#19			MUL		fS
+(*) DINT
+A00110E0  800180BB		mov.u d8, #0x18
+A00110E4  F600C801		addsc.a a15, a12, d8, #0
+A00110E8  0000F819		ld.w d8, [a15]
+A00110EC  F00A8F73		mul d15, d15, d8
+
+#20			ST		Yint
+(*) DINT
+A00110F0  F000C001		mov.aa a15, a12
+A00110F4  0000FF59		st.w [a15], d15
+
+#21		
+#22			JMP             l2
+(-) DINT
+A00110F8  002A001D		j #0x00002A ; JUMP 0xA001114C
+
+#23		
+#24		l1:
+#25		
+#26			(*	Corpo integratore								*)
+#27			(*	Yint[k]=Yint[k-1]+inU[k]						*)
+#28			(*  Il segnale è referred to Yin*fS					*)
+#29		
+#30			LD		inU
+(*) UNDEF
+A00110FC  800100BB		mov.u d8, #0x10
+A0011100  F600C801		addsc.a a15, a12, d8, #0
+A0011104  0000FF19		ld.w d15, [a15]
+
+#31			ADD		Yint
+(*) DINT
+A0011108  F000C001		mov.aa a15, a12
+A001110C  0000F819		ld.w d8, [a15]
+A0011110  F0008F0B		add d15, d15, d8
+
+#32			ST		Yint
+(*) DINT
+A0011114  F000C001		mov.aa a15, a12
+A0011118  0000FF59		st.w [a15], d15
+
+#33		
+#34			(*	Verifica limiti												*)
+#35			(*  Se fuori limite Yint viene posto uguale al limite stesso	*)
+#36		
+#37			LD		Yint
+(*) UNDEF
+A001111C  F000C001		mov.aa a15, a12
+A0011120  0000FF19		ld.w d15, [a15]
+
+#38			LIMIT	intLowLim, intHighLim
+(*) DINT
+A0011124  800080BB		mov.u d8, #0x8
+A0011128  F600C801		addsc.a a15, a12, d8, #0
+A001112C  0000F819		ld.w d8, [a15]
+A0011130  F1A0F80B		max d15, d8, d15
+A0011134  8000C0BB		mov.u d8, #0xC
+A0011138  F600C801		addsc.a a15, a12, d8, #0
+A001113C  0000F819		ld.w d8, [a15]
+A0011140  F180F80B		min d15, d8, d15
+
+#39			ST		Yint
+(*) DINT
+A0011144  F000C001		mov.aa a15, a12
+A0011148  0000FF59		st.w [a15], d15
+
+#40		
+#41		l2:
+#42		
+#43			(*	Scalatura uscita			*)
+#44			(*	outY=Yint*YiN*ts/(UiN*TiN)	*)
+#45			(*	=Yint/fS -> i valori base per i segnali devono essere uguali	*)
+#46		
+#47			LD		Yint
+(*) UNDEF
+A001114C  F000C001		mov.aa a15, a12
+A0011150  0000FF19		ld.w d15, [a15]
+
+#48			DIV		fS
+(*) DINT
+A0011154  800180BB		mov.u d8, #0x18
+A0011158  F600C801		addsc.a a15, a12, d8, #0
+A001115C  0000F819		ld.w d8, [a15]
+A0011160  21A08F4B		dvinit d2/d3, d15, d8
+A0011164  9000303B		mov d9, #3
+A0011168  F6309001		mov.a a15, d9
+A001116C  22F0806B		dvstep d2/d3, d2/d3, d8
+A0011170  7FFEF0FD		loop a15, #-2
+A0011174  22D0806B		dvadj d2/d3, d2/d3, d8
+A0011178  F1F0200B		mov d15, d2
+
+#49			ST		outY
+(*) DINT
+A001117C  800280BB		mov.u d8, #0x28
+A0011180  F600C801		addsc.a a15, a12, d8, #0
+A0011184  0000FF59		st.w [a15], d15
+
+A0011188  0180000D		ret
+
+
+Frame allocation:
+
+	0010       : VAR inU
+	0014       : VAR preset
+	0018       : VAR fS
+	001C       : VAR lowLimit
+	0020       : VAR highLimit
+	0024 bit  0: VAR presetBit
+	0028       : VAR outY
+	0000       : VAR Yint
+	0004       : VAR prevYint
+	0008       : VAR intLowLim
+	000C       : VAR intHighLim
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: IntegratorR
+**************************************************
+
+FUNCTION_BLOCK IntegratorR
+
+{ DE:"INTEGRATOR REAL
+
+Version 1.0	3/8/2001		by SSS
+
+Integrator with anti-windup function with floating point variables
+
+Transfer functions
+Continuous time:outY(s)/inU(s)=1/s
+Discrete timeOutY(z)/inU(z)=Ts/[1-z(-1)]
+
+Particular functions:
+- Preset of the starting value (presetValue) when presetBit=TRUE;
+- Minimum and maximum limits with anti-windup function" }
+
+	VAR_INPUT
+	inU : REAL; { DE:"Input variable" } 
+	Ts : REAL; { DE:"Sampling time [s]" } 
+	presetValue : REAL; { DE:"Preset value" } 
+	presetBit : BOOL; { DE:"Preset command" } 
+	lowLimit : REAL; { DE:"Output Lower limit " } 
+	highLimit : REAL; { DE:"Output Upper limit " } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : REAL; { DE:"Output variable" } 
+	END_VAR
+
+A001118C  C0004001		mov.aa a12, a4
+
+#0		{SRC:IntegratorR}
+#1		
+#2			(*	Settaggio Preset value	*)
+#3		
+#4			LD		presetBit
+(*) UNDEF
+A0011190  8000C0BB		mov.u d8, #0xC
+A0011194  F600C801		addsc.a a15, a12, d8, #0
+A0011198  0000FF19		ld.w d15, [a15]
+
+#5			JMPCN	l1
+(-) BOOL
+A001119C  000E0FDF		jeq d15, #0, #0x000E ; JUMP 0xA00111B8
+
+#6			LD		presetValue
+(*) UNDEF
+A00111A0  800080BB		mov.u d8, #0x8
+A00111A4  F600C801		addsc.a a15, a12, d8, #0
+A00111A8  0000FF19		ld.w d15, [a15]
+
+#7			ST		outY
+(*) REAL
+A00111AC  800180BB		mov.u d8, #0x18
+A00111B0  F600C801		addsc.a a15, a12, d8, #0
+A00111B4  0000FF59		st.w [a15], d15
+
+#8		
+#9		l1:
+#10		
+#11			(*	Corpo integratore					*)
+#12			(*	outY[k]=outY[k-1]+inU[k]*Ts			*)
+#13		
+#14			LD		inU
+(*) UNDEF
+A00111B8  F000C001		mov.aa a15, a12
+A00111BC  0000FF19		ld.w d15, [a15]
+
+#15			MUL		Ts
+(*) REAL
+A00111C0  800040BB		mov.u d8, #0x4
+A00111C4  F600C801		addsc.a a15, a12, d8, #0
+A00111C8  0000F819		ld.w d8, [a15]
+A00111CC  F0418F4B		mul.f d15, d15, d8
+
+#16			ADD		outY
+(*) REAL
+A00111D0  800180BB		mov.u d8, #0x18
+A00111D4  F600C801		addsc.a a15, a12, d8, #0
+A00111D8  0000F819		ld.w d8, [a15]
+A00111DC  FF21086B		add.f d15, d15, d8
+
+#17			ST		outY
+(*) REAL
+A00111E0  800180BB		mov.u d8, #0x18
+A00111E4  F600C801		addsc.a a15, a12, d8, #0
+A00111E8  0000FF59		st.w [a15], d15
+
+#18		
+#19			(*	Verifica limiti												*)
+#20			(*  Se fuori limite outY viene posto uguale al limite stesso	*)
+#21		
+#22			LD		outY
+(*) UNDEF
+A00111EC  800180BB		mov.u d8, #0x18
+A00111F0  F600C801		addsc.a a15, a12, d8, #0
+A00111F4  0000FF19		ld.w d15, [a15]
+
+#23			LIMIT_R	lowLimit, highLimit
+(-) REAL
+A00111F8  800140BB		mov.u d8, #0x14
+A00111FC  F600C801		addsc.a a15, a12, d8, #0
+A0011200  0000F619		ld.w d6, [a15]
+A0011204  800100BB		mov.u d8, #0x10
+A0011208  F600C801		addsc.a a15, a12, d8, #0
+A001120C  0000F519		ld.w d5, [a15]
+A0011210  41F0F00B		mov d4, d15
+A0011214  FCAEFF6D		call #0xFFFCAE ; CALL 0xA0010B70
+A0011218  F1F0200B		mov d15, d2
+
+#24			ST		outY
+(*) REAL
+A001121C  800180BB		mov.u d8, #0x18
+A0011220  F600C801		addsc.a a15, a12, d8, #0
+A0011224  0000FF59		st.w [a15], d15
+
+A0011228  0180000D		ret
+
+
+Frame allocation:
+
+	0000       : VAR inU
+	0004       : VAR Ts
+	0008       : VAR presetValue
+	000C bit  0: VAR presetBit
+	0010       : VAR lowLimit
+	0014       : VAR highLimit
+	0018       : VAR outY
+
+END_FUNCTION_BLOCK
+**************************************************
+	List function block: LP_FilterDW
+**************************************************
+
+FUNCTION_BLOCK LP_FilterDW
+
+{ DE:"LOW PASS FILTER DOUBLE WORD
+
+Version 1.0	23/8/2001		by SSS
+
+First order low passing filter with double integer variables (32 bits)
+
+Transfer functions
+Continuous time:outY(s)/inU(s)=1/(1+s*(tauP/TiN))
+Discrete timeoutY(z)/inU(z)=1/{1+[1-z(-1)]*tauP*fS}
+Particular functions:
+-	Preset of the starting value (presetValue) when presetBit=TRUE.
+Note:
+The basic values do not have to cause an overflow (2^31) in case two of them are multiplied.
+Values to be used:
+Signals	16384
+Times	1000-1024
+
+" }
+
+	VAR_INPUT
+	inU : DINT; { DE:"Input signal. Referred to signals base value" } 
+	fS : DINT; { DE:"sampling frequency =1/Ts [1/s]." } 
+	tauP : DINT; { DE:"Time constant. Referred to times base value" } 
+	TiN : DINT; { DE:"Times base value. Corresponds to 1s." } 
+	presetValue : DINT; { DE:"Preset value. Referred to signals base value" } 
+	presetBit : BOOL; { DE:"Preset command" } 
+	END_VAR
+
+	VAR_OUTPUT
+	outY : DINT; { DE:"Output signal. Referred to signals base value" } 
+	END_VAR
+
+	VAR
+	Yint : DINT; { DE:"Internal filered signal. referred to Kr * signals base value" } 
+	prevYint : DINT; { DE:"Integrated internal signal. Valore precedente" } 
+	Kr : DINT; { DE:"Signal scale" } 
+	prevRest : DINT; { DE:"Reminder of prec step division" } 
+	auxYint : DINT; { DE:"aux var for division" } 
+	END_VAR
+
+A001122C  C0004001		mov.aa a12, a4
+
+#0		{SRC:LP_FilterDW}
+#1		
+#2			(*	Settaggio Preset value	*)
+#3		
+#4			LD		presetBit
+(*) UNDEF
+A0011230  800280BB		mov.u d8, #0x28
+A0011234  F600C801		addsc.a a15, a12, d8, #0
+A0011238  0000FF19		ld.w d15, [a15]
+
+#5			JMPCN	l1
+(-) BOOL
+A001123C  00160FDF		jeq d15, #0, #0x0016 ; JUMP 0xA0011268
+
+#6		
+#7			LD		presetValue
+(*) UNDEF
+A0011240  800240BB		mov.u d8, #0x24
+A0011244  F600C801		addsc.a a15, a12, d8, #0
+A0011248  0000FF19		ld.w d15, [a15]
+
+#8			ST		outY
+(*) DINT
+A001124C  8002C0BB		mov.u d8, #0x2C
+A0011250  F600C801		addsc.a a15, a12, d8, #0
+A0011254  0000FF59		st.w [a15], d15
+
+#9			RET
+(-) DINT
+A0011258  FA001091		movh.a a15, #0xA001 ; 0xA0011394
+A001125C  E114FFD9		lea a15,[a15]0x1394
+A0011260  0000000D		nop
+A0011264  00300F2D		ji a15
+
+#10		
+#11		l1:
+#12		
+#13			(*	Calcolo Kr							*)
+#14			(*	= (tauP+ts)/ts = 1+(fS*tauP/TiN)	*)
+#15		
+#16			LD		fS
+(*) UNDEF
+A0011268  800180BB		mov.u d8, #0x18
+A001126C  F600C801		addsc.a a15, a12, d8, #0
+A0011270  0000FF19		ld.w d15, [a15]
+
+#17			MUL		tauP
+(*) DINT
+A0011274  8001C0BB		mov.u d8, #0x1C
+A0011278  F600C801		addsc.a a15, a12, d8, #0
+A001127C  0000F819		ld.w d8, [a15]
+A0011280  F00A8F73		mul d15, d15, d8
+
+#18			DIV		TiN
+(*) DINT
+A0011284  800200BB		mov.u d8, #0x20
+A0011288  F600C801		addsc.a a15, a12, d8, #0
+A001128C  0000F819		ld.w d8, [a15]
+A0011290  21A08F4B		dvinit d2/d3, d15, d8
+A0011294  9000303B		mov d9, #3
+A0011298  F6309001		mov.a a15, d9
+A001129C  22F0806B		dvstep d2/d3, d2/d3, d8
+A00112A0  7FFEF0FD		loop a15, #-2
+A00112A4  22D0806B		dvadj d2/d3, d2/d3, d8
+A00112A8  F1F0200B		mov d15, d2
+
+#19			ADD		1
+(*) DINT
+A00112AC  F0001F8B		add d15, d15, #1
+
+#20			ST		Kr
+(*) DINT
+A00112B0  800080BB		mov.u d8, #0x8
+A00112B4  F600C801		addsc.a a15, a12, d8, #0
+A00112B8  0000FF59		st.w [a15], d15
+
+#21		
+#22			(*	Corpo filtro								*)
+#23			(*	Yint[k]=(Kr-1)*outY[k-1]+inU[k]				*)
+#24			(*  Il segnale è referred to Yin*Kr				*)
+#25		
+#26			LD		Kr
+(*) UNDEF
+A00112BC  800080BB		mov.u d8, #0x8
+A00112C0  F600C801		addsc.a a15, a12, d8, #0
+A00112C4  0000FF19		ld.w d15, [a15]
+
+#27			SUB		1
+(*) DINT
+A00112C8  8000103B		mov d8, #1
+A00112CC  F0808F0B		sub d15, d15, d8
+
+#28			MUL		outY
+(*) DINT
+A00112D0  8002C0BB		mov.u d8, #0x2C
+A00112D4  F600C801		addsc.a a15, a12, d8, #0
+A00112D8  0000F819		ld.w d8, [a15]
+A00112DC  F00A8F73		mul d15, d15, d8
+
+#29			ADD		inU
+(*) DINT
+A00112E0  800140BB		mov.u d8, #0x14
+A00112E4  F600C801		addsc.a a15, a12, d8, #0
+A00112E8  0000F819		ld.w d8, [a15]
+A00112EC  F0008F0B		add d15, d15, d8
+
+#30			ST		Yint
+(*) DINT
+A00112F0  F000C001		mov.aa a15, a12
+A00112F4  0000FF59		st.w [a15], d15
+
+#31		
+#32			(*	Scalatura uscita con recupero resti			*)
+#33			(*	outY=(Yint+/Kr								*)
+#34		
+#35			LD		Yint
+(*) UNDEF
+A00112F8  F000C001		mov.aa a15, a12
+A00112FC  0000FF19		ld.w d15, [a15]
+
+#36			ADD		prevRest
+(*) DINT
+A0011300  8000C0BB		mov.u d8, #0xC
+A0011304  F600C801		addsc.a a15, a12, d8, #0
+A0011308  0000F819		ld.w d8, [a15]
+A001130C  F0008F0B		add d15, d15, d8
+
+#37			ST		auxYint
+(*) DINT
+A0011310  800100BB		mov.u d8, #0x10
+A0011314  F600C801		addsc.a a15, a12, d8, #0
+A0011318  0000FF59		st.w [a15], d15
+
+#38			DIV		Kr
+(*) DINT
+A001131C  800080BB		mov.u d8, #0x8
+A0011320  F600C801		addsc.a a15, a12, d8, #0
+A0011324  0000F819		ld.w d8, [a15]
+A0011328  21A08F4B		dvinit d2/d3, d15, d8
+A001132C  9000303B		mov d9, #3
+A0011330  F6309001		mov.a a15, d9
+A0011334  22F0806B		dvstep d2/d3, d2/d3, d8
+A0011338  7FFEF0FD		loop a15, #-2
+A001133C  22D0806B		dvadj d2/d3, d2/d3, d8
+A0011340  F1F0200B		mov d15, d2
+
+#39			ST		outY
+(*) DINT
+A0011344  8002C0BB		mov.u d8, #0x2C
+A0011348  F600C801		addsc.a a15, a12, d8, #0
+A001134C  0000FF59		st.w [a15], d15
+
+#40		
+#41			(*	Calcolo resto per ciclo successivo	*)
+#42		
+#43			LD		auxYint
+(*) UNDEF
+A0011350  800100BB		mov.u d8, #0x10
+A0011354  F600C801		addsc.a a15, a12, d8, #0
+A0011358  0000FF19		ld.w d15, [a15]
+
+#44			SUB(	Kr
+(*) DINT
+A001135C  F53CAF89		st.w [-sp]4, d15 
+A0011360  800080BB		mov.u d8, #0x8
+A0011364  F600C801		addsc.a a15, a12, d8, #0
+A0011368  0000FF19		ld.w d15, [a15]
+
+#45			MUL		outY
+(*) DINT
+A001136C  8002C0BB		mov.u d8, #0x2C
+A0011370  F600C801		addsc.a a15, a12, d8, #0
+A0011374  0000F819		ld.w d8, [a15]
+A0011378  F00A8F73		mul d15, d15, d8
+
+#46			)
+(*) DINT
+A001137C  01F0F00B		mov d0, d15
+A0011380  0104AF09		ld.w d15, [sp+]4
+A0011384  F0800F0B		sub d15, d15, d0
+
+#47			ST		prevRest
+(*) DINT
+A0011388  8000C0BB		mov.u d8, #0xC
+A001138C  F600C801		addsc.a a15, a12, d8, #0
+A0011390  0000FF59		st.w [a15], d15
+
+A0011394  0180000D		ret
+
+
+Frame allocation:
+
+	0014       : VAR inU
+	0018       : VAR fS
+	001C       : VAR tauP
+	0020       : VAR TiN
+	0024       : VAR presetValue
+	0028 bit  0: VAR presetBit
+	002C       : VAR outY
+	0000       : VAR Yint
+	0004       : VAR prevYint
+	0008       : VAR Kr
+	000C       : VAR prevRest
+	0010       : VAR auxYint
+
+END_FUNCTION_BLOCK
+**************************************************
+	List program: cyclic_prg
+**************************************************
+
+PROGRAM cyclic_prg
+
+	VAR
+	torque_cmd : REAL; 
+	torque_max : REAL := 3.0; 
+	speed_max : REAL := 100.0; 
+	END_VAR
+
+#0		{SRC:cyclic_prg}
+#1		
+#2			(* InputConv.sysSpd := sysSpd; *)
+#3			LD		sysSpd	{L:2}
+(*) UNDEF
+A00113A0  4044CF85		ld.w d15, #0x30504 ; ADR 0xC0000504
+
+#4			ST		InputConv.sysSpd	{L:2}
+(*) DINT
+A00113A4  3058CFA5		st.w #0x304D8, d15 ; ADR 0xC00004D8
+
+#5		
+#6			(* InputConv.sysPos := sysPos; *)
+#7			LD		sysPos	{L:3}
+(*) UNDEF
+A00113A8  4048CF85		ld.w d15, #0x30508 ; ADR 0xC0000508
+
+#8			ST		InputConv.sysPos	{L:3}
+(*) DINT
+A00113AC  3054CFA5		st.w #0x304D4, d15 ; ADR 0xC00004D4
+
+#9		
+#10			(* InputConv.sysIq := sysIq; *)
+#11			LD		sysIq	{L:4}
+(*) UNDEF
+A00113B0  404CCF85		ld.w d15, #0x3050C ; ADR 0xC000050C
+
+#12			ST		InputConv.sysIq	{L:4}
+(*) DINT
+A00113B4  305CCFA5		st.w #0x304DC, d15 ; ADR 0xC00004DC
+
+#13		
+#14			(* InputConv.sysTrqRef := sysTrqRef; *)
+#15			LD		sysTrqRef	{L:5}
+(*) UNDEF
+A00113B8  3350DF85		ld.w d15, #0x374D0 ; ADR 0xD00034D0
+
+#16			ST		InputConv.sysTrqRef	{L:5}
+(*) DINT
+A00113BC  3060CFA5		st.w #0x304E0, d15 ; ADR 0xC00004E0
+
+#17		
+#18			(* InputConv.sysRev := sysRev; *)
+#19			LD		sysRev	{L:6}
+(*) UNDEF
+A00113C0  4050CF85		ld.w d15, #0x30510 ; ADR 0xC0000510
+
+#20			ST		InputConv.sysRev	{L:6}
+(*) DINT
+A00113C4  306CCFA5		st.w #0x304EC, d15 ; ADR 0xC00004EC
+
+#21		
+#22			(* InputConv.PosDINT:=sysSpeedPosPulsesPerRev; *)
+#23			LD		sysSpeedPosPulsesPerRev	{L:7}
+(*) UNDEF
+A00113C8  22F8DF85		ld.w d15, #0x36CB8 ; ADR 0xD0002CB8
+
+#24			ST		InputConv.PosDINT	{L:7}
+(*) DINT
+A00113CC  3064CFA5		st.w #0x304E4, d15 ; ADR 0xC00004E4
+
+#25		
+#26			(* InputConv() *)
+#27			CAL		InputConv	{L:8}
+(*) DINT
+A00113D0  F53CAF89		st.w [-sp]4, d15 
+A00113D4  4C000091		movh.a a4, #0xC000 ; FB FRAME BASE 0xC00004C4
+A00113D8  304444D9		lea a4,[a4]0x04C4
+A00113DC  FA001091		movh.a a15, #0xA001 ; CALL TO FB AT 0xA0010C14
+A00113E0  00D4FFD9		lea a15,[a15]0x0C14
+A00113E4  0000000D		nop
+A00113E8  00000F2D		calli a15
+A00113EC  0104AF09		ld.w d15, [sp+]4
+
+#28		
+#29		
+#30			(* IF ENABLE_CYCLIC_PRG *)
+#31			LD		ENABLE_CYCLIC_PRG	{L:11}
+(*) UNDEF
+A00113F0  4054CF85		ld.w d15, #0x30514 ; ADR 0xC0000514
+
+#32			NOT	{L:11}
+(*) BOOL
+A00113F4  8000103B		mov d8, #1
+A00113F8  9000003B		mov d9, #0
+A00113FC  FF40892B		sel d15, d15, d9, d8
+
+#33			JMPCN	$label0	{L:11}
+(-) BOOL
+A0011400  00160FDF		jeq d15, #0, #0x0016 ; JUMP 0xA001142C
+
+#34		
+#35			(* THEN *)
+#36		
+#37				(* torque_cmd := 0.0; *)
+#38				LD		0.0	{L:12}
+(*) UNDEF
+A0011404  F00000BB		mov.u d15, #0x0000 ; COSTREAL 0.000000
+A0011408  F0000F9B		addih d15, d15, #0x0000
+
+#39				ST		torque_cmd	{L:12}
+(*) REAL
+A001140C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+
+#40		
+#41				(* torque_max:=3.0; *)
+#42				LD		3.0	{L:13}
+(*) UNDEF
+A0011410  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.000000
+A0011414  F4040F9B		addih d15, d15, #0x4040
+
+#43				ST		torque_max	{L:13}
+(*) REAL
+A0011418  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
+
+#44		
+#45				(* speed_max:=100.0; *)
+#46				LD		100.0	{L:14}
+(*) UNDEF
+A001141C  F00000BB		mov.u d15, #0x0000 ; COSTREAL 100.000000
+A0011420  F42C8F9B		addih d15, d15, #0x42C8
+
+#47				ST		speed_max	{L:14}
+(*) REAL
+A0011424  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
+
+#48				JMP		$label1
+(-) REAL
+A0011428  0014001D		j #0x000014 ; JUMP 0xA0011450
+
+#49		$label0:
+#50		
+#51			(* ELSE *)
+#52		
+#53				(* torque_cmd:=-v_Speed/speed_max*torque_max; *)
+#54				LD		v_Speed	{L:16}
+(*) UNDEF
+A001142C  0234CF85		ld.w d15, #0x32034 ; ADR 0xC0002034
+
+#55				MUL		-1	{L:16}
+(*) REAL
+A0011430  8FFFF03B		mov d8, #-1
+A0011434  8141084B		itof d8, d8
+A0011438  F0418F4B		mul.f d15, d15, d8
+
+#56				DIV		speed_max	{L:16}
+(*) REAL
+A001143C  4060C885		ld.w d8, #0x30520 ; ADR 0xC0000520
+A0011440  F0518F4B		div.f d15, d15, d8
+
+#57				MUL		torque_max	{L:16}
+(*) REAL
+A0011444  405CC885		ld.w d8, #0x3051C ; ADR 0xC000051C
+A0011448  F0418F4B		mul.f d15, d15, d8
+
+#58				ST		torque_cmd	{L:16}
+(*) REAL
+A001144C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+
+#59		
+#60		$label1:
+#61			(* END_IF *)
+#62		
+#63		
+#64			(* IF torque_cmd > MaxTorque *)
+#65			LD		torque_cmd	{L:23}
+(*) UNDEF
+A0011450  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+
+#66			GT		MaxTorque	{L:23}
+(*) REAL
+A0011454  4064C585		ld.w d5, #0x30524 ; ADR 0xC0000524
+A0011458  F0015F4B		cmp.f d15, d15, d5
+A001145C  F2004F8B		eq d15, d15, #4
+
+#67			JMPCN	$label2	{L:23}
+(-) BOOL
+A0011460  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0011470
+
+#68		
+#69			(* THEN *)
+#70		
+#71				(* torque_cmd := MaxTorque; *)
+#72				LD		MaxTorque	{L:24}
+(*) UNDEF
+A0011464  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
+
+#73				ST		torque_cmd	{L:24}
+(*) REAL
+A0011468  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+
+#74				JMP		$label3
+(-) REAL
+A001146C  0024001D		j #0x000024 ; JUMP 0xA00114B4
+
+#75		$label2:
+#76		
+#77			(* ELSIF torque_cmd < -MaxTorque *)
+#78			LD		torque_cmd	{L:25}
+(*) UNDEF
+A0011470  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+
+#79			LT(		MaxTorque	{L:25}
+(*) REAL
+A0011474  F53CAF89		st.w [-sp]4, d15 
+A0011478  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
+
+#80			MUL		-1	{L:25}
+(*) REAL
+A001147C  8FFFF03B		mov d8, #-1
+A0011480  8141084B		itof d8, d8
+A0011484  F0418F4B		mul.f d15, d15, d8
+
+#81			)	{L:25}
+(*) REAL
+A0011488  01F0F00B		mov d0, d15
+A001148C  0104AF09		ld.w d15, [sp+]4
+A0011490  51F0000B		mov d5, d0
+A0011494  F0015F4B		cmp.f d15, d15, d5
+A0011498  F2001F8B		eq d15, d15, #1
+
+#82			JMPCN	$label3	{L:25}
+(-) BOOL
+A001149C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA00114B4
+
+#83		
+#84			(* THEN *)
+#85		
+#86				(* torque_cmd := -MaxTorque; *)
+#87				LD		MaxTorque	{L:26}
+(*) UNDEF
+A00114A0  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
+
+#88				MUL		-1	{L:26}
+(*) REAL
+A00114A4  8FFFF03B		mov d8, #-1
+A00114A8  8141084B		itof d8, d8
+A00114AC  F0418F4B		mul.f d15, d15, d8
+
+#89				ST		torque_cmd	{L:26}
+(*) REAL
+A00114B0  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+
+#90		
+#91		$label3:
+#92			(* END_IF *)
+#93		
+#94			(* sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt); *)
+#95			LD		torque_cmd	{L:30}
+(*) UNDEF
+A00114B4  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+
+#96			MUL		KNm2Cnt	{L:30}
+(*) REAL
+A00114B8  4068C885		ld.w d8, #0x30528 ; ADR 0xC0000528
+A00114BC  F0418F4B		mul.f d15, d15, d8
+
+#97			TO_DINT	{L:30}
+(*) REAL
+A00114C0  F1010F4B		ftoi d15, d15
+
+#98			ST		sysTrqFFwd	{L:30}
+(*) DINT
+A00114C4  C2ACDFA5		st.w #0x36B2C, d15 ; ADR 0xD0002B2C
+
+A00114C8  0180000D		ret
+
+END_PROGRAM
+
+
+**************************************************
+	Target variable image generation
+**************************************************
+
+
+*** INPUT:
+A00114CC  FD000091		movh.a a15, #0xD000
+A00114D0  D2B4FFD9		lea a15,[a15]0x2B74
+A00114D4  0000FF19		ld.w d15, [a15]
+A00114D8  FC000091		movh.a a15, #0xC000
+A00114DC  4044FFD9		lea a15,[a15]0x0504
+A00114E0  0000FF59		st.w [a15], d15
+
+A00114E4  FD000091		movh.a a15, #0xD000
+A00114E8  E284FFD9		lea a15,[a15]0x2B84
+A00114EC  0000FF19		ld.w d15, [a15]
+A00114F0  FC000091		movh.a a15, #0xC000
+A00114F4  4048FFD9		lea a15,[a15]0x0508
+A00114F8  0000FF59		st.w [a15], d15
+
+A00114FC  FD000091		movh.a a15, #0xD000
+A0011500  D2B0FFD9		lea a15,[a15]0x2B70
+A0011504  0000FF19		ld.w d15, [a15]
+A0011508  FC000091		movh.a a15, #0xC000
+A001150C  404CFFD9		lea a15,[a15]0x050C
+A0011510  0000FF59		st.w [a15], d15
+
+A0011514  FD000091		movh.a a15, #0xD000
+A0011518  E288FFD9		lea a15,[a15]0x2B88
+A001151C  0000FF19		ld.w d15, [a15]
+A0011520  FC000091		movh.a a15, #0xC000
+A0011524  4050FFD9		lea a15,[a15]0x0510
+A0011528  0000FF59		st.w [a15], d15
+
+A001152C  0180000D		ret
+
+
+*** OUTPUT:
+A0011530  0180000D		ret
+
+
+
+**************************************************
+	Init code generation for task Fast
+**************************************************
+
+A0011534  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.000000
+A0011538  F4040F9B		addih d15, d15, #0x4040
+A001153C  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
+
+A0011540  F00000BB		mov.u d15, #0x0000 ; COSTREAL 100.000000
+A0011544  F42C8F9B		addih d15, d15, #0x42C8
+A0011548  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
+
+A001154C  0180000D		ret
+
+**************************************************
+	List program: state_machine
+**************************************************
+
+PROGRAM state_machine
+
+	VAR
+	INIT_END : BOOL; { DE:"Transition result" } 
+	CYCLE_STOP : BOOL; { DE:"Transition result" } 
+	readRealPar : sysDBReadRealPar; 
+	readIntPar : sysDBReadIntegerPar; 
+	idx : UINT; 
+	r_idx : USINT; 
+	c_idx : USINT; 
+	END_VAR
+
+#0		{SRC:state_machine}
+#1			LD		state_machine$$Init_x
+(*) UNDEF
+A0011560  406CCF85		ld.w d15, #0x3052C ; ADR 0xC000052C
+
+#2			JMPCN	end_state_machine$Init
+(-) BOOL
+A0011564  010E0FDF		jeq d15, #0, #0x010E ; JUMP 0xA0011780
+
+#3		
+#4		(* BODY OF Init *)
+#5		{SRC:state_machine/Init_state}
+#6		
+#7			(* INIT_END := FALSE; *)
+#8			LD		FALSE	{L:3}
+(*) UNDEF
+A0011568  F000003B		mov d15, #0
+
+#9			ST		INIT_END	{L:3}
+(*) BOOL
+A001156C  4070CFA5		st.w #0x30530, d15 ; ADR 0xC0000530
+
+#10		
+#11			(* CYCLE_STOP := TRUE; *)
+#12			LD		TRUE	{L:4}
+(*) UNDEF
+A0011570  F000103B		mov d15, #1
+
+#13			ST		CYCLE_STOP	{L:4}
+(*) BOOL
+A0011574  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+
+#14		
+#15			(* ENABLE_CYCLIC_PRG := FALSE; *)
+#16			LD		FALSE	{L:5}
+(*) UNDEF
+A0011578  F000003B		mov d15, #0
+
+#17			ST		ENABLE_CYCLIC_PRG	{L:5}
+(*) BOOL
+A001157C  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+
+#18		
+#19			(* sysControlMode := 2; *)
+#20			LD		2	{L:9}
+(*) UNDEF
+A0011580  F000203B		mov d15, #2
+
+#21			ST		sysControlMode	{L:9}
+(*) USINT
+A0011584  FC000091		movh.a a15, #0xC000 ; ADR 0xC00045DC
+A0011588  745CFF59		st.w [a15]0x45DC, d15
+
+#22		
+#23			(* readRealPar.ipa := 300; *)
+#24			LD		300	{L:13}
+(*) UNDEF
+A001158C  F012C03B		mov d15, #300
+
+#25			ST		readRealPar.ipa	{L:13}
+(*) UINT
+A0011590  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+
+#26		
+#27			(* readRealPar() *)
+#28			CAL		readRealPar	{L:14}
+(*) DINT
+A0011594  F53CAF89		st.w [-sp]4, d15 
+A0011598  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
+A001159C  407844D9		lea a4,[a4]0x0538
+A00115A0  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A00115A4  A258FFD9		lea a15,[a15]0x2698
+A00115A8  0000000D		nop
+A00115AC  00000F2D		calli a15
+A00115B0  F1F0200B		mov d15, d2
+A00115B4  0104AF09		ld.w d15, [sp+]4
+
+#29		
+#30			(* DriveRatCur:= readRealPar.val ; *)
+#31			LD		readRealPar.val	{L:15}
+(*) UNDEF
+A00115B8  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+
+#32			ST		DriveRatCur	{L:15}
+(*) REAL
+A00115BC  5044CFA5		st.w #0x30544, d15 ; ADR 0xC0000544
+
+#33		
+#34			(* InputConv.KArms:=DriveRatCur/(8192.0*65536.0); *)
+#35			LD		DriveRatCur	{L:16}
+(*) UNDEF
+A00115C0  5044CF85		ld.w d15, #0x30544 ; ADR 0xC0000544
+
+#36			DIV(		8192.0	{L:16}
+(*) REAL
+A00115C4  F53CAF89		st.w [-sp]4, d15 
+A00115C8  F00000BB		mov.u d15, #0x0000 ; COSTREAL 8192.000000
+A00115CC  F4600F9B		addih d15, d15, #0x4600
+
+#37			MUL		65536.0	{L:16}
+(*) REAL
+A00115D0  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
+A00115D4  8478089B		addih d8, d8, #0x4780
+A00115D8  F0418F4B		mul.f d15, d15, d8
+
+#38			)	{L:16}
+(*) REAL
+A00115DC  01F0F00B		mov d0, d15
+A00115E0  0104AF09		ld.w d15, [sp+]4
+A00115E4  81F0000B		mov d8, d0
+A00115E8  F0518F4B		div.f d15, d15, d8
+
+#39			ST		InputConv.KArms	{L:16}
+(*) REAL
+A00115EC  304CCFA5		st.w #0x304CC, d15 ; ADR 0xC00004CC
+
+#40		
+#41			(* readIntPar.ipa := 680; *)
+#42			LD		680	{L:20}
+(*) UNDEF
+A00115F0  F02A803B		mov d15, #680
+
+#43			ST		readIntPar.ipa	{L:20}
+(*) UINT
+A00115F4  5048CFA5		st.w #0x30548, d15 ; ADR 0xC0000548
+
+#44		
+#45			(* readIntPar() *)
+#46			CAL		readIntPar	{L:21}
+(*) DINT
+A00115F8  F53CAF89		st.w [-sp]4, d15 
+A00115FC  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000548
+A0011600  504844D9		lea a4,[a4]0x0548
+A0011604  F8009091		movh.a a15, #0x8009 ; sysDBReadIntegerPar AT 0x80092606
+A0011608  8246FFD9		lea a15,[a15]0x2606
+A001160C  0000000D		nop
+A0011610  00000F2D		calli a15
+A0011614  F1F0200B		mov d15, d2
+A0011618  0104AF09		ld.w d15, [sp+]4
+
+#47		
+#48			(* FullScaleSpeed := TO_REAL(readIntPar.val) ; *)
+#49			LD		readIntPar.val	{L:22}
+(*) UNDEF
+A001161C  5050CF85		ld.w d15, #0x30550 ; ADR 0xC0000550
+
+#50			TO_REAL	{L:22}
+(*) DINT
+A0011620  F1410F4B		itof d15, d15
+
+#51			ST		FullScaleSpeed	{L:22}
+(*) REAL
+A0011624  5054CFA5		st.w #0x30554, d15 ; ADR 0xC0000554
+
+#52		
+#53			(* InputConv.Krpm:=FullScaleSpeed/(16384.0*65536.0); *)
+#54			LD		FullScaleSpeed	{L:23}
+(*) UNDEF
+A0011628  5054CF85		ld.w d15, #0x30554 ; ADR 0xC0000554
+
+#55			DIV(		16384.0	{L:23}
+(*) REAL
+A001162C  F53CAF89		st.w [-sp]4, d15 
+A0011630  F00000BB		mov.u d15, #0x0000 ; COSTREAL 16384.000000
+A0011634  F4680F9B		addih d15, d15, #0x4680
+
+#56			MUL		65536.0	{L:23}
+(*) REAL
+A0011638  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
+A001163C  8478089B		addih d8, d8, #0x4780
+A0011640  F0418F4B		mul.f d15, d15, d8
+
+#57			)	{L:23}
+(*) REAL
+A0011644  01F0F00B		mov d0, d15
+A0011648  0104AF09		ld.w d15, [sp+]4
+A001164C  81F0000B		mov d8, d0
+A0011650  F0518F4B		div.f d15, d15, d8
+
+#58			ST		InputConv.Krpm	{L:23}
+(*) REAL
+A0011654  3044CFA5		st.w #0x304C4, d15 ; ADR 0xC00004C4
+
+#59		
+#60			(* InputConv.Krad_s:=InputConv.Krpm*2.0*PI/60.0; *)
+#61			LD		InputConv.Krpm	{L:24}
+(*) UNDEF
+A0011658  3044CF85		ld.w d15, #0x304C4 ; ADR 0xC00004C4
+
+#62			MUL		2.0	{L:24}
+(*) REAL
+A001165C  800000BB		mov.u d8, #0x0000 ; COSTREAL 2.000000
+A0011660  8400089B		addih d8, d8, #0x4000
+A0011664  F0418F4B		mul.f d15, d15, d8
+
+#63			MUL		PI	{L:24}
+(*) REAL
+A0011668  80FDB0BB		mov.u d8, #0x0FDB ; COSTREAL 3.141593
+A001166C  8404989B		addih d8, d8, #0x4049
+A0011670  F0418F4B		mul.f d15, d15, d8
+
+#64			DIV		60.0	{L:24}
+(*) REAL
+A0011674  800000BB		mov.u d8, #0x0000 ; COSTREAL 60.000000
+A0011678  8427089B		addih d8, d8, #0x4270
+A001167C  F0518F4B		div.f d15, d15, d8
+
+#65			ST		InputConv.Krad_s	{L:24}
+(*) REAL
+A0011680  3048CFA5		st.w #0x304C8, d15 ; ADR 0xC00004C8
+
+#66		
+#67			(* readRealPar.ipa := 2002; *)
+#68			LD		2002	{L:28}
+(*) UNDEF
+A0011684  F07D203B		mov d15, #2002
+
+#69			ST		readRealPar.ipa	{L:28}
+(*) UINT
+A0011688  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+
+#70		
+#71			(* readRealPar() *)
+#72			CAL		readRealPar	{L:29}
+(*) DINT
+A001168C  F53CAF89		st.w [-sp]4, d15 
+A0011690  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
+A0011694  407844D9		lea a4,[a4]0x0538
+A0011698  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A001169C  A258FFD9		lea a15,[a15]0x2698
+A00116A0  0000000D		nop
+A00116A4  00000F2D		calli a15
+A00116A8  F1F0200B		mov d15, d2
+A00116AC  0104AF09		ld.w d15, [sp+]4
+
+#73		
+#74			(* RatCur:= readRealPar.val ; *)
+#75			LD		readRealPar.val	{L:30}
+(*) UNDEF
+A00116B0  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+
+#76			ST		RatCur	{L:30}
+(*) REAL
+A00116B4  5058CFA5		st.w #0x30558, d15 ; ADR 0xC0000558
+
+#77		
+#78			(* readRealPar.ipa := 2010; *)
+#79			LD		2010	{L:32}
+(*) UNDEF
+A00116B8  F07DA03B		mov d15, #2010
+
+#80			ST		readRealPar.ipa	{L:32}
+(*) UINT
+A00116BC  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+
+#81		
+#82			(* readRealPar() *)
+#83			CAL		readRealPar	{L:33}
+(*) DINT
+A00116C0  F53CAF89		st.w [-sp]4, d15 
+A00116C4  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
+A00116C8  407844D9		lea a4,[a4]0x0538
+A00116CC  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A00116D0  A258FFD9		lea a15,[a15]0x2698
+A00116D4  0000000D		nop
+A00116D8  00000F2D		calli a15
+A00116DC  F1F0200B		mov d15, d2
+A00116E0  0104AF09		ld.w d15, [sp+]4
+
+#84		
+#85			(* RatKTrq:= readRealPar.val ; *)
+#86			LD		readRealPar.val	{L:34}
+(*) UNDEF
+A00116E4  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+
+#87			ST		RatKTrq	{L:34}
+(*) REAL
+A00116E8  505CCFA5		st.w #0x3055C, d15 ; ADR 0xC000055C
+
+#88		
+#89			(* RatedTorque := RatCur*RatKTrq; *)
+#90			LD		RatCur	{L:35}
+(*) UNDEF
+A00116EC  5058CF85		ld.w d15, #0x30558 ; ADR 0xC0000558
+
+#91			MUL		RatKTrq	{L:35}
+(*) REAL
+A00116F0  505CC885		ld.w d8, #0x3055C ; ADR 0xC000055C
+A00116F4  F0418F4B		mul.f d15, d15, d8
+
+#92			ST		RatedTorque	{L:35}
+(*) REAL
+A00116F8  5060CFA5		st.w #0x30560, d15 ; ADR 0xC0000560
+
+#93		
+#94			(* KNm2Cnt := TO_REAL(TrqToCount(1.0 / RatedTorque * 100.0)); *)
+#95			LD		1.0	{L:37}
+(*) UNDEF
+A00116FC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
+A0011700  F3F80F9B		addih d15, d15, #0x3F80
+
+#96			DIV		RatedTorque	{L:37}
+(*) REAL
+A0011704  5060C885		ld.w d8, #0x30560 ; ADR 0xC0000560
+A0011708  F0518F4B		div.f d15, d15, d8
+
+#97			MUL		100.0	{L:37}
+(*) REAL
+A001170C  800000BB		mov.u d8, #0x0000 ; COSTREAL 100.000000
+A0011710  842C889B		addih d8, d8, #0x42C8
+A0011714  F0418F4B		mul.f d15, d15, d8
+
+#98			TrqToCount	{L:37}
+(-) REAL
+A0011718  41F0F00B		mov d4, d15
+A001171C  F4C8FF6D		call #0xFFF4C8 ; CALL 0xA00100AC
+A0011720  F1F0200B		mov d15, d2
+
+#99			TO_REAL	{L:37}
+(*) DINT
+A0011724  F1410F4B		itof d15, d15
+
+#100			ST		KNm2Cnt	{L:37}
+(*) REAL
+A0011728  4068CFA5		st.w #0x30528, d15 ; ADR 0xC0000528
+
+#101		
+#102			(* InputConv.KCnt2Nm := 1.0 / KNm2Cnt; *)
+#103			LD		1.0	{L:38}
+(*) UNDEF
+A001172C  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
+A0011730  F3F80F9B		addih d15, d15, #0x3F80
+
+#104			DIV		KNm2Cnt	{L:38}
+(*) REAL
+A0011734  4068C885		ld.w d8, #0x30528 ; ADR 0xC0000528
+A0011738  F0518F4B		div.f d15, d15, d8
+
+#105			ST		InputConv.KCnt2Nm	{L:38}
+(*) REAL
+A001173C  3050CFA5		st.w #0x304D0, d15 ; ADR 0xC00004D0
+
+#106		
+#107			(* MaxTorque := 10.0; *)
+#108			LD		10.0	{L:43}
+(*) UNDEF
+A0011740  F00000BB		mov.u d15, #0x0000 ; COSTREAL 10.000000
+A0011744  F4120F9B		addih d15, d15, #0x4120
+
+#109			ST		MaxTorque	{L:43}
+(*) REAL
+A0011748  4064CFA5		st.w #0x30524, d15 ; ADR 0xC0000524
+
+#110		
+#111			(* ENABLE_CYCLIC_PRG := TRUE; *)
+#112			LD		TRUE	{L:50}
+(*) UNDEF
+A001174C  F000103B		mov d15, #1
+
+#113			ST		ENABLE_CYCLIC_PRG	{L:50}
+(*) BOOL
+A0011750  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+
+#114		
+#115			(* INIT_END := TRUE; *)
+#116			LD		TRUE	{L:51}
+(*) UNDEF
+A0011754  F000103B		mov d15, #1
+
+#117			ST		INIT_END	{L:51}
+(*) BOOL
+A0011758  4070CFA5		st.w #0x30530, d15 ; ADR 0xC0000530
+
+#118		
+#119			(* CYCLE_STOP := FALSE; *)
+#120			LD		FALSE	{L:52}
+(*) UNDEF
+A001175C  F000003B		mov d15, #0
+
+#121			ST		CYCLE_STOP	{L:52}
+(*) BOOL
+A0011760  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+
+#122		
+#123		
+#124		(* Test condition TR2 pin_in 0 *)
+#125			LD		INIT_END
+(*) UNDEF
+A0011764  4070CF85		ld.w d15, #0x30530 ; ADR 0xC0000530
+
+#126			ST		state_machine$$Cycle_x
+(*) BOOL
+A0011768  5064CFA5		st.w #0x30564, d15 ; ADR 0xC0000564
+
+#127			R		state_machine$$Init_x
+(*) BOOL
+A001176C  FC000091		movh.a a15, #0xC000 ; ADR 0xC000052C
+A0011770  406CFFD9		lea a15,[a15]0x052C
+A0011774  0840F809		ld.bu d8, [a15]
+A0011778  8FA008AB		seln d8, d15, d8, #0
+A001177C  0800F889		st.b [a15], d8
+
+#128		
+#129		end_state_machine$Init:
+#130			LD		state_machine$$Cycle_x
+(*) UNDEF
+A0011780  5064CF85		ld.w d15, #0x30564 ; ADR 0xC0000564
+
+#131			JMPCN	end_state_machine$Cycle
+(-) BOOL
+A0011784  00200FDF		jeq d15, #0, #0x0020 ; JUMP 0xA00117C4
+
+#132		
+#133		(* BODY OF Cycle *)
+#134		{SRC:state_machine/Cycle_state}
+#135		
+#136		
+#137			(* IF sysDIBitWordBit1 *)
+#138			LD		sysDIBitWordBit1	{L:1}
+(*) UNDEF
+A0011788  FC000091		movh.a a15, #0xC000 ; ADR 0xC00041A8
+A001178C  6428FF19		ld.w d15, [a15]0x41A8
+
+#139			JMPCN	state_machine/Cycle_state$lab1	{L:1}
+(-) BOOL
+A0011790  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA00117A0
+
+#140		
+#141			(* THEN *)
+#142		
+#143				(* ENABLE_CYCLIC_PRG := TRUE; *)
+#144				LD		TRUE	{L:2}
+(*) UNDEF
+A0011794  F000103B		mov d15, #1
+
+#145				ST		ENABLE_CYCLIC_PRG	{L:2}
+(*) BOOL
+A0011798  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+
+#146				JMP		state_machine/Cycle_state$lab0
+(-) BOOL
+A001179C  0006001D		j #0x000006 ; JUMP 0xA00117A8
+
+#147		state_machine/Cycle_state$lab1:
+#148		
+#149			(* ELSE *)
+#150		
+#151				(* ENABLE_CYCLIC_PRG := FALSE; *)
+#152				LD		FALSE	{L:4}
+(*) UNDEF
+A00117A0  F000003B		mov d15, #0
+
+#153				ST		ENABLE_CYCLIC_PRG	{L:4}
+(*) BOOL
+A00117A4  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+
+#154		
+#155		state_machine/Cycle_state$lab0:
+#156			(* END_IF *)
+#157		
+#158		
+#159		(* Test condition TR4 pin_in 0 *)
+#160			LD		CYCLE_STOP
+(*) UNDEF
+A00117A8  4074CF85		ld.w d15, #0x30534 ; ADR 0xC0000534
+
+#161			ST		state_machine$$Stop_x
+(*) BOOL
+A00117AC  5068CFA5		st.w #0x30568, d15 ; ADR 0xC0000568
+
+#162			R		state_machine$$Cycle_x
+(*) BOOL
+A00117B0  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000564
+A00117B4  5064FFD9		lea a15,[a15]0x0564
+A00117B8  0840F809		ld.bu d8, [a15]
+A00117BC  8FA008AB		seln d8, d15, d8, #0
+A00117C0  0800F889		st.b [a15], d8
+
+#163		
+#164		end_state_machine$Cycle:
+#165			LD		state_machine$$Stop_x
+(*) UNDEF
+A00117C4  5068CF85		ld.w d15, #0x30568 ; ADR 0xC0000568
+
+#166			JMPCN	end_state_machine$Stop
+(-) BOOL
+A00117C8  001E0FDF		jeq d15, #0, #0x001E ; JUMP 0xA0011804
+
+#167		
+#168		(* BODY OF Stop *)
+#169		{SRC:state_machine/Stop_state}
+#170		
+#171			(* ENABLE_CYCLIC_PRG := FALSE; *)
+#172			LD		FALSE	{L:1}
+(*) UNDEF
+A00117CC  F000003B		mov d15, #0
+
+#173			ST		ENABLE_CYCLIC_PRG	{L:1}
+(*) BOOL
+A00117D0  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+
+#174		
+#175			(* CYCLE_STOP := TRUE; *)
+#176			LD		TRUE	{L:2}
+(*) UNDEF
+A00117D4  F000103B		mov d15, #1
+
+#177			ST		CYCLE_STOP	{L:2}
+(*) BOOL
+A00117D8  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+
+#178		
+#179			(* v_Torque := 0.0; *)
+#180			LD		0.0	{L:4}
+(*) UNDEF
+A00117DC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 0.000000
+A00117E0  F0000F9B		addih d15, d15, #0x0000
+
+#181			ST		v_Torque	{L:4}
+(*) REAL
+A00117E4  0238CFA5		st.w #0x32038, d15 ; ADR 0xC0002038
+
+#182		
+#183		
+#184		(* Test condition TR5 pin_in 0 *)
+#185			LD		CYCLE_STOP
+(*) UNDEF
+A00117E8  4074CF85		ld.w d15, #0x30534 ; ADR 0xC0000534
+
+#186			ST		state_machine$$Jump6_x
+(*) BOOL
+A00117EC  506CCFA5		st.w #0x3056C, d15 ; ADR 0xC000056C
+
+#187			R		state_machine$$Stop_x
+(*) BOOL
+A00117F0  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000568
+A00117F4  5068FFD9		lea a15,[a15]0x0568
+A00117F8  0840F809		ld.bu d8, [a15]
+A00117FC  8FA008AB		seln d8, d15, d8, #0
+A0011800  0800F889		st.b [a15], d8
+
+#188		
+#189		end_state_machine$Stop:
+#190			LD		state_machine$$Jump6_x
+(*) UNDEF
+A0011804  506CCF85		ld.w d15, #0x3056C ; ADR 0xC000056C
+
+#191			JMPCN	end_state_machine$Jump6
+(-) BOOL
+A0011808  00100FDF		jeq d15, #0, #0x0010 ; JUMP 0xA0011828
+
+#192		
+#193		(* JUMP TO Stop *)
+#194			LD		TRUE
+(*) UNDEF
+A001180C  F000103B		mov d15, #1
+
+#195			ST		state_machine$$Stop_x
+(*) BOOL
+A0011810  5068CFA5		st.w #0x30568, d15 ; ADR 0xC0000568
+
+#196			R		state_machine$$Jump6_x
+(*) BOOL
+A0011814  FC000091		movh.a a15, #0xC000 ; ADR 0xC000056C
+A0011818  506CFFD9		lea a15,[a15]0x056C
+A001181C  0840F809		ld.bu d8, [a15]
+A0011820  8FA008AB		seln d8, d15, d8, #0
+A0011824  0800F889		st.b [a15], d8
+
+A0011828  0180000D		ret
+
+END_PROGRAM
+
+
+**************************************************
+	Target variable image generation
+**************************************************
+
+
+*** INPUT:
+A001182C  0180000D		ret
+
+
+*** OUTPUT:
+A0011830  0180000D		ret
+
+
+
+**************************************************
+	Init code generation for task Background
+**************************************************
+
+A0011834  F000103B		mov d15, #1
+A0011838  406CCFA5		st.w #0x3052C, d15 ; ADR 0xC000052C
+
+A001183C  0180000D		ret
+
+
+
+**************************************************
+	Global init code generation
+**************************************************
+
+A0011850  0180000D		ret
+
+
+
+********************************************
+MEMORY MAP
+********************************************
+
+Start code area:			A0010000h
+End code area:				A0011860h
+Code size:					    1860h
+
+Start local data area:		C00004C0h
+End local data area:		C0000570h
+Local data size:			      B0h
+
+Start retentive data area:	C0001AC0h
+End retentive data area:	C0001AC0h
+Retentive data size:		       0h
+
+Start bit data area:		C0001B00h
+End bit data area:			C0001B00h
+Bit data size:				       0h
+
+
+
+----------------------------------
+ADDRESS MAP
+----------------------------------
+
+               C00004C0 (4) $$STKLIMIT$$
+               C00004C4 (4) InputConv.Krpm
+               C00004C8 (4) InputConv.Krad_s
+               C00004CC (4) InputConv.KArms
+               C00004D0 (4) InputConv.KCnt2Nm
+               C00004D4 (4) InputConv.sysPos
+               C00004D8 (4) InputConv.sysSpd
+               C00004DC (4) InputConv.sysIq
+               C00004E0 (4) InputConv.sysTrqRef
+               C00004E4 (4) InputConv.PosDINT
+               C00004E8 (4) InputConv.offset
+               C00004EC (4) InputConv.sysRev
+               C00004F0 (4) InputConv.pos
+               C00004F4 (4) InputConv.vel_rpm
+               C00004F8 (4) InputConv.vel
+               C00004FC (4) InputConv.trq
+               C0000500 (4) InputConv.curr
+               C0000504 (4) sysSpd
+               C0000508 (4) sysPos
+               C000050C (4) sysIq
+               C0000510 (4) sysRev
+               C0000514 (4) ENABLE_CYCLIC_PRG
+               C0000518 (4) torque_cmd
+               C000051C (4) torque_max
+               C0000520 (4) speed_max
+               C0000524 (4) MaxTorque
+               C0000528 (4) KNm2Cnt
+               C000052C (4) state_machine$$Init_x
+               C0000530 (4) INIT_END
+               C0000534 (4) CYCLE_STOP
+               C0000538 (4) readRealPar.ipa
+               C000053C (4) readRealPar.result
+               C0000540 (4) readRealPar.val
+               C0000544 (4) DriveRatCur
+               C0000548 (4) readIntPar.ipa
+               C000054C (4) readIntPar.result
+               C0000550 (4) readIntPar.val
+               C0000554 (4) FullScaleSpeed
+               C0000558 (4) RatCur
+               C000055C (4) RatKTrq
+               C0000560 (4) RatedTorque
+               C0000564 (4) state_machine$$Cycle_x
+               C0000568 (4) state_machine$$Stop_x
+               C000056C (4) state_machine$$Jump6_x
+--FREE--       C0000570 (6848)
+               C0002030 (4) v_Position
+               C0002034 (4) v_Speed
+               C0002038 (4) v_Torque
+--FREE--       C000203C (8556)
+               C00041A8 (4) sysDIBitWordBit1
+--FREE--       C00041AC (1072)
+               C00045DC (4) sysControlMode
+--FREE--       C00045E0 (268428620)
+               D0002B2C (4) sysTrqFFwd
+--FREE--       D0002B30 (392)
+               D0002CB8 (4) sysSpeedPosPulsesPerRev
+--FREE--       D0002CBC (2068)
+               D00034D0 (4) sysTrqRef
+
+

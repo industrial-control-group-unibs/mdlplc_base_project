@@ -1,0 +1,5 @@
+<devicetemplate>
+	<deviceinfo caption="ADV200S" name="ADV200S" description="ADV200S">
+		<description>Brushless Inverter Drives</description>
+	</deviceinfo>
+</devicetemplate>

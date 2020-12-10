@@ -1,0 +1,159 @@
+;
+;	Version record
+;
+;
+;	Parameters record
+;
+;
+;	Variables record
+;
+VAR	12000	1	"_Position"	5	0	5	0	0	""	""	""	""	"%MD2.0"	""	0	
+VAR	12002	1	"_Speed"	5	0	5	0	0	""	""	""	""	"%MD2.4"	""	0	
+VAR	12004	1	"_Torque"	5	0	5	0	0	""	""	""	""	"%MD2.8"	""	0	
+VAR	12006	1	"_LoadPosition"	5	0	5	0	0	""	""	""	""	"%MD2.12"	""	0	
+VAR	12008	1	"_LoadSpeed"	5	0	5	0	0	""	""	""	""	"%MD2.16"	""	0	
+;
+;	System parameters record
+;
+SYSPAR	3700	-2	"Pad 1"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3702	-2	"Pad 2"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3704	-2	"Pad 3"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3706	-2	"Pad 4"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3708	-2	"Pad 5"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3710	-2	"Pad 6"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3712	-2	"Pad 7"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3714	-2	"Pad 8"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3716	-2	"Pad 9"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3718	-2	"Pad 10"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3720	-2	"Pad 11"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3722	-2	"Pad 12"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3724	-2	"Pad 13"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3726	-2	"Pad 14"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3728	-2	"Pad 15"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+SYSPAR	3730	-2	"Pad 16"	2	0	2	1	0	""	""	""	"%d"	0	0	0	""	"access=30"	
+;
+;	System variables record
+;
+SYSVAR	4454	-2	"Bit0 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4456	-2	"Bit1 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4458	-2	"Bit2 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4460	-2	"Bit3 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4462	-2	"Bit4 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4464	-2	"Bit5 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4466	-2	"Bit6 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4468	-2	"Bit7 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4470	-2	"Bit8 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4472	-2	"Bit9 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4474	-2	"Bit10 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4476	-2	"Bit11 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4478	-2	"Bit12 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4480	-2	"Bit13 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4482	-2	"Bit14 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+SYSVAR	4484	-2	"Bit15 decomp mon"	3	0	3	1	0	""	""	""	"%u"	""	"access=30"	
+;
+;	Equations
+;
+;
+;	Events
+;
+;
+;	Enumeratives list
+;
+ENUMDEF	100	"MPC"	
+;
+;	Enumeratives
+;
+ENUM	100	3	"q_mpc"	
+ENUM	100	30	"Np_mpc"	
+ENUM	100	5	"Nc_mpc"	
+ENUM	100	4	"n_mpc"	
+ENUM	100	1	"m_mpc"	
+;
+;	Menu definition
+;
+MENU	0	"APPLICATION"	0	0	
+MENU	1	"MONITOR"	1	0	
+;
+;	Current menu
+;
+;
+;	Alarms description
+;
+ALA	33	"Plc1 fault"	"Plc1 fault"	
+ALA	34	"Plc2 fault"	"Plc2 fault"	
+ALA	35	"Plc3 fault"	"Plc3 fault"	
+ALA	36	"Plc4 fault"	"Plc4 fault"	
+ALA	37	"Plc5 fault"	"Plc5 fault"	
+ALA	38	"Plc6 fault"	"Plc6 fault"	
+ALA	39	"Plc7 fault"	"Plc7 fault"	
+ALA	40	"Plc8 fault"	"Plc8 fault"	
+ALA	53	"Plc9 fault"	"Plc9 fault"	
+ALA	54	"Plc10 fault"	"Plc10 fault"	
+ALA	55	"Plc11 fault"	"Plc11 fault"	
+ALA	56	"Plc12 fault"	"Plc12 fault"	
+ALA	57	"Plc13 fault"	"Plc13 fault"	
+ALA	58	"Plc14 fault"	"Plc14 fault"	
+ALA	59	"Plc15 fault"	"Plc15 fault"	
+ALA	60	"Plc16 fault"	"Plc16 fault"	
+;
+;	Passwords
+;
+;
+;	Help refs
+;
+;
+;	Firmware file
+;
+;
+;	Control panel definition
+;
+;
+;	System commands record
+;
+;
+;	Datablock records
+;
+;
+;	Supervisor page
+;
+;
+;	Drive address
+;
+DRIVEADDR	1	
+;
+;	Project path
+;
+;
+;	User version define
+;
+;
+;	Include files
+;
+INCLUDE	"adv200syn_7_2_7_gb.ppc"	
+;
+;	Append files
+;
+;
+;	Options
+;
+OPT	"USERMENUROOT"	"1690"	"0"	"0"	""	""	
+OPT	"COMMCONF"	"Modbus:1,1000,M#COM:3,38400,N,8,1"	""	""	""	""	
+OPT	"SHORTLEN"	"20"	"1"	"14"	"15"	"8"	
+OPT	"DBTYPE"	"ADFAM"	""	""	""	""	
+OPT	"LEVEL_EN"	"1"	""	""	""	""	
+;
+;	String variables
+;
+;
+;	Menu order definition
+;
+;
+; Languages translation definitions
+;
+LANGUAGE	1	"IT"	"Italiano"	"app_ita.dic"	0	
+LANGUAGE	2	"FR"	"Francais"	"app_fra.dic"	0	
+LANGUAGE	3	"DE"	"Deutsch"	"app_deu.dic"	0	
+LANGUAGE	4	"ES"	"Español"	"app_esp.dic"	0	
+;
+;	Measure unit codes
+;

@@ -1,0 +1,184 @@
+# ES Español
+
+<_LoadPosition
+>
+
+<_LoadSpeed
+>
+
+<_Position
+>
+
+<_Speed
+>
+
+<_Torque
+>
+
+<APPLICATION
+>
+
+<Bit0 decomp mon
+>
+
+<Bit1 decomp mon
+>
+
+<Bit10 decomp mon
+>
+
+<Bit11 decomp mon
+>
+
+<Bit12 decomp mon
+>
+
+<Bit13 decomp mon
+>
+
+<Bit14 decomp mon
+>
+
+<Bit15 decomp mon
+>
+
+<Bit2 decomp mon
+>
+
+<Bit3 decomp mon
+>
+
+<Bit4 decomp mon
+>
+
+<Bit5 decomp mon
+>
+
+<Bit6 decomp mon
+>
+
+<Bit7 decomp mon
+>
+
+<Bit8 decomp mon
+>
+
+<Bit9 decomp mon
+>
+
+<m_mpc
+>
+
+<MONITOR
+>
+
+<MPC
+>
+
+<n_mpc
+>
+
+<Nc_mpc
+>
+
+<Np_mpc
+>
+
+<Pad 1
+>
+
+<Pad 10
+>
+
+<Pad 11
+>
+
+<Pad 12
+>
+
+<Pad 13
+>
+
+<Pad 14
+>
+
+<Pad 15
+>
+
+<Pad 16
+>
+
+<Pad 2
+>
+
+<Pad 3
+>
+
+<Pad 4
+>
+
+<Pad 5
+>
+
+<Pad 6
+>
+
+<Pad 7
+>
+
+<Pad 8
+>
+
+<Pad 9
+>
+
+<Plc1 fault
+>
+
+<Plc10 fault
+>
+
+<Plc11 fault
+>
+
+<Plc12 fault
+>
+
+<Plc13 fault
+>
+
+<Plc14 fault
+>
+
+<Plc15 fault
+>
+
+<Plc16 fault
+>
+
+<Plc2 fault
+>
+
+<Plc3 fault
+>
+
+<Plc4 fault
+>
+
+<Plc5 fault
+>
+
+<Plc6 fault
+>
+
+<Plc7 fault
+>
+
+<Plc8 fault
+>
+
+<Plc9 fault
+>
+
+<q_mpc
+>

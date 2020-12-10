@@ -1,0 +1,4487 @@
+# ES Español
+
+<
+>
+
+< 0..10V
+> 0..10V
+
+<%
+>%
+
+<|Inp1|!=|Inp2|
+>|Ent1|!=|Ent2|
+
+<|Inp1|<|Inp2|
+>|Ent1|<|Ent2|
+
+<|Inp1|=|Inp2|
+>|Ent1|=|Ent2|
+
+<|Inp1|>|Inp2|
+>|Ent1|>|Ent2|
+
+<°C
+>°C
+
+<0..10V
+>0..10V
+
+<0..20mA
+>0..20mA
+
+<0.20mA , 0.10V
+>0.20mA , 0.10V
+
+<1
+>1
+
+<1 kHz
+>1 kHz
+
+<1 MHz
+>1 MHz
+
+<1,5M
+>1,5M
+
+<10
+>10
+
+<10 kHz
+>10 kHz
+
+<100
+>100
+
+<1000
+>1000
+
+<1024 ppr
+>1024 ppr
+
+<-10V..+10V
+>-10V..+10V
+
+<1120V(690V)
+>1120V(690V)
+
+<115200
+>115200
+
+<12 kHz
+>12 kHz
+
+<125k
+>125k
+
+<12M
+>12M
+
+<16 kHz
+>16 kHz
+
+<16384 ppr
+>16384 ppr
+
+<187,5k
+>187,5k
+
+<19200
+>19200
+
+<1M
+>1M
+
+<2 kHz
+>2 kHz
+
+<230 V
+>230 V
+
+<230V
+>230V
+
+<250k
+>250k
+
+<256 ppr
+>256 ppr
+
+<380 V
+>380 V
+
+<380V..480V
+>380V..480V
+
+<380V..480V LC
+>380V..480V LC
+
+<38400
+>38400
+
+<3M
+>3M
+
+<4 kHz
+>4 kHz
+
+<4..20mA
+>4..20mA
+
+<40 degC
+>40 gradC
+
+<400 V
+>400 V
+
+<4096 ppr
+>4096 ppr
+
+<415 V
+>415 V
+
+<440 V
+>440 V
+
+<460 V
+>460 V
+
+<480 V
+>480 V
+
+<50 degC
+>50 gradC
+
+<500 kHz
+>500 kHz
+
+<500 V
+>500 V
+
+<500k
+>500k
+
+<500V..575V
+>500V..575V
+
+<540V(380-480V)
+>540V(380-480V)
+
+<575 V
+>575 V
+
+<57600
+>57600
+
+<6 kHz
+>6 kHz
+
+<650V(380-480V)
+>650V(380-480V)
+
+<675V(690V)
+>675V(690V)
+
+<690 V
+>690 V
+
+<690V
+>690V
+
+<6M
+>6M
+
+<750V(380-480V)
+>750V(380-480V)
+
+<8 kHz
+>8 kHz
+
+<810V(690V)
+>810V(690V)
+
+<935V(690V)
+>935V(690V)
+
+<93750
+>93750
+
+<9600
+>9600
+
+<Abs offset
+>Despl absoluto
+
+<Abs offset deg
+>Abs offset deg
+
+<Abs offset memory
+>Abs offset memory
+
+<Abs SINCOS
+>Abs SINCOS
+
+<Accel jerk time 0
+>Tiempo jerk accel 0
+
+<Accel jerk time 1
+>Tiempo jerk accel 1
+
+<Accel jerk time 2
+>Tiempo jerk accel 2
+
+<Accel jerk time 3
+>Tiempo jerk accel 3
+
+<Acceleration time 0
+>Tiempo aceleración 0
+
+<Acceleration time 1
+>Tiempo aceleración 1
+
+<Acceleration time 2
+>Tiempo aceleración 2
+
+<Acceleration time 3
+>Tiempo aceleración 3
+
+<Access mode
+>Modo acceso
+
+<Advanced
+>Avanzado
+
+<Air humidity
+>Humedad del Aire
+
+<Air temperature
+>Temperatura del Aire
+
+<Alarm active
+>Alarma activada
+
+<ALARM CONFIG
+>CONFIG ALARMAS
+
+<Alarm data 1
+>Datos alarma 1
+
+<Alarm data 2
+>Datos alarma 2
+
+<Alarm data 3
+>Datos alarma 3
+
+<Alarm data 4
+>Datos alarma 4
+
+<Alarm dig sel 1
+>Selec alarm dig 1
+
+<Alarm dig sel 2
+>Selec alarm dig 2
+
+<Alarm dig sel 3
+>Selec alarm dig 3
+
+<Alarm dig sel 4
+>Selec alarm dig 4
+
+<Alarm hi state
+>Estado alarm alta
+
+<Alarm lo state
+>Estado alarm baja
+
+<ALARM LOG
+>REGISTRO ALARMAS
+
+<Alarm log data 1
+>Datos reg alarma 1
+
+<Alarm log data 2
+>Datos reg alarma 2
+
+<Alarm log data 3
+>Datos reg alarma 3
+
+<Alarm log data 4
+>Datos reg alarma 4
+
+<Alarm log number
+>Núm reg alarma
+
+<Alarm log offset
+>Despl reg alarma
+
+<Alarm log process
+>Proceso reg alarma
+
+<Alarm log time
+>Tiempo reg alarma
+
+<Alarm number
+>Número alarma
+
+<Alarm offset
+>Despl alarma
+
+<Alarm PLC
+>PLC alarma
+
+<Alarm process
+>Proceso alarma
+
+<Alarm restart
+>Alarm restart
+
+<Alarm time
+>Tiempo alarma
+
+<Alm autoreset number
+>Núm autoreset alarm
+
+<Alm autoreset time
+>Tmp autoreset alarm
+
+<Alm dig out mon 1
+>Mon sal dig alarm 1
+
+<Alm dig out mon 2
+>Mon sal dig alarm 2
+
+<Alm dig out mon 3
+>Mon sal dig alarm 3
+
+<Alm dig out mon 4
+>Mon sal dig alarm 4
+
+<Ambient temperature
+>Temperatura ambiente
+
+<An inp 1 alt sel src
+>Or sel alt ent an 1
+
+<An inp 1 alt value
+>Val alt ent analóg 1
+
+<An inp 1 deadband
+>Bnda mrta ent an 1
+
+<An inp 1 gain tune
+>Cal gan entr an 1
+
+<An inp 1 offset tune
+>Cal desp entr an 1
+
+<An inp 1 sign src
+>Orig señ ent an 1
+
+<An inp 1 virtual val
+>Val virt entr an 1
+
+<An inp 1X gain tune
+>Cal gan entr an 1X
+
+<An inp 1X sign src
+>Orig señ entr an 1X
+
+<An inp 1X temp mon
+>An inp 1X temp mon
+
+<An inp 1Xoffset tune
+>Cal desp entr an 1X
+
+<An inp 2 alt sel src
+>Or sel alt ent an 2
+
+<An inp 2 alt value
+>Val alt ent analóg 2
+
+<An inp 2 deadband
+>Bnda mrta ent an 2
+
+<An inp 2 gain tune
+>Cal gan entr an 2
+
+<An inp 2 offset tune
+>Cal desp entr an 2
+
+<An inp 2 sign src
+>Orig señ ent an 2
+
+<An inp 2 virtual val
+>Val virt entr an 2
+
+<An inp 2X gain tune
+>Cal gan entr an 2X
+
+<An inp 2X sign src
+>Orig señ entr an 2X
+
+<An inp 2X temp mon
+>An inp 2X temp mon
+
+<An inp 2Xoffset tune
+>Cal desp entr an 2X
+
+<An out 1 absolute
+>Sal an 1 absoluta
+
+<An out 1X absolute
+>Sal an 1X absoluta
+
+<An out 2 absolute
+>Sal an 2 absoluta
+
+<An out 2X absolute
+>Sal an 2X absoluta
+
+<Analog inp 0Ext mon
+>Mon Ent Analog 0Ext
+
+<Analog inp 1 bottom
+>Lín inf ent analóg 1
+
+<Analog inp 1 filter
+>Filtro ent analóg 1
+
+<Analog inp 1 gain
+>Ganan entr analóg 1
+
+<Analog inp 1 offset
+>Desp entr analóg 1
+
+<Analog inp 1 scale
+>Escala entr analóg 1
+
+<Analog inp 1 thr
+>Umbral entr analóg 1
+
+<Analog inp 1 top
+>Lím sup ent analóg 1
+
+<Analog inp 1 type
+>Tipo entr analóg 1
+
+<Analog inp 1Ext mon
+>Mon Ent Analog 1Ext
+
+<Analog inp 1X bottom
+>Lím inf entr an 1X
+
+<Analog inp 1X gain
+>Gan entr an 1X
+
+<Analog inp 1X offset
+>Desp entr an 1X
+
+<Analog inp 1X scale
+>Escala entr an 1X
+
+<Analog inp 1X top
+>Lím sup entr an 1X
+
+<Analog inp 1X type
+>Tipo entr analóg 1X
+
+<Analog inp 2 bottom
+>Lín inf ent analóg 2
+
+<Analog inp 2 filter
+>Filtro ent analóg 2
+
+<Analog inp 2 gain
+>Ganan entr analóg 2
+
+<Analog inp 2 offset
+>Desp entr analóg 2
+
+<Analog inp 2 scale
+>Escala entr analóg 2
+
+<Analog inp 2 thr
+>Umbral entr analóg 2
+
+<Analog inp 2 top
+>Lím sup ent analóg 2
+
+<Analog inp 2 type
+>Tipo entr analóg 2
+
+<Analog inp 2Ext mon
+>Mon Ent Analog 2Ext
+
+<Analog inp 2X bottom
+>Lím inf entr an 2X
+
+<Analog inp 2X gain
+>Gan entr analóg 2X
+
+<Analog inp 2X offset
+>Desp entr analóg 2X
+
+<Analog inp 2X scale
+>Escala entr an 2X
+
+<Analog inp 2X top
+>Lím sup entr an 2X
+
+<Analog inp 2X type
+>Tipo entr analóg 2X
+
+<Analog inp 3Ext mon
+>Mon Ent Analog 3Ext
+
+<Analog inp 4Ext mon
+>Mon Ent Analog 4Ext
+
+<Analog inp 5Ext mon
+>Mon Ent Analog 5Ext
+
+<Analog inp 6Ext mon
+>Mon Ent Analog 6Ext
+
+<Analog inp 7Ext mon
+>Mon Ent Analog 7Ext
+
+<Analog inp1<thr
+>Entr analóg1<umbr
+
+<Analog inp2<thr
+>Entr analóg2<umbr
+
+<Analog input 1 dest
+>Dest entr analóg 1
+
+<Analog input 1 mon
+>Mon entrada analóg 1
+
+<Analog input 1X dest
+>Dest entr analóg 1X
+
+<Analog input 1X mon
+>Mon entr analóg 1X
+
+<Analog input 2 dest
+>Dest entr analóg 2
+
+<Analog input 2 mon
+>Mon entrada analóg 2
+
+<Analog input 2X dest
+>Dest entr analóg 2X
+
+<Analog input 2X mon
+>Mon entr analóg 2X
+
+<ANALOG INPUTS
+>ENTRADAS ANALOG
+
+<Analog out 1 max
+>Máx sal analóg 1
+
+<Analog out 1 min
+>Mín sal analóg 1
+
+<Analog out 1 mon
+>Mon sal analóg 1
+
+<Analog out 1 scale
+>Escala sal analóg 1
+
+<Analog out 1 src
+>Orig sal analóg 1
+
+<Analog out 1X max
+>Máx sal analóg 1X
+
+<Analog out 1X min
+>Mín sal analóg 1X
+
+<Analog out 1X mon
+>Mon sal analóg 1X
+
+<Analog out 1X scale
+>Escala sal analóg 1X
+
+<Analog out 1X src
+>Orig sal analóg 1X
+
+<Analog out 1X type
+>Tipo sal analóg 1X
+
+<Analog out 2 max
+>Máx sal analóg 2
+
+<Analog out 2 min
+>Mín sal analóg 2
+
+<Analog out 2 mon
+>Mon sal analóg 2
+
+<Analog out 2 scale
+>Escala sal analóg 2
+
+<Analog out 2 src
+>Orig sal analóg 2
+
+<Analog out 2 type
+>Tipo sal analóg 2
+
+<Analog out 2X max
+>Máx sal analóg 2X
+
+<Analog out 2X min
+>Mín sal analóg 2X
+
+<Analog out 2X mon
+>Mon sal analóg 2X
+
+<Analog out 2X scale
+>Escala sal analóg 2X
+
+<Analog out 2X src
+>Orig sal analóg 2X
+
+<Analog out 2X type
+>Tipo sal analóg 2X
+
+<ANALOG OUTPUTS
+>SALIDAS ANALOG
+
+<APPLICATION
+>APLICACION
+
+<Application 1
+>Aplicación 1
+
+<Application 2
+>Aplicación 2
+
+<Application key
+>Llave aplicación
+
+<Application select
+>Selec aplicación
+
+<Application subver
+>SubVer aplicación
+
+<Application type
+>Tipo aplicación
+
+<Application ver.rel
+>Lanz vers aplicación
+
+<Asynchronous
+>Asincrono
+
+<Auto
+>Automático
+
+<Auto fan
+>Autovent
+
+<Autophase OK
+>Autofase OK
+
+<Autophase rotation
+>Rotación autofase
+
+<Autophase run mode
+>Marcha Auto Fasatura
+
+<Autophase run type
+>Tipo Auto Fasatura
+
+<Autophase status
+>Stato autofase
+
+<Autophase still
+>Autofase estática
+
+<Autophase still mode
+>Modo autofas statica
+
+<Autotune
+>Autocalib
+
+<Autotune break
+>Interrupc autocal
+
+<Autotune error
+>Error autocal
+
+<Autotune mode
+>Autocal modo
+
+<Autotune progress
+>Avance autocal
+
+<Autotune rotation
+>Autocal en rotación
+
+<Autotune status
+>Estado autocal
+
+<Autotune still
+>Autocal estática
+
+<Bandwidth
+>Anchura banda
+
+<Bit0 decomp mon
+>Mon decomp bit0
+
+<Bit1 decomp mon
+>Mon decomp bit1
+
+<Bit10 decomp mon
+>Mon decomp bit10
+
+<Bit11 decomp mon
+>Mon decomp bit11
+
+<Bit12 decomp mon
+>Mon decomp bit12
+
+<Bit13 decomp mon
+>Mon decomp bit13
+
+<Bit14 decomp mon
+>Mon decomp bit14
+
+<Bit15 decomp mon
+>Mon decomp bit15
+
+<Bit2 decomp mon
+>Mon decomp bit2
+
+<Bit3 decomp mon
+>Mon decomp bit3
+
+<Bit4 decomp mon
+>Mon decomp bit4
+
+<Bit5 decomp mon
+>Mon decomp bit5
+
+<Bit6 decomp mon
+>Mon decomp bit6
+
+<Bit7 decomp mon
+>Mon decomp bit7
+
+<Bit8 decomp mon
+>Mon decomp bit8
+
+<Bit9 decomp mon
+>Mon decomp bit9
+
+<Boot release
+>Lanzamiento arranque
+
+<Boot version
+>Versión arranque
+
+<Brake close delay
+>Retrd cierre freno
+
+<Brake close spd thr
+>Cerrar freno spd thr
+
+<Brake close wait
+>Espera cerrar freno
+
+<BRAKE CONTROL
+>CONTROL FRENO
+
+<Brake control funct
+>Func control freno
+
+<Brake control mon
+>Mon control freno
+
+<Brake fault
+>Fallo Freno
+
+<Brake fault activity
+>FalloFreno actividad
+
+<Brake open delay
+>Retrd abrir freno
+
+<Brake open spd thr
+>Abrir freno spd thr
+
+<Brake open thr
+>Abrir freno thr
+
+<Brake open thr mon
+>Mon Abrir Freno thr
+
+<Brake open thr sel
+>Abrir freno thr sel
+
+<Brake open thr src
+>Abrir freno thr src
+
+<Brake ramp freeze
+>Brake ramp freeze
+
+<Brake torque time
+>Tiempo par freno
+
+<Bres cont power
+>Alim cont R fre
+
+<Bres control
+>Control R fre
+
+<Bres overload
+>Sobrcar R fren
+
+<BRES OVERLOAD
+>SOBRECARG R FRE
+
+<Bres overload accum
+>Acum sobrec R fre
+
+<Bres overload factor
+>Factor sobrec R fre
+
+<Bres overload time
+>Tiempo sobrec R fre
+
+<Bres overload trip
+>Alarm sobrec R fre
+
+<Bres ovld activity
+>Act sobrecarg R fre
+
+<Bres value
+>Valor R fre
+
+<Bypass
+>Ignorar
+
+<Can/Dnet
+>Can/Dnet
+
+<CanOpen
+>CanOpen
+
+<Check A-B
+>Comprobar A-B
+
+<Check A-B-SE
+>Compr A-B-SE
+
+<Check A-B-Z
+>Compr A-B-Z
+
+<Check A-B-Z-P
+>Check A-B-Z-P
+
+<Check disabled
+>Comprobar des
+
+<Chopper ON
+>Chopper ON
+
+<COMMANDS
+>COMANDOS
+
+<Commands local sel
+>Selec comandos loc
+
+<Commands remote sel
+>Selec comandos remot
+
+<Commands safe start
+>Com arranque seguro
+
+<COMMUNICATION
+>COMUNICACION
+
+<COMPARE
+>COMPARACION
+
+<Compare delay
+>Retardo comparación
+
+<Compare function
+>Función comparación
+
+<Compare input 1 src
+>Orig entr comp 1
+
+<Compare input 2 src
+>Orig entr comp 2
+
+<Compare output
+>Salida comparación
+
+<Compare window
+>Ventana comparación
+
+<Condensat activity
+>Mod.Al. Condensacion
+
+<Condensat holdoff
+>Tim. Reac Al Cond.
+
+<Condensation
+>Condensación
+
+<Condensation state
+>Salida Condensación
+
+<Constant
+>Constante
+
+<CONTROL MODE
+>CONTROL MODE
+
+<Control mode select
+>Selec modo control
+
+<Control type
+>Tipo Control
+
+<Count 16
+>Cuenta 16
+
+<Count 32
+>Cuenta 32
+
+<Ctrl mode mon
+>Mon modo Ctrl
+
+<Ctrl mode sel 0 src
+>Ctrl modo orig sel 0
+
+<Ctrl mode sel 1 src
+>Ctrl modo orig sel 1
+
+<Ctrl mode sel mon
+>Mon sel modo Ctrl
+
+<Ctrl mode src
+>Ctrl mode orig
+
+<Current limit state
+>Estado lím corr
+
+<Current ref
+>Ref corr
+
+<Current reg I time
+>Tiempo I regul corr
+
+<Current reg P gain
+>Gan P regul corr
+
+<Current thr hyster
+>Histéresis umb act
+
+<Current thr mon
+>Umbral actual mon
+
+<Current threshold
+>Umbral actual
+
+<CURRENTS
+>CORRENTI
+
+<DataExchange
+>Intercamb dat
+
+<DC link voltage
+>Voltaje CC link
+
+<DC supply
+>DC supply
+
+<Dead time limit
+>Lím tmp muerto
+
+<Dead time slope
+>Pend tmp muerto
+
+<Decel jerk time 0
+>Tiempo jerk decel 0
+
+<Decel jerk time 1
+>Tiempo jerk decel 1
+
+<Decel jerk time 2
+>Tiempo jerk decel 2
+
+<Decel jerk time 3
+>Tiempo jerk decel 3
+
+<Deceleration time 0
+>Tiempo decelera 0
+
+<Deceleration time 1
+>Tiempo decelera 1
+
+<Deceleration time 2
+>Tiempo decelera 2
+
+<Deceleration time 3
+>Tiempo decelera 3
+
+<Desat restart
+>Reinic desat
+
+<Desat restart time
+>Tmp reinicio desat
+
+<Desaturation
+>Desaturación
+
+<DeviceNet
+>DeviceNet
+
+<Dew temperature
+>Temperatura de Rocio
+
+<Dew temperature offs
+>Offset Temp. Rocio
+
+<Dig Analog out 0 ext
+>Sal Dig Analog 0 ext
+
+<Dig Analog out 1 ext
+>Sal Dig Analog 1 ext
+
+<Dig Analog out 2 ext
+>Sal Dig Analog 2 ext
+
+<Dig Analog out 3 ext
+>Sal Dig Analog 3 ext
+
+<Dig Analog out 4 ext
+>Sal Dig Analog 4 ext
+
+<Dig Analog out 5 ext
+>Sal Dig Analog 5 ext
+
+<Dig Analog out 6 ext
+>Sal Dig Analog 6 ext
+
+<Dig Analog out 7 ext
+>Sal Dig Analog 7 ext
+
+<Dig compare input 1
+>Entrada comp dig 1
+
+<Dig compare input 2
+>Entrada comp dig 2
+
+<Dig Fieldbus S->M1
+>Bus campo dig S->M1
+
+<Dig Fieldbus S->M10
+>Bus camp dig S->M10
+
+<Dig Fieldbus S->M11
+>Bus camp dig S->M11
+
+<Dig Fieldbus S->M12
+>Bus camp dig S->M12
+
+<Dig Fieldbus S->M13
+>Bus camp dig S->M13
+
+<Dig Fieldbus S->M14
+>Bus camp dig S->M14
+
+<Dig Fieldbus S->M15
+>Bus camp dig S->M15
+
+<Dig Fieldbus S->M16
+>Bus camp dig S->M16
+
+<Dig Fieldbus S->M2
+>Bus campo dig S->M2
+
+<Dig Fieldbus S->M3
+>Bus campo dig S->M3
+
+<Dig Fieldbus S->M4
+>Bus campo dig S->M4
+
+<Dig Fieldbus S->M5
+>Bus campo dig S->M5
+
+<Dig Fieldbus S->M6
+>Bus campo dig S->M6
+
+<Dig Fieldbus S->M7
+>Bus campo dig S->M7
+
+<Dig Fieldbus S->M8
+>Bus campo dig S->M8
+
+<Dig Fieldbus S->M9
+>Bus campo dig S->M9
+
+<Dig inp 0Ext mon
+>Mon Ent Dig 0Ext
+
+<Dig inp 1 inversion
+>Inv entrada dig 1
+
+<Dig inp 1Ext mon
+>Mon Ent Dig 1Ext
+
+<Dig inp 1X inversion
+>Inv entrada dig 1X
+
+<Dig inp 2 inversion
+>Inv entrada dig 2
+
+<Dig inp 2X inversion
+>Inv entrada dig 2X
+
+<Dig inp 3 inversion
+>Inv entrada dig 3
+
+<Dig inp 3X inversion
+>Inv entrada dig 3X
+
+<Dig inp 4 inversion
+>Inv entrada dig 4
+
+<Dig inp 4X inversion
+>Inv entrada dig 4X
+
+<Dig inp 5 inversion
+>Inv entrada dig 5
+
+<Dig inp 5X inversion
+>Inv entrada dig 5X
+
+<Dig inp 6X inversion
+>Inv entrada dig 6X
+
+<Dig inp 7X inversion
+>Inv entrada dig 7X
+
+<Dig inp 8X inversion
+>Inv entrada dig 8X
+
+<Dig inp 9X inversion
+>Inv entrada dig 9X
+
+<Dig inp10X inversion
+>Inv entrada dig10X
+
+<Dig inp11X inversion
+>Inv entrada dig11X
+
+<Dig inp12X inversion
+>Inv entrada dig12X
+
+<Dig inp13X inversion
+>Inv entrada dig13X
+
+<Dig inp14X inversion
+>Inv entrada dig14X
+
+<Dig inp15X inversion
+>Inv entrada dig15X
+
+<Dig inp16X inversion
+>Inv entrada dig16X
+
+<Dig input 1X dest
+>Dest entrada dig 1X
+
+<Dig input 2X dest
+>Dest entrada dig 2X
+
+<Dig input 3X dest
+>Dest entrada dig 3X
+
+<Dig input 4X dest
+>Dest entrada dig 4X
+
+<Dig input 5X dest
+>Dest entrada dig 5X
+
+<Dig input 6X dest
+>Dest entrada dig 6X
+
+<Dig input 7X dest
+>Dest entrada dig 7X
+
+<Dig input 8X dest
+>Dest entrada dig 8X
+
+<Dig input 9X dest
+>Dest entrada dig 9X
+
+<Dig input10X dest
+>Dest entrada dig10X
+
+<Dig input11X dest
+>Dest entrada dig11X
+
+<Dig input12X dest
+>Dest entrada dig12X
+
+<Dig input13X dest
+>Dest entrada dig13X
+
+<Dig input14X dest
+>Dest entrada dig14X
+
+<Dig input15X dest
+>Dest entrada dig15X
+
+<Dig input16X dest
+>Dest entrada dig16X
+
+<Dig local/remote
+>Local/remoto dig
+
+<Dig out 1 inversion
+>Inv salida dig 1
+
+<Dig out 1X inversion
+>Inv salida dig 1X
+
+<Dig out 2 inversion
+>Inv salida dig 2
+
+<Dig out 2X inversion
+>Inv salida dig 2X
+
+<Dig out 3 inversion
+>Inv salida dig 3
+
+<Dig out 3X inversion
+>Inv salida dig 3X
+
+<Dig out 4 inversion
+>Inv salida dig 4
+
+<Dig out 4X inversion
+>Inv salida dig 4X
+
+<Dig out 5X inversion
+>Inv salida dig 5X
+
+<Dig out 6X inversion
+>Inv salida dig 6X
+
+<Dig out 7X inversion
+>Inv salida dig 7X
+
+<Dig out 8X inversion
+>Inv salida dig 8X
+
+<Dig out 9X inversion
+>Inv salida dig 9X
+
+<Dig output 1X src
+>Orig salida dig 1X
+
+<Dig output 2X src
+>Orig salida dig 2X
+
+<Dig output 3X src
+>Orig salida dig 3X
+
+<Dig output 4X src
+>Orig salida dig 4X
+
+<Dig output 5X src
+>Orig salida dig 5X
+
+<Dig output 6X src
+>Orig salida dig 6X
+
+<Dig output 7X src
+>Orig salida dig 7X
+
+<Dig output 8X src
+>Orig salida dig 8X
+
+<Dig output 9X src
+>Orig salida dig 9X
+
+<Dig ramp ref 1
+>Ref rampa digital 1
+
+<Dig ramp ref 2
+>Ref rampa digital 2
+
+<Dig ramp ref 3
+>Ref rampa digital 3
+
+<Dig set speed ref
+>Ref velo aj dig
+
+<Dig speed ratio
+>Rel velo dig
+
+<Dig speed ref 1
+>Ref velo dig 1
+
+<Dig speed ref 2
+>Ref velo dig 2
+
+<Dig torque ref 1
+>Ref par dig 1
+
+<Dig word decomp
+>Word decomp dig
+
+<Digital
+>Digital
+
+<Digital Enable src
+>Orig act digital
+
+<Digital F
+>Digital F
+
+<Digital FP
+>Digital FP
+
+<Digital hw input mon
+>Mon entrada hw dig
+
+<Digital input 1 dest
+>Dest entrada dig 1
+
+<Digital input 1 mon
+>Mon entrada dig 1
+
+<Digital input 1X mon
+>Mon entrada dig 1X
+
+<Digital input 2 dest
+>Dest entrada dig 2
+
+<Digital input 2 mon
+>Mon entrada dig 2
+
+<Digital input 2X mon
+>Mon entrada dig 2X
+
+<Digital input 3 dest
+>Dest entrada dig 3
+
+<Digital input 3 mon
+>Mon entrada dig 3
+
+<Digital input 3X mon
+>Mon entrada dig 3X
+
+<Digital input 4 dest
+>Dest entrada dig 4
+
+<Digital input 4 mon
+>Mon entrada dig 4
+
+<Digital input 4X mon
+>Mon entrada dig 4X
+
+<Digital input 5 dest
+>Dest entrada dig 5
+
+<Digital input 5 mon
+>Mon entrada dig 5
+
+<Digital input 5X mon
+>Mon entrada dig 5X
+
+<Digital input 6X mon
+>Mon entrada dig 6X
+
+<Digital input 7X mon
+>Mon entrada dig 7X
+
+<Digital input 8X mon
+>Mon entrada dig 8X
+
+<Digital input 9X mon
+>Mon entrada dig 9X
+
+<Digital input E dest
+>Dest entrada dig E
+
+<Digital input E mon
+>Mon entrada dig E
+
+<Digital input mon
+>Mon entrada digital
+
+<Digital input X mon
+>Mon entrada dig X
+
+<Digital input10X mon
+>Mon entrada dig10X
+
+<Digital input11X mon
+>Mon entrada dig11X
+
+<Digital input12X mon
+>Mon entrada dig12X
+
+<Digital input13X mon
+>Mon entrada dig13X
+
+<Digital input14X mon
+>Mon entrada dig14X
+
+<Digital input15X mon
+>Mon entrada dig15X
+
+<Digital input16X mon
+>Mon entrada dig16X
+
+<DIGITAL INPUTS
+>ENTRADAS DIGITALES
+
+<Digital out 0Ext mon
+>Mon Sal Dig 0Ext
+
+<Digital out 1Ext mon
+>Mon Sal Dig 1Ext
+
+<Digital output 1 src
+>Orig salida dig 1
+
+<Digital output 2 src
+>Orig salida dig 2
+
+<Digital output 3 src
+>Orig salida dig 3
+
+<Digital output 4 src
+>Orig salida dig 4
+
+<Digital output mon
+>Mon salida dig
+
+<Digital output X mon
+>Mon salida dig X
+
+<DIGITAL OUTPUTS
+>SALIDAS DIGITALES
+
+<Digital Start src
+>Orig arranq digital
+
+<Dim factor den
+>Dim factor den
+
+<Dim factor num
+>Dim factor num
+
+<Dim factor text
+>Dim factor text
+
+<DIMENSION FACT
+>FACTOR DIMENS.
+
+<Disable
+>Desactivar
+
+<Disabled
+>Off
+
+<Display backlight
+>Retroilum pantalla
+
+<Display spd filter
+>Display spd filter
+
+<Display trq filter
+>Display trq filter
+
+<Divide 2
+>Dividido 2
+
+<Divide 4
+>Dividido 4
+
+<Divide 8
+>Dividido 8
+
+<Done
+>Finalizado
+
+<DOUBLE PAR SET
+>DOBLE SET PAR
+
+<DPError
+>Error DP
+
+<Drive address
+>Dirección convert
+
+<DRIVE CONFIG
+>CONFIG CONVERTIDOR
+
+<Drive cont current
+>Corr cont convert
+
+<Drive family
+>Familia convertidor
+
+<DRIVE INFO
+>INFO CONVERTIDOR
+
+<Drive memory
+>Drive memory
+
+<Drive name
+>Nombre convertidor
+
+<Drive OK
+>Convertidor OK
+
+<Drive overload
+>Sobrecarg conv
+
+<Drive overload 80%
+>Sobrecarg conv 80%
+
+<Drive overload accum
+>Acum sobrecarg conv
+
+<Drive overload mode
+>Modo sobrecarg conv
+
+<Drive overload trip
+>Alarm sobrecarg conv
+
+<Drive ovld activity
+>Act sobrecarg conv
+
+<Drive ready
+>Convertidor listo
+
+<Drive region
+>Región convertidor
+
+<Drive reset
+>Drive reset
+
+<Drive size
+>Tamaño convertidor
+
+<DROOP
+>DROOP
+
+<Droop filter
+>Filtro Droop
+
+<Droop gain
+>Ganancia Droop
+
+<Droop limit
+>Límite Droop
+
+<Droop out mon
+>Monitor salida Droop
+
+<Droop ref src
+>Fuente ref Droop
+
+<Drv interlock mon
+>Mon Bloqueo drv
+
+<Drv interlock src
+>Drv Bloqueo src
+
+<Drv temp hys
+>Hyst Umb Temp Driver
+
+<Drv temp src
+>Org Temp Driver
+
+<Drv temp thr
+>Umbarl Temp Driver
+
+<Drv thr overtemp mon
+>Drv thr overtemp mon
+
+<DS402
+>DS402
+
+<DS402 cw src
+>DS402 cw src
+
+<DS402 status word
+>Word estado DS402
+
+<E1 Abs position
+>Posición absoluta E1
+
+<E1 Abs pulses
+>Impuls. absolutos E1
+
+<E1 Abs revolutions
+>Revols absolutas E1
+
+<E1 Revolutions
+>Revoluciones E1
+
+<E1 Virtual position
+>Posición virtual E1
+
+<E1 Virtual pulses
+>Pulsos virtuales E1
+
+<E2 Abs position
+>Posición absoluta E2
+
+<E2 Abs pulses
+>Impuls. absolutos E2
+
+<E2 Abs revolutions
+>Revols absolutas E2
+
+<E2 Revolutions
+>Revoluciones E2
+
+<E2 Virtual position
+>Posición virtual E2
+
+<E2 Virtual pulses
+>Pulsos virtuales E2
+
+<E3 Revolutions
+>Revoluciones E3
+
+<E3 Virtual position
+>Posición virtual E3
+
+<E3 Virtual pulses
+>Pulsos virtuales E3
+
+<Each enable
+>Cada Enable
+
+<Easy
+>Fácil
+
+<EMF constant
+>Constante EMF
+
+<Emg stop alarm
+>Alrm parad emg
+
+<EmgStop&Alarm
+>ParadEmg&Alarm
+
+<Enable
+>Activar
+
+<Enable cmd mon
+>Mon com act
+
+<Enable state mon
+>Mon estado act
+
+<Enable&restart
+>Enable&restart
+
+<Enable/disable mode
+>Modo act/desact
+
+<Enabled
+>Abilitato
+
+<Enc 1
+>Enc 1
+
+<Enc 2
+>Enc 2
+
+<Enc 3
+>Enc 3
+
+<Enc 4
+>Enc 4
+
+<Enc 5
+>Enc 5
+
+<Enc 6
+>Enc 6
+
+<Enc 7
+>Enc 7
+
+<Enc 8
+>Enc 8
+
+<Enc ratio
+>Enc ratio
+
+<Encoder 1 direction
+>Dirección encoder 1
+
+<Encoder 1 input cfg
+>Config ent encoder 1
+
+<Encoder 1 mode
+>Modo encoder 1
+
+<Encoder 1 position
+>Posición encoder 1
+
+<Encoder 1 pulses
+>Pulsos encoder 1
+
+<Encoder 1 repetition
+>Repetición encoder 1
+
+<Encoder 1 signal Vpp
+>Señal encoder 1 Vpp
+
+<Encoder 1 speed
+>Velo encoder 1
+
+<Encoder 1 supply
+>Sumin encoder 1
+
+<Encoder 2 direction
+>Dirección encoder 2
+
+<Encoder 2 input cfg
+>Config ent encoder 2
+
+<Encoder 2 mode
+>Modo encoder 2
+
+<Encoder 2 position
+>Posición encoder 2
+
+<Encoder 2 pulses
+>Pulsos encoder 2
+
+<Encoder 2 repetition
+>Repetición encoder 2
+
+<Encoder 2 speed
+>Velo encoder 2
+
+<Encoder 2 supply
+>Sumin encoder 2
+
+<Encoder 3 direction
+>Dirección encoder 3
+
+<Encoder 3 input cfg
+>Config ent encoder 3
+
+<Encoder 3 position
+>Posición encoder 3
+
+<Encoder 3 pulses
+>Pulsos encoder 3
+
+<ENCODER CONFIG
+>CONFIG ENCODER
+
+<Encoder ENDAT clock
+>Reloj Encoder ENDAT
+
+<Encoder error
+>Error encoder
+
+<Encoder memory
+>Encoder memory
+
+<Encoder sel mon
+>Mon sel encoder
+
+<Encoder sel src
+>Orig sel encoder
+
+<Encoder SSI clocks
+>Clock SSI encoder
+
+<Encoder SSI pos bits
+>Pos Bits SSI encoder
+
+<Encoder sync mode
+>Modo sinc encoder
+
+<Encoder1signal check
+>Error señal encoder1
+
+<Encoder1speed filter
+>Filtr velo encoder 1
+
+<Encoder2signal check
+>Error señal encoder2
+
+<Encoder2speed filter
+>Filtr velo encoder 2
+
+<English
+>Inglés
+
+<Error
+>Error
+
+<Ethercat
+>Ethercat
+
+<EthernetIP
+>EthernetIP
+
+<EU
+>EU
+
+<Eu float
+>Eu float
+
+<Even,8,1
+>Even,8,1
+
+<Expert
+>Experto
+
+<EXT IO SERV
+>EXT IO SERV
+
+<Extended
+>Ampliado
+
+<External fault
+>Err ext
+
+<EXTERNAL IO
+>IO EXTERNAS
+
+<External IO address
+>External IO address
+
+<External IO baudrate
+>External IO baudrate
+
+<External IO enable
+>Habilita IO Externo
+
+<External IO err cnt
+>External IO err cnt
+
+<External IO failcode
+>IO Externo fallo cod
+
+<External IO HB time
+>External IO HB time
+
+<External IO info
+>Info IO Externo
+
+<External IO lifetime
+>External IO lifetime
+
+<External IO pdo time
+>External IO pdo time
+
+<External IO period
+>External IO period
+
+<External IO state
+>Estado IO Externo
+
+<ExtFlt activity
+>Activ fall ext
+
+<ExtFlt holdoff
+>Mantenim fall ext
+
+<ExtFlt restart
+>Reinicio fall ext
+
+<ExtFlt restart time
+>Tmp reinic fall ext
+
+<ExtFlt src
+>Orig fall ext
+
+<ExtIO activity
+>Actividad ExtIO
+
+<ExtIO fault
+>Fallo ExtIO
+
+<ExtIO holdoff
+>ExtIO holdoff
+
+<FAST LINK
+>FAST LINK
+
+<FAST LINK SERV
+>FAST LINK SERV
+
+<Fast stop
+>Parad ráp
+
+<FastLink
+>FastLink
+
+<FastLink fault
+>Fallo FastLink
+
+<FastStop cmd mon
+>Mon com parad rápida
+
+<FastStop mode
+>Modo FastStop
+
+<FastStop src
+>Orig parad rápida
+
+<FastStop state mon
+>Mon estado parad ráp
+
+<Fault reset src
+>Orig reaj fall
+
+<Fieldbus address
+>Dirección bus campo
+
+<Fieldbus alarm mode
+>Modo alarm bus campo
+
+<Fieldbus baudrate
+>Baudrate bus campo
+
+<FIELDBUS CONFIG
+>CONF BUS CAMPO
+
+<Fieldbus error
+>Fieldbus error
+
+<Fieldbus float order
+>Fieldbus float order
+
+<FIELDBUS M->S
+>BUS CAMPO M->S
+
+<Fieldbus M->S enable
+>Act bus campo M->S
+
+<Fieldbus M->S1 div
+>Div M->S1 bus campo
+
+<Fieldbus M->S1 ipa
+>Ipa Fieldbus M->S1
+
+<Fieldbus M->S1 mon
+>Mon bus campo M->S1
+
+<Fieldbus M->S1 sys
+>Sis bus campo M->S1
+
+<Fieldbus M->S10 div
+>Div M->S10 bus campo
+
+<Fieldbus M->S10 ipa
+>Ipa Fieldbus M->S10
+
+<Fieldbus M->S10 mon
+>Mon bus campo M->S10
+
+<Fieldbus M->S10 sys
+>Sis bus campo M->S10
+
+<Fieldbus M->S11 div
+>Div M->S11 bus campo
+
+<Fieldbus M->S11 ipa
+>Ipa Fieldbus M->S11
+
+<Fieldbus M->S11 mon
+>Mon bus campo M->S11
+
+<Fieldbus M->S11 sys
+>Sis bus campo M->S11
+
+<Fieldbus M->S12 div
+>Div M->S12 bus campo
+
+<Fieldbus M->S12 ipa
+>Ipa Fieldbus M->S12
+
+<Fieldbus M->S12 mon
+>Mon bus campo M->S12
+
+<Fieldbus M->S12 sys
+>Sis bus campo M->S12
+
+<Fieldbus M->S13 div
+>Div M->S13 bus campo
+
+<Fieldbus M->S13 ipa
+>Ipa Fieldbus M->S13
+
+<Fieldbus M->S13 mon
+>Mon bus campo M->S13
+
+<Fieldbus M->S13 sys
+>Sis bus campo M->S13
+
+<Fieldbus M->S14 div
+>Div M->S14 bus campo
+
+<Fieldbus M->S14 ipa
+>Ipa Fieldbus M->S14
+
+<Fieldbus M->S14 mon
+>Mon bus camp M->S14
+
+<Fieldbus M->S14 sys
+>Sis bus camp M->S14
+
+<Fieldbus M->S15 div
+>Div M->S15 bus campo
+
+<Fieldbus M->S15 ipa
+>Ipa Fieldbus M->S15
+
+<Fieldbus M->S15 mon
+>Mon bus campo M->S15
+
+<Fieldbus M->S15 sys
+>Sis bus campo M->S15
+
+<Fieldbus M->S16 div
+>Div M->S16 bus campo
+
+<Fieldbus M->S16 ipa
+>Ipa Fieldbus M->S16
+
+<Fieldbus M->S16 mon
+>Mon bus campo M->S16
+
+<Fieldbus M->S16 sys
+>Sis bus camp M->S16
+
+<Fieldbus M->S2 div
+>Div M->S2 bus campo
+
+<Fieldbus M->S2 ipa
+>Ipa Fieldbus M->S2
+
+<Fieldbus M->S2 mon
+>Mon bus campo M->S2
+
+<Fieldbus M->S2 sys
+>Sis bus campo M->S2
+
+<Fieldbus M->S3 div
+>Div M->S3 bus campo
+
+<Fieldbus M->S3 ipa
+>Ipa Fieldbus M->S3
+
+<Fieldbus M->S3 mon
+>Mon bus campo M->S3
+
+<Fieldbus M->S3 sys
+>Sis bus campo M->S3
+
+<Fieldbus M->S4 div
+>Div M->S4 bus campo
+
+<Fieldbus M->S4 ipa
+>Ipa Fieldbus M->S4
+
+<Fieldbus M->S4 mon
+>Mon bus campo M->S4
+
+<Fieldbus M->S4 sys
+>Sis bus campo M->S4
+
+<Fieldbus M->S5 div
+>Div M->S5 bus campo
+
+<Fieldbus M->S5 ipa
+>Ipa Fieldbus M->S5
+
+<Fieldbus M->S5 mon
+>Mon bus campo M->S5
+
+<Fieldbus M->S5 sys
+>Sis bus campo M->S5
+
+<Fieldbus M->S6 div
+>Div M->S6 bus campo
+
+<Fieldbus M->S6 ipa
+>Ipa Fieldbus M->S6
+
+<Fieldbus M->S6 mon
+>Mon bus campo M->S6
+
+<Fieldbus M->S6 sys
+>Sis bus campo M->S6
+
+<Fieldbus M->S7 div
+>Div M->S7 bus campo
+
+<Fieldbus M->S7 ipa
+>Ipa Fieldbus M->S7
+
+<Fieldbus M->S7 mon
+>Mon bus campo M->S7
+
+<Fieldbus M->S7 sys
+>Sis bus campo M->S7
+
+<Fieldbus M->S8 div
+>Div M->S8 bus campo
+
+<Fieldbus M->S8 ipa
+>Ipa Fieldbus M->S8
+
+<Fieldbus M->S8 mon
+>Mon bus campo M->S8
+
+<Fieldbus M->S8 sys
+>Sis bus campo M->S8
+
+<Fieldbus M->S9 div
+>Div M->S9 bus campo
+
+<Fieldbus M->S9 ipa
+>Ipa Fieldbus M->S9
+
+<Fieldbus M->S9 mon
+>Mon bus campo M->S9
+
+<Fieldbus M->S9 sys
+>Sis bus campo M->S9
+
+<FIELDBUS S->M
+>BUS CAMPO S->M
+
+<Fieldbus S->M1 ipa
+>Ipa Fieldbus S->M1
+
+<Fieldbus S->M1 mul
+>Mul S->M1 bus campo
+
+<Fieldbus S->M1 sys
+>Sis bus campo S->M1
+
+<Fieldbus S->M10 ipa
+>Ipa Fieldbus S->M10
+
+<Fieldbus S->M10 mul
+>Mul S->M10 bus campo
+
+<Fieldbus S->M10 sys
+>Sis bus camp S->M10
+
+<Fieldbus S->M11 ipa
+>Ipa Fieldbus S->M11
+
+<Fieldbus S->M11 mul
+>Mul S->M11 bus campo
+
+<Fieldbus S->M11 sys
+>Sis bus camp S->M11
+
+<Fieldbus S->M12 ipa
+>Ipa Fieldbus S->M12
+
+<Fieldbus S->M12 mul
+>Mul S->M12 bus campo
+
+<Fieldbus S->M12 sys
+>Sis bus camp S->M12
+
+<Fieldbus S->M13 ipa
+>Ipa Fieldbus S->M13
+
+<Fieldbus S->M13 mul
+>Mul S->M13 bus campo
+
+<Fieldbus S->M13 sys
+>Sis bus camp S->M13
+
+<Fieldbus S->M14 ipa
+>Ipa Fieldbus S->M14
+
+<Fieldbus S->M14 mul
+>Mul S->M14 bus campo
+
+<Fieldbus S->M14 sys
+>Sis bus camp S->M14
+
+<Fieldbus S->M15 ipa
+>Ipa Fieldbus S->M15
+
+<Fieldbus S->M15 mul
+>Mul S->M15 bus campo
+
+<Fieldbus S->M15 sys
+>Sis bus camp S->M15
+
+<Fieldbus S->M16 ipa
+>Ipa Fieldbus S->M16
+
+<Fieldbus S->M16 mul
+>Mul S->M16 bus campo
+
+<Fieldbus S->M16 sys
+>Sis bus camp S->M16
+
+<Fieldbus S->M2 ipa
+>Ipa Fieldbus S->M2
+
+<Fieldbus S->M2 mul
+>Mul S->M2 bus campo
+
+<Fieldbus S->M2 sys
+>Sis bus campo S->M2
+
+<Fieldbus S->M3 ipa
+>Ipa Fieldbus S->M3
+
+<Fieldbus S->M3 mul
+>Mul S->M3 bus campo
+
+<Fieldbus S->M3 sys
+>Sis bus campo S->M3
+
+<Fieldbus S->M4 ipa
+>Ipa Fieldbus S->M4
+
+<Fieldbus S->M4 mul
+>Mul S->M4 bus campo
+
+<Fieldbus S->M4 sys
+>Sis bus campo S->M4
+
+<Fieldbus S->M5 ipa
+>Ipa Fieldbus S->M5
+
+<Fieldbus S->M5 mul
+>Mul S->M5 bus campo
+
+<Fieldbus S->M5 sys
+>Sis bus campo S->M5
+
+<Fieldbus S->M6 ipa
+>Ipa Fieldbus S->M6
+
+<Fieldbus S->M6 mul
+>Mul S->M6 bus campo
+
+<Fieldbus S->M6 sys
+>Sis bus campo S->M6
+
+<Fieldbus S->M7 ipa
+>Ipa Fieldbus S->M7
+
+<Fieldbus S->M7 mul
+>Mul S->M7 bus campo
+
+<Fieldbus S->M7 sys
+>Sis bus campo S->M7
+
+<Fieldbus S->M8 ipa
+>Ipa Fieldbus S->M8
+
+<Fieldbus S->M8 mul
+>Mul S->M8 bus campo
+
+<Fieldbus S->M8 sys
+>Sis bus campo S->M8
+
+<Fieldbus S->M9 ipa
+>Ipa Fieldbus S->M9
+
+<Fieldbus S->M9 mul
+>Mul S->M9 bus campo
+
+<Fieldbus S->M9 sys
+>Sis bus campo S->M9
+
+<FIELDBUS SERV
+>FIELDBUS SERV
+
+<Fieldbus state
+>Estado bus campo
+
+<Fieldbus type
+>Tipo bus campo
+
+<Fill 16
+>Relleno 16
+
+<Fill 32
+>Relleno 32
+
+<FILTERS
+>FILTERS
+
+<Fine&Follow
+>Precis&Sig
+
+<Fine&Last val
+>Precis&Ult val
+
+<Firmware build
+>Estructura firmware
+
+<Firmware release
+>Lanzamiento firmware
+
+<Firmware type
+>Tipo firmware
+
+<Firmware ver.rel
+>Lanz ver firmware
+
+<Firmware version
+>Versión firmware
+
+<First alarm
+>Primera alarma
+
+<First enable
+>Primer Enable
+
+<FL address
+>FL direccion
+
+<FL bidirectional
+>FL bidireccional
+
+<FL fault activity
+>FL fallo actividad
+
+<FL fault code
+>FL codigo fallo
+
+<FL fault enable src
+>FL habilit fallo src
+
+<FL fault holdoff
+>FL fault holdoff
+
+<FL Fwd 1 inv mon
+>FL Fwd 1 inv mon
+
+<FL Fwd 1 mon
+>FL Fwd 1 mon
+
+<FL Fwd 1 src
+>FL Fwd 1 src
+
+<FL Fwd 2 inv mon
+>FL Fwd 2 inv mon
+
+<FL Fwd 2 mon
+>FL Fwd 2 mon
+
+<FL Fwd 2 src
+>FL Fwd 2 src
+
+<FL Fwd 3 inv mon
+>FL Fwd 3 inv mon
+
+<FL Fwd 3 mon
+>FL Fwd 3 mon
+
+<FL Fwd 3 src
+>FL Fwd 3 src
+
+<FL Fwd 4 inv mon
+>FL Fwd 4 inv mon
+
+<FL Fwd 4 mon
+>FL Fwd 4 mon
+
+<FL Fwd 4 src
+>FL Fwd 4 src
+
+<FL Fwd 5 inv mon
+>FL Fwd 5 inv mon
+
+<FL Fwd 5 mon
+>FL Fwd 5 mon
+
+<FL Fwd 6 inv mon
+>FL Fwd 6 inv mon
+
+<FL Fwd 6 mon
+>FL Fwd 6 mon
+
+<FL Fwd 7 inv mon
+>FL Fwd 7 inv mon
+
+<FL Fwd 7 mon
+>FL Fwd 7 mon
+
+<FL Fwd 8 inv mon
+>FL Fwd 8 inv mon
+
+<FL Fwd 8 mon
+>FL Fwd 8 mon
+
+<FL N Fwd slave chg
+>FL N FwCambioEsclavo
+
+<FL N of slave
+>FL N de escalvos
+
+<FL Rev 1 mon
+>FL Rev 1 mon
+
+<FL Rev 1 slave sel
+>FL Rev 1 esclavo sel
+
+<FL Rev 1 src
+>FL Rev 1 src
+
+<FL Rev 2 mon
+>FL Rev 2 mon
+
+<FL Rev 2 slave sel
+>FL Rev 2 esclavo sel
+
+<FL Rev 2 src
+>FL Rev 2 src
+
+<FL Rev 3 mon
+>FL Rev 3 mon
+
+<FL Rev 3 slave sel
+>FL Rev 3 esclavo sel
+
+<FL Rev 4 mon
+>FL Rev 4 mon
+
+<FL Rev 4 slave sel
+>FL Rev 4 esclavo sel
+
+<FL sync slave type
+>FL sync tipo esclavo
+
+<FLRxTimeoutCnt
+>FLRxTimeoutCnt
+
+<FLRxTimeoutHoldOff
+>FLRxTimeoutHoldOff
+
+<FLSyncSlaveEHoldOff
+>FLSyncSlaveEHoldOff
+
+<FLSyncSlaveErrCnt
+>FLSyncSlaveErrCnt
+
+<Flux vector CL
+>Vect flujo CL
+
+<Flux vector OL
+>Vect flujo OL
+
+<FR *stop src
+>Orig *parad FR
+
+<FR cmd mon
+>Mon com FR
+
+<FR forward src
+>Orig avan FR
+
+<FR mode
+>Modo FR
+
+<FR reverse mon
+>Mon retroc FR
+
+<FR reverse src
+>Orig retroc FR
+
+<FR start mon
+>Mon inicio FR
+
+<Freeze input
+>Cong entrada
+
+<French
+>Francés
+
+<FS&Spd=0
+>FS&Velo=0
+
+<Full scale speed
+>Velo escala total
+
+<FUNCTIONS
+>FUNCIONES
+
+<Fw enc sl1-3 type
+>Tipo enc sl1-3 fw
+
+<Fw enc sl1-3 ver.rel
+>Rel ver enc sl1-3 fw
+
+<Fw enc sl2 type
+>Tipo fw enc sl2
+
+<Fw enc sl2 ver.rel
+>Vers re fw enc sl2
+
+<Fw FastLink type
+>Fw FastLink tipo
+
+<Fw FastLink ver.rel
+>Fw FastLink ver.rel
+
+<Gain 0 enable
+>Activ gan 0
+
+<Gain adapt src
+>Orig adapt gan
+
+<Gain adp spd band1_2
+>Ban vel adapt gan1_2
+
+<Gain adp spd thr1_2
+>Umb vel adapt gan1_2
+
+<GdNet
+>GdNet
+
+<German
+>Alemán
+
+<Ground fault
+>Fallo masa
+
+<GroundFault thr
+>Umb fall masa
+
+<Heatsink OT
+>Sobrtemp disip
+
+<Heatsink temperature
+>Temp disipador
+
+<HeatsinkS OTUT
+>St bt sns disp
+
+<Heavy duty
+>Carga pesada
+
+<Hoist mode 1
+>Modo 1 Hoist
+
+<Hoist mode 2
+>Modo 2 Hoist
+
+<HTL
+>HTL
+
+<HTsens restart
+>Reinicio sens HT
+
+<HTsens restart time
+>Tmp reinicio sens HT
+
+<HumSens err activity
+>HumSens err activity
+
+<HumSens error
+>SensHR error
+
+<I/O 1
+>E/S 1
+
+<I/O 2
+>E/S 2
+
+<I/O 3
+>E/S 3
+
+<I/O 4
+>E/S 4
+
+<I/O 6
+>E/S 6
+
+<I/O 7
+>E/S 7
+
+<I/O 8
+>E/S 8
+
+<I/O Ext
+>I/O Ext
+
+<I/O FastLink
+>I/O FastLink
+
+<Ignore
+>Ignora
+
+<Inactive
+>Inactivo
+
+<InAir activity
+>Actividad ent aire
+
+<InAir holdoff
+>Mantenim ent aire
+
+<InAir restart
+>Reinicio ent aire
+
+<InAir restart time
+>Tmp reinic ent aire
+
+<Inertia
+>Inercia
+
+<Inertia comp
+>Comp inercia
+
+<INERTIA COMP
+>COMP INERCIA
+
+<Inertia comp filter
+>Filtro comp inercia
+
+<Inertia comp mon
+>Mon comp inercia
+
+<Init
+>Init
+
+<Inp1!=Inp2
+>Ent1!=Ent2
+
+<Inp1<Inp2
+>Ent1<Ent2
+
+<Inp1=Inp2
+>Ent1=Ent2
+
+<Inp1>Inp2
+>Ent1>Ent2
+
+<Input&ref=0
+>Entrada&ref=0
+
+<Input&ref=low
+>Ent&ref=inf
+
+<Input&ref=upp
+>Ent&ref=sup
+
+<Input=0
+>Entrada=0
+
+<Input=low lim
+>Ent=lím inf
+
+<Input=upp lim
+>Ent=lím sup
+
+<InputSize
+>InputSize
+
+<Intakeair OT
+>Stmp ent aire
+
+<Inverted
+>Invertido
+
+<Inverter bridge type
+>Inverter bridge type
+
+<IOverC restart
+>Reinicio isc
+
+<IOverC restart time
+>Tiempo reinicio isc
+
+<IP address
+>IP address
+
+<Italian
+>Italiano
+
+<Jbus
+>Jbus
+
+<Jog acceleration
+>Acel jog
+
+<Jog cmd - src
+>Orig com jog -
+
+<Jog cmd + src
+>Orig com jog +
+
+<Jog deceleration
+>Decel jog
+
+<JOG FUNCTION
+>FUNCION JOG
+
+<Jog output mon
+>Mon salida jog
+
+<Jog setpoint
+>Ajuste jog
+
+<Key failed
+>Key failed
+
+<Keypad
+>Tecl num
+
+<Keypad memory select
+>Selec mem tecl num
+
+<Keypad reset
+>Reinicio tecl num
+
+<Keys emulation
+>Emul teclas
+
+<KTY84 An1
+>KTY84 An1
+
+<KTY84 An2
+>KTY84 An2
+
+<KTY84 AnX
+>KTY84 AnX
+
+<KTY84/PTC current
+>KTY84/PTC corriente
+
+<Language select
+>Selección idioma
+
+<Last Power Off
+>Ultima desalim
+
+<Latched
+>Latched
+
+<LC CONTROL
+>CONTROL LIQUIDO
+
+<LC SERV
+>LC SERV
+
+<Light duty
+>Carga ligera
+
+<Linear
+>Lineal
+
+<Liquid temp calc
+>Cal. Temp. Liquido
+
+<Liquid temp filter
+>Filtro temp liquido
+
+<Liquid temp mon
+>Mon. Temp. Liquido
+
+<Liquid temp setpoint
+>Set Temp. Liquido
+
+<Liquid temp src
+>Origen Temp. Liquido
+
+<Load asynch control
+>Cargar ctrl asincr
+
+<Load def par
+>Carg par orig
+
+<Load def plc
+>Carg plc prdef
+
+<Load default
+>Cargar parám orig
+
+<Load par from keypad
+>Carg par de tecl num
+
+<Load series asy
+>Cargar serie asínc
+
+<Local
+>Local
+
+<Local/remote mon
+>Mon local/remoto
+
+<Local/remote src
+>Orig local/remoto
+
+<Lower Limit
+>Lím inf
+
+<Magnet current
+>Corr magnetiz
+
+<Magnet current lim
+>Lím corr magnetiz
+
+<Magnet current ref
+>Ref corr magnetiz
+
+<MainMenu
+>MainMenu
+
+<Mains voltage
+>Voltaje alim
+
+<Mdplc 16
+>Mdplc 16
+
+<Mdplc 32
+>Mdplc 32
+
+<Measured DTL
+>DTL medido
+
+<Measured DTS
+>DTS medido
+
+<Measured Lsig
+>Lsig medida
+
+<Measured Lsig min
+>Measured Lsig min
+
+<Measured Rs
+>Rs medido
+
+<Modbus
+>Modbus
+
+<ModbusTCP
+>ModbusTCP
+
+<Mode 1
+>Mode 1
+
+<Mode 2
+>Mode 2
+
+<MONITOR
+>MONITOR
+
+<MONITOR FUNCTION
+>FUNCIÓN MONITOR
+
+<Mot phase loss
+>Mot phase loss
+
+<Mot PhLoss activity
+>Act Pre Alm PhLoss
+
+<Mot PhLoss code
+>Cod Fallo Fase Mot.
+
+<Mot PhLoss holdoff
+>Tim Mot PhLoss
+
+<Mot PhLoss scale
+>Mot PhLoss scale
+
+<Mot PhLoss speed thr
+>Mot PhLoss speed thr
+
+<Mot PhLoss SRL delay
+>Mot PhLoss SRL delay
+
+<Mot PhLoss threshold
+>Umbral Mot PhLoss
+
+<Mot temp hys
+>Hyst Umb Temp Motor
+
+<Mot temp src
+>Org Temp Motor
+
+<Mot temp thr
+>Umbral Temp Motor
+
+<Mot thr overtemp mon
+>Mot thr overtemp mon
+
+<MOTOR DATA
+>DATOS MOTOR
+
+<Motor derat factor
+>Factor reducc motor
+
+<Motor fan type
+>Tipo vent motor
+
+<Motor OT
+>Sobrtemp motor
+
+<Motor overload
+>Sobrcarg motor
+
+<MOTOR OVERLOAD
+>SOBRECARG MOTOR
+
+<Motor overload accum
+>Acum sobrecarg motor
+
+<Motor overload trip
+>Alarm sobrec motor
+
+<Motor ovld activity
+>Act sobrecarg motor
+
+<Motor ovld enable
+>Activ sobrecar motor
+
+<Motor ovld factor
+>Factor sobrec motor
+
+<Motor ovld time
+>Tiempo sobrec motor
+
+<MOTOR PHLOSS
+>MOTOR PHLOSS
+
+<Motor pre OT
+>Motor pre OT
+
+<Motor service factor
+>Fact servicio motor
+
+<Motor speed
+>Velocidad motor
+
+<Motor speed nofilter
+>Vel motor sin filtro
+
+<Motor temperature
+>Temperatura motor
+
+<MotorOT activity
+>Activ sobret motor
+
+<MotorOT holdoff
+>Mantenim sobret mot
+
+<MotorOT KTY84 unit
+>Uni. Sonda Mot KTY84
+
+<MotorOT mon
+>MotorOT mon
+
+<MotorOT pre activity
+>Act Pre Alm MotorOT
+
+<MotorOT pre thr
+>MotorOT pre thr
+
+<MotorOT probe
+>Sonda MotorOT
+
+<MotorOT restart
+>Reinic sobret motor
+
+<MotorOT restart time
+>Tmp reini sobret mot
+
+<MotorOT src
+>Orig sobret motor
+
+<MotorOT thr
+>Umbral MotorOT
+
+<MOTORPOTENTIOMETER
+>MOTOPOTENCIOMETRO
+
+<Mpot acceleration
+>Acel mpot
+
+<Mpot bottom lim
+>Lím inf mpot
+
+<Mpot deceleration
+>Decel mpot
+
+<Mpot down src
+>Orig inf mpot
+
+<Mpot init cfg
+>Config inic mpot
+
+<Mpot invert src
+>Orig inv mpot
+
+<Mpot mode
+>Modo mpot
+
+<Mpot output mon
+>Mon salida mpot
+
+<Mpot preset cfg
+>Config predef mpot
+
+<Mpot preset src
+>Orig predef mpot
+
+<Mpot setpoint
+>Ajuste mpot
+
+<Mpot top lim
+>Lím sup mpot
+
+<Mpot up src
+>Orig sup mpot
+
+<Multi ramp sel 0 src
+>Orig 0 sel multiramp
+
+<Multi ramp sel 1 src
+>Orig 1 sel multiramp
+
+<Multi ramp sel mon
+>Mon sel multiramp
+
+<Multi ref 0 src
+>Orig 0 multiref
+
+<Multi ref 1 src
+>Orig 1 multiref
+
+<Multi ref out mon
+>Mon sal multiref
+
+<Multi ref sel 0 src
+>Orig 0 sel multiref
+
+<Multi ref sel 1 src
+>Orig 1 sel multiref
+
+<Multi ref sel 2 src
+>Orig 2 sel multiref
+
+<Multi ref sel 3 src
+>Orig 3 sel multiref
+
+<Multi ref sel mon
+>Mon sel multiref
+
+<MULTI REFERENCE
+>MULTI REFERENCIA
+
+<Multi reference 0
+>Multireferencia 0
+
+<Multi reference 1
+>Multireferencia 1
+
+<Multi reference 10
+>Multireferencia 10
+
+<Multi reference 11
+>Multireferencia 11
+
+<Multi reference 12
+>Multireferencia 12
+
+<Multi reference 13
+>Multireferencia 13
+
+<Multi reference 14
+>Multireferencia 14
+
+<Multi reference 15
+>Multireferencia 15
+
+<Multi reference 2
+>Multireferencia 2
+
+<Multi reference 3
+>Multireferencia 3
+
+<Multi reference 4
+>Multireferencia 4
+
+<Multi reference 5
+>Multireferencia 5
+
+<Multi reference 6
+>Multireferencia 6
+
+<Multi reference 7
+>Multireferencia 7
+
+<Multi reference 8
+>Multireferencia 8
+
+<Multi reference 9
+>Multireferencia 9
+
+<MultiDesat
+>Desatur mult
+
+<MultiOvercurr
+>Sobrecorr mult
+
+<MultiUndervolt
+>Bajo volt mult
+
+<NI1000
+>NI1000
+
+<Nm
+>Nm
+
+<No alarm
+>Sin alarma
+
+<No division
+>Sin división
+
+<No power
+>Sin alim
+
+<None
+>Ninguno
+
+<None,8,1
+>None,8,1
+
+<None,8,2
+>None,8,2
+
+<Normal
+>Normal
+
+<Not assigned
+>No asignado
+
+<Not inverted
+>No invertido
+
+<Not Latched
+>Not Latched
+
+<Not used
+>No utilizado
+
+<Null
+>Nulo
+
+<Number power up
+>Número encendidos
+
+<Odd,8,1
+>Odd,8,1
+
+<Off
+>Apagado
+
+<ohm
+>ohm
+
+<One
+>Uno
+
+<Operational
+>Operativo
+
+<Opt 1 IO fault
+>Err E/S 1 opc
+
+<Opt 2 IO fault
+>Err E/S 2 opc
+
+<Opt Bus fault
+>Err bus opc
+
+<Opt cfg change
+>Cambio cfg opc
+
+<Opt Enc fault
+>Err enc opc
+
+<Optbus fault en src
+>Fallo Optbus src
+
+<Optionbus activity
+>Actividad opción bus
+
+<Output curr
+>Curr salida
+
+<Output current
+>Corriente de salida
+
+<Output frequency
+>Frecuencia de salida
+
+<Output power
+>Potencia de salida
+
+<Output voltage
+>Voltaje de salida
+
+<Output&ref=0
+>Salida&ref=0
+
+<Output&ref=low
+>Salida&ref=inf
+
+<Output=0
+>Salida=0
+
+<Output=low lim
+>Salida=lím inf
+
+<OutputSize
+>OutputSize
+
+<Overcurrent
+>Sobrecorriente
+
+<Overhumidity state
+>Salida Al Humedad
+
+<Overhumidity thr
+>Alarma Humedad
+
+<Overspeed
+>Sobrevelocidad
+
+<Overspeed activity
+>Actividad sobrevelo
+
+<Overspeed holdoff
+>Mantenim sobrevelo
+
+<Overspeed threshold
+>Umbral sobrevelo
+
+<OverV restart
+>Reinicio sobrevolt
+
+<OverV restart time
+>Tmp reini sobrevolt
+
+<Overvoltage
+>Sobrevoltaje
+
+<Pad 1
+>Pad 1
+
+<Pad 10
+>Pad 10
+
+<Pad 11
+>Pad 11
+
+<Pad 12
+>Pad 12
+
+<Pad 13
+>Pad 13
+
+<Pad 14
+>Pad 14
+
+<Pad 15
+>Pad 15
+
+<Pad 16
+>Pad 16
+
+<Pad 2
+>Pad 2
+
+<Pad 3
+>Pad 3
+
+<Pad 4
+>Pad 4
+
+<Pad 5
+>Pad 5
+
+<Pad 6
+>Pad 6
+
+<Pad 7
+>Pad 7
+
+<Pad 8
+>Pad 8
+
+<Pad 9
+>Pad 9
+
+<PADS
+>PADS
+
+<Par 16
+>Par 16
+
+<Par 32
+>Par 32
+
+<Par set 0 to 1 copy
+>Copia grp parám 0-1
+
+<Par set enable
+>Activ grp parám
+
+<Par set select mon
+>Mon sel grp parám
+
+<Par set select src
+>Orig sel grp parám
+
+<Par/startup
+>Par/asistente
+
+<Param error
+>Error parám
+
+<Password
+>Contraseña
+
+<PFdrv cw 1 src
+>PFdrv cw 1 src
+
+<PFdrv cw 2 src
+>PFdrv cw 2 src
+
+<PFdrv status word 1
+>Word estado PFdrv 1
+
+<PFdrv status word 2
+>Word estado PFdrv 2
+
+<Phase current filter
+>Phase current filter
+
+<Phase current RMS U
+>Amp RMS Fase U
+
+<Phase current RMS V
+>Amp RMS Fase V
+
+<Phase current RMS W
+>Amp RMS Fase W
+
+<Phase current U
+>Phase current U
+
+<Phase current V
+>Phase current V
+
+<Phase current W
+>Phase current W
+
+<Phaseloss
+>Sin fase
+
+<PhLoss activity
+>Activ sin fase
+
+<PhLoss restart
+>Reincio sin fase
+
+<PhLoss restart time
+>Tmp reini sin fase
+
+<Plc cfg error
+>Error cfg Plc
+
+<Plc1 fault
+>Err Plc 1
+
+<Plc10 fault
+>Err Plc 10
+
+<Plc11 fault
+>Err Plc 11
+
+<Plc12 fault
+>Err Plc 12
+
+<Plc13 fault
+>Err Plc 13
+
+<Plc14 fault
+>Err Plc 14
+
+<Plc15 fault
+>Err Plc 15
+
+<Plc16 fault
+>Err Plc 16
+
+<Plc2 fault
+>Err Plc 2
+
+<Plc3 fault
+>Err Plc 3
+
+<Plc4 fault
+>Err Plc 4
+
+<Plc5 fault
+>Err Plc 5
+
+<Plc6 fault
+>Err Plc 6
+
+<Plc7 fault
+>Err Plc 7
+
+<Plc8 fault
+>Err Plc 8
+
+<Plc9 fault
+>Err Plc 9
+
+<PN diagnostic
+>PN diagnostic
+
+<Pole pairs
+>Dipolos
+
+<Poles/EncRev - 0=Off
+>Poles/EncRev - 0=Off
+
+<Polish
+>Polaco
+
+<Portuguese
+>Portugués
+
+<POSITION
+>POSITION
+
+<Power down
+>Desaliment
+
+<Power file ver.rel
+>Lanz.ver. Power file
+
+<POWER LOSS
+>POWER LOSS
+
+<Power S/N
+>S/N alim
+
+<Powerlink
+>Powerlink
+
+<Powerloss accel time
+>Tmp acel Powerloss
+
+<Powerloss decel time
+>Tmp decel Powerloss
+
+<Powerloss factor1
+>Powerloss factor1
+
+<Powerloss factor2
+>Powerloss factor2
+
+<Powerloss function
+>Función Powerloss
+
+<Powerloss I time
+>Tmp I Powerloss
+
+<Powerloss mains src
+>Powerloss en alim
+
+<Powerloss mode
+>Modo Powerloss
+
+<Powerloss nextactive
+>Vel Powerloss act
+
+<Powerloss nextratio
+>Rel Powerloss escl
+
+<Powerloss P gain
+>Ganancia P Powerloss
+
+<Powerloss rampdown
+>Fin rampa Powerloss
+
+<Powerloss Vdcref
+>Powerloss Vdcref
+
+<PreOperational
+>Preoperativo
+
+<Product S/N
+>S/N producto
+
+<Profibus
+>Profibus
+
+<Profibus byte order
+>Profibus byte order
+
+<Profidrive
+>Profidrive
+
+<Profinet
+>Profinet
+
+<PT100
+>PT100
+
+<PT1000
+>PT1000
+
+<PTC An1
+>PTC An1
+
+<PTC An2
+>PTC An2
+
+<PTC AnX
+>PTC AnX
+
+<Pwm
+>Pwm
+
+<Pwm&Ctrl
+>Pwm&Ctrl
+
+<Ramp
+>Rampa
+
+<Ramp acc state
+>Estado acel rampa
+
+<Ramp dec state
+>Estado decel rampa
+
+<Ramp down
+>Ramp down
+
+<Ramp freeze src
+>Orig congel rampa
+
+<Ramp in zero src
+>Orig cero ent rampa
+
+<Ramp out mon
+>Mon salida rampa
+
+<Ramp out zero src
+>Orig cero sal rampa
+
+<Ramp ref 1
+>Ref rampa 1
+
+<Ramp ref 1 mon
+>Mon ref rampa 1
+
+<Ramp ref 1 src
+>Orig ref rampa 1
+
+<Ramp ref 2 mon
+>Mon ref rampa 2
+
+<Ramp ref 2 src
+>Orig ref rampa 2
+
+<Ramp ref 3 mon
+>Mon ref rampa 3
+
+<Ramp ref 3 src
+>Orig ref rampa 3
+
+<Ramp ref bottom lim
+>Lím inf ref rampa
+
+<Ramp ref invert src
+>Orig inv ref rampa
+
+<Ramp ref out mon
+>Mon ref rampa
+
+<Ramp ref top lim
+>Lím sup ref rampa
+
+<Ramp setpoint
+>Ajuste rampa
+
+<Ramp type
+>Tipo rampa
+
+<Ramp&Follow
+>Rampa&Sig
+
+<Ramp&Last val
+>Rampa&Ult val
+
+<RAMPS
+>RAMPAS
+
+<Rated current
+>Corriente nominal
+
+<Rated speed
+>Velocidad nominal
+
+<Rated voltage
+>Voltaje nominal
+
+<Reduced
+>Reducido
+
+<Ref is 0
+>Referencia = 0
+
+<Ref is 0 delay
+>Retardo ref = 0
+
+<Reference 0 delay
+>Retardo ref 0
+
+<Reference 0 thr
+>Umbral ref 0
+
+<Reference skip band
+>Banda salto ref
+
+<Reference skip set
+>Ajuste salto ref
+
+<REFERENCES
+>REFERENCIAS
+
+<Regulation mode
+>Modo regulación
+
+<Regulation S/N
+>S/N regulación
+
+<REGULATOR PARAM
+>PARAM REGULADOR
+
+<Remote
+>Remote
+
+<Required
+>Requerido
+
+<Resolver
+>Resolver
+
+<Resolver freeze0 src
+>Capt. 0 Resolver scr
+
+<Resolver freeze1 src
+>Capt. 1 Resolver scr
+
+<Resolver frequency
+>Frecuencia Resolver
+
+<Resolver get reg
+>Resolver get reg
+
+<Resolver LOS thr
+>Umbral Perd. Resolv.
+
+<Resolver LOT hys
+>Resolver LOT hys
+
+<Resolver LOT thr
+>Resolver LOT thr
+
+<Resolver MIS maxThr
+>Resolver MIS maxThr
+
+<Resolver MIS minThr
+>Resolver MIS minThr
+
+<Resolver MIS thr
+>Val. Umbral Dif. Res
+
+<Resolver OVR thr
+>Sobre umbral Resolv.
+
+<Resolver pole pairs
+>Par Polos Resolver
+
+<Resolver reg mon
+>Resolver reg mon
+
+<Resolver repetition
+>Repetición Resolver
+
+<Resolver T ratio K
+>Ratio T Resolver K
+
+<Restart
+>Restart
+
+<Romanian
+>Rumano
+
+<Rotation
+>Rotación
+
+<RS485
+>RS485
+
+<RTE
+>RTE
+
+<RTE protocol
+>RTE protocollo
+
+<Run
+>Run
+
+<Russian
+>Ruso
+
+<SafeOp
+>SafeOp
+
+<Save par to keypad
+>Guard par a tecl num
+
+<Save parameters
+>Guardar parám
+
+<Sens An1X
+>Sens An1X
+
+<Sens An2X
+>Sens An2X
+
+<SENSORLESS
+>SENSORLESS
+
+<SENSORLESS SERV
+>SENSORLESS SERV
+
+<Sequencer status
+>Estado secuenciador
+
+<Serial baudrate
+>Baudrate serie
+
+<Serial delay
+>Retardo serie
+
+<SERIAL NUMBERS
+>SERIAL NUMBERS
+
+<Serial parameter
+>Parámetro serie
+
+<Serial protocol
+>Protocolo serie
+
+<Serial swap data
+>Datos intercamb ser
+
+<SERVICE
+>SERVICIO
+
+<Servo fan
+>Vent servo
+
+<Set 0
+>Grupo 0
+
+<Set 1
+>Grupo 1
+
+<Set speed
+>Velo ajust
+
+<Set speed delay
+>Retardo velo ajust
+
+<Set speed error
+>Error velo ajust
+
+<Set speed ref src
+>Orig ref velo ajust
+
+<Sinus
+>Sinus
+
+<Sinus ENDAT
+>Sinus ENDAT
+
+<Sinus HIPER
+>Sinus HIPER
+
+<Sinus SINCOS
+>Sinus SINCOS
+
+<Sinus SSI
+>Sinus SSI
+
+<Slot1 card S/N
+>S/N placa Slot1
+
+<Slot1 card type
+>Tipo placa Slot1
+
+<Slot2 card S/N
+>S/N placa Slot2
+
+<Slot2 card type
+>Tipo placa Slot2
+
+<Slot3 card S/N
+>S/N placa Slot3
+
+<Slot3 card type
+>Tipo placa Slot3
+
+<SLS Actual ctrl mode
+>SLS modo ctrl actual
+
+<SLS id current corr
+>SLS id Intensidad
+
+<SLS id desat time
+>SLS id tiempo
+
+<SLS id sel ctrl
+>SLS id modo ctrl
+
+<SLS id speed thr
+>SLS id velocidad thr
+
+<SLS K1 motor obs
+>SLS K1 coef.motor
+
+<SLS K1 speed obs
+>SLS K1 coef.vel.
+
+<SLS K2 motor obs
+>SLS K2 coef.motor
+
+<SLS K2 speed obs
+>SLS K2 coef.vel.
+
+<SLS lower thr absErr
+>SLS bajo thr absErr
+
+<SLS Lsig corr
+>SLS Lsig corrección
+
+<SLS Lsig corr factor
+>SLS Lsig inductancia
+
+<SLS max speed OL
+>SLS max velocidad OL
+
+<SLS max thr absErr
+>SLS max thr absErr
+
+<SLS min speed CL
+>SLS min velocidad CL
+
+<SLS obs speed gain
+>SLS ganancia vel.
+
+<SLS ramp acc time
+>SLS tiempo acc rampa
+
+<SLS ramp dec time
+>SLS tiempo dec rampa
+
+<SLS ramp enable
+>SLS habilit.rampa
+
+<SLS ramp speed thr
+>SLS rampa vel. Thr
+
+<SLS rotor align time
+>SLS rotor tiemp ali.
+
+<SLS rotor alignment
+>SLS rotor ali.
+
+<SLS Rs corr
+>SLS Rs corrección
+
+<SLS Rs corr factor
+>SLS RS resistencia
+
+<SLS status
+>SLS estado
+
+<SLS upper thr absErr
+>SLS alto thr absErr
+
+<Spanish
+>Español
+
+<Spd reg I gain Inuse
+>Gan I reg vel en uso
+
+<Spd reg P gain Inuse
+>Gan P reg vel en uso
+
+<SpdFbkLoss activity
+>Act pérd retr velo
+
+<SpdFbkLoss code
+>Código pérd retr vel
+
+<SpdFbkLoss holdoff
+>Mant pérd retr velo
+
+<SpdFbkLoss threshold
+>SpdFbkLoss threshold
+
+<SpdRefLoss activity
+>Act pérd ref velo
+
+<SpdRefLoss holdoff
+>Mant pérd ref velo
+
+<SpdRefLoss max spdOL
+>SpdRefLoss max spdOL
+
+<SpdRefLoss threshold
+>Umbr pérd ref velo
+
+<Speed
+>Velocidad
+
+<Speed 0 delay
+>Retardo velo 0
+
+<Speed 0 disable dly
+>Ret desact velo 0
+
+<Speed 0 thr
+>Umbral velo 0
+
+<Speed capture
+>Capt velo
+
+<SPEED CAPTURE
+>CAPTURA VELO
+
+<Speed fbk loss
+>Pérd retr velo
+
+<Speed is 0
+>Velocidad = 0
+
+<Speed is 0 delay
+>Retardo velo = 0
+
+<Speed limit state
+>Estado lím velo
+
+<SPEED RATIO
+>RELACION VELO
+
+<Speed ratio div
+>Div rel velo
+
+<Speed ratio mon
+>Mon rel velo
+
+<Speed ratio out mon
+>Sal rel velo
+
+<Speed ratio src
+>Orig rel velo
+
+<Speed ref 1
+>Ref velo 1
+
+<Speed ref 1 mon
+>Mon ref velo 1
+
+<Speed ref 1 src
+>Orig ref velo 1
+
+<Speed ref 2 mon
+>Mon ref velo 2
+
+<Speed ref 2 src
+>Orig ref velo 2
+
+<Speed ref bottom lim
+>Lím inf ref velo
+
+<Speed ref filter
+>Filtro ref vel
+
+<Speed ref invert src
+>Orig inv ref velo
+
+<Speed ref loss
+>Pérd ref velo
+
+<Speed ref top lim
+>Lím sup ref velo
+
+<SPEED REG GAINS
+>GAN REG VELO
+
+<Speed reg I dis src
+>Hab/Des Int Reg Vel
+
+<Speed reg I factor
+>Sal Prop Int Vel
+
+<Speed reg I time
+>Tiempo I regul velo
+
+<Speed reg I0 gain
+>Gan I0 regul velo
+
+<Speed reg I1 gain
+>Gan I1 regul velo
+
+<Speed reg I2 gain
+>Gan I2 regul velo
+
+<Speed reg P factor
+>Sal Prop Reg Vel
+
+<Speed reg P gain
+>Gan P regul velo
+
+<Speed reg P0 gain
+>Gan P0 regul velo
+
+<Speed reg P1 gain
+>Gan P1 regul velo
+
+<Speed reg P2 gain
+>Gan P2 regul velo
+
+<Speed setpoint
+>Ajuste velo
+
+<Speed thr 1_2 mon
+>Umbral velo 1_2 mon
+
+<Speed thr 3 mon
+>Umbral velo 3 mon
+
+<Speed thr hysteresis
+>Histéresis umb velo
+
+<Speed threshold 1
+>Umbral velo 1
+
+<Speed threshold 2
+>Umbral velo 2
+
+<Speed threshold 3
+>Umbral velo 3
+
+<Speed threshold dly
+>Retardo umbral velo
+
+<SRC
+>SRC
+
+<S-Shape
+>Curva en S
+
+<Standard
+>Standard
+
+<Start cmd mon
+>Mon com arranq
+
+<Start state mon
+>Mon estado arranq
+
+<Startup display
+>Pantalla inicial
+
+<STARTUP WIZARD
+>ASISTENTE ARRANQUE
+
+<Still
+>Estática
+
+<Stop
+>Parada
+
+<Stop key mode
+>Modo tecla parada
+
+<Stop&Spd=0
+>Parad&Velo=0
+
+<Stop/FS&Spd=0
+>Parad/FS&Vel=0
+
+<Switching freq mode
+>Modo frec conmut
+
+<Switching frequency
+>Frec conmutacióm
+
+<Sync slave mon
+>Sync esclavo mon
+
+<Synchronous
+>Sincrono
+
+<System error
+>Error sistema
+
+<T clim +/-
+>T lím +/-
+
+<T clim mot/gen
+>T lím mot/gen
+
+<T lim pos/neg
+>Lím T pos/neg
+
+<T lim sym
+>Sym lím T
+
+<Take par status
+>Adquisic estado
+
+<Take parameters
+>Adquisic parám
+
+<Take tune parameters
+>Adquisic parám cal
+
+<TEMP CONTROL
+>TEMP CONTROL
+
+<Terminal
+>Placa bornes
+
+<Terminal Start src
+>Orig terminal arranq
+
+<Test gen dest
+>Dest gen prueba
+
+<Test gen level high
+>Niv alto gen prueba
+
+<Test gen level low
+>Niv baj gen prueba
+
+<Test gen out
+>Sal gen prueba
+
+<Test gen period
+>Periodo gen prueba
+
+<TEST GENERATOR
+>GENER PRUEBA
+
+<Thermal_resistance1
+>Thermal_resistance1
+
+<Thermal_resistance2
+>Thermal_resistance2
+
+<Three wire
+>Tres cables
+
+<Time drive enable
+>Tiempo activ conv
+
+<Time drive power on
+>Tiempo alim conv
+
+<Time fan on
+>Tiempo activ ventil
+
+<Torque
+>Par
+
+<Torque %
+>Par %
+
+<Torque clim Red src
+>Origen límc par rojo
+
+<TORQUE CONFIG
+>CONFIG PAR
+
+<Torque constant
+>Constante de par
+
+<Torque curr lim Neg
+>Lím neg corr par
+
+<Torque curr lim Pos
+>Lím pos corr par
+
+<Torque curr lim Red
+>Lím corr par rojo
+
+<Torque curr lim sel
+>Lím sel corr par
+
+<Torque current
+>Corr de par
+
+<Torque current ref
+>Ref corr de par
+
+<Torque current ref 1
+>Ref corr de par 1
+
+<Torque lim Neg Inuse
+>Lím neg par en uso
+
+<Torque lim neg src
+>Origen lím par neg
+
+<Torque lim Pos Inuse
+>Lím pos par en uso
+
+<Torque lim pos src
+>Origen pos lím par
+
+<Torque lim unit sel
+>Lim de par sel.unid.
+
+<Torque limit neg
+>Limite de par neg
+
+<Torque limit pos
+>Limite de par pos
+
+<Torque nofilter
+>Par Sin Filtro
+
+<Torque ref
+>Ref par
+
+<Torque ref %
+>Ref par %
+
+<Torque ref 1
+>Ref par 1
+
+<Torque ref 1 filter
+>Filtro ref 1 par
+
+<Torque ref 1 mon
+>Mon ref par 1
+
+<Torque ref 1 mon %
+>Mon ref par 1 %
+
+<Torque ref 1 src
+>Orig ref par 1
+
+<Torque ref filter
+>Filtro ref par
+
+<Torque ref nofilter
+>Ref par sin filtro
+
+<Torque ref%
+>Ref par %
+
+<Trap error
+>Err trap
+
+<TTL
+>TTL
+
+<Turkish
+>Turco
+
+<Two wire
+>Dos cables
+
+<UnderV restart
+>Reinicio bajo volt
+
+<UnderV restart time
+>Tmp reini bajo volt
+
+<Undervoltage
+>Bajo voltaje
+
+<Unknown
+>Desconocido
+
+<Upper Limit
+>Lím sup
+
+<USA
+>USA
+
+<User error
+>Error usuario
+
+<UVRep attempts
+>Tent rep bajo volt
+
+<UVRep delay
+>Ret rep bajo volt
+
+<V/f control
+>Control V/f
+
+<Variable
+>Variable
+
+<VDC CONTROL
+>CONTROL VCC
+
+<Vdc control function
+>Función control Vcc
+
+<Vdc control I time
+>Tiempo I control Vcc
+
+<Vdc control P gain
+>Gan P control Vcc
+
+<Vdc ctrl ramp freeze
+>Cong rmp ctrl Vcc
+
+<Virtual an input en
+>Act entr analóg virt
+
+<Virtual di input en
+>Act entrada dig virt
+
+<Virtual digital inp
+>Entrada dig virtual
+
+<Volt feedfwd enable
+>Hab. Voltaje feedfwd
+
+<Voltage base
+>Base volt
+
+<Voltage margin
+>Margen volt
+
+<Voltage reg I time
+>Tiempo I regul volt
+
+<Voltage reg P gain
+>Gan P regul volt
+
+<WaitCFG
+>Espera CFG
+
+<WaitPRM
+>Espera PRM
+
+<Warning
+>Aviso
+
+<Watchdog
+>Watchdog
+
+<Word bit0 src
+>Orig word bit0
+
+<Word bit1 src
+>Orig word bit1
+
+<Word bit10 src
+>Orig word bit10
+
+<Word bit11 src
+>Orig word bit11
+
+<Word bit12 src
+>Orig word bit12
+
+<Word bit13 src
+>Orig word bit13
+
+<Word bit14 src
+>Orig word bit14
+
+<Word bit15 src
+>Orig word bit15
+
+<Word bit2 src
+>Orig word bit2
+
+<Word bit3 src
+>Orig word bit3
+
+<Word bit4 src
+>Orig word bit4
+
+<Word bit5 src
+>Orig word bit5
+
+<Word bit6 src
+>Orig word bit6
+
+<Word bit7 src
+>Orig word bit7
+
+<Word bit8 src
+>Orig word bit8
+
+<Word bit9 src
+>Orig word bit9
+
+<WORD COMP
+>COMP WORD
+
+<Word comp mon
+>Mon word comp
+
+<WORD DECOMP
+>DECOMP WORD
+
+<Word decomp src
+>Orig word decomp
+
+<Zero
+>Cero
+

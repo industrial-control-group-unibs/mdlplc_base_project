@@ -1,0 +1,1953 @@
+(***************************************************************
+(* Project: TCdrive	target files                                
+(*                                                              
+(* Copyright © 2006, SIEI SpA. All Rights Reserved.             
+(*                                                              
+(* Version  	: 1.0                                           
+(* File 	   	: PlcTgt_Step_01.tgt                            
+(* Author		: SIEI SpA                                      
+(*                                                              
+(* Description 	: General variables                             
+(*                                                              
+(*************************************************************) 
+
+
+RESOURCE ADV ON TC1	                                      
+                                                          
+	TASK Fast       ( INTERVAL := t#1ms, PRIORITY := 0 ); 
+	TASK Slow       ( INTERVAL := t#8ms, PRIORITY := 1 ); 
+	TASK Boot       ( INTERVAL := t#0ms, PRIORITY := 2 ); 
+	TASK Background ( INTERVAL := t#0ms, PRIORITY := 3 ); 
+	TASK Parameters ( INTERVAL := t#0ms, PRIORITY := 4 ); 
+                                                          
+END_RESOURCE                                              
+                                                          
+VAR_GLOBAL                                                
+                                                          
+	{G:"DATABASE INTERFACE"}                                                                                                
+	sysDbIpa                       AT %MB3.0       :                      INT; { DE:"sys Ipa"}                                     
+	sysDbWrRd                      AT %MB3.2       :                      INT; { DE:"sys Wr Rd"}                                   
+	sysDbValueI                    AT %MB3.4       :                     DINT; { DE:"sys Value interger"}                          
+	sysDbValueF                    AT %MB3.4       :                     REAL; { DE:"sys Value float"}                             
+                                                                                                                              
+	{G:"ALARMS PLC"}                                                                                                        
+	sysAlmPlc                      AT %MB4.0       :                     DINT; { DE:"sys Alarm from Plc"}                          
+	sysAlmPlcXAct                  AT %MB16.0      :      ARRAY[0..15] OF INT; { DE:"sys Alarm from Plc X activity"}               
+	sysAlmPlc1Act                  AT %MB16.0      :                      INT; { DE:"sys Alarm from Plc 1 activity"}               
+	sysAlmPlc2Act                  AT %MB16.1      :                      INT; { DE:"sys Alarm from Plc 2 activity"}               
+	sysAlmPlc3Act                  AT %MB16.2      :                      INT; { DE:"sys Alarm from Plc 3 activity"}               
+	sysAlmPlc4Act                  AT %MB16.3      :                      INT; { DE:"sys Alarm from Plc 4 activity"}               
+	sysAlmPlc5Act                  AT %MB16.4      :                      INT; { DE:"sys Alarm from Plc 5 activity"}               
+	sysAlmPlc6Act                  AT %MB16.5      :                      INT; { DE:"sys Alarm from Plc 6 activity"}               
+	sysAlmPlc7Act                  AT %MB16.6      :                      INT; { DE:"sys Alarm from Plc 7 activity"}               
+	sysAlmPlc8Act                  AT %MB16.7      :                      INT; { DE:"sys Alarm from Plc 8 activity"}               
+	sysAlmPlc9Act                  AT %MB16.8      :                      INT; { DE:"sys Alarm from Plc 9 activity"}               
+	sysAlmPlc10Act                 AT %MB16.9      :                      INT; { DE:"sys Alarm from Plc 10 activity"}               
+	sysAlmPlc11Act                 AT %MB16.10     :                      INT; { DE:"sys Alarm from Plc 11 activity"}               
+	sysAlmPlc12Act                 AT %MB16.11     :                      INT; { DE:"sys Alarm from Plc 12 activity"}               
+	sysAlmPlc13Act                 AT %MB16.12     :                      INT; { DE:"sys Alarm from Plc 13 activity"}               
+	sysAlmPlc14Act                 AT %MB16.13     :                      INT; { DE:"sys Alarm from Plc 14 activity"}               
+	sysAlmPlc15Act                 AT %MB16.14     :                      INT; { DE:"sys Alarm from Plc 15 activity"}               
+	sysAlmPlc16Act                 AT %MB16.15     :                      INT; { DE:"sys Alarm from Plc 16 activity"}               
+                                                                                                                              
+	{G:"COUNTERS"}                                                                                                          
+	sys1kHzTimer                   AT %MD5.0       :                     DINT; { DE:"Timer task 1kHz, fast"}                       
+	sys128HzTimer                  AT %MD6.0       :                     DINT; { DE:"Timer task 128Hz, slow"}                      
+                                                                                                                              
+	{G:"MESSAGES"}                                                                                                          
+	sysMsgPlc1                     AT %MB7.0       :               STRING[19]; { DE:"Message from Plc 1"}                          
+	sysMsgPlc2                     AT %MB7.20      :               STRING[19]; { DE:"Message from Plc 2"}                          
+	sysMsgPlc3                     AT %MB7.40      :               STRING[19]; { DE:"Message from Plc 3"}                          
+	sysMsgPlc4                     AT %MB7.60      :               STRING[19]; { DE:"Message from Plc 4"}                          
+                                                                                                                              
+	{G:"PARAMETERS DESCRIPTIONS"}                                                                                           
+	sysPar1Ipa                     AT %MB8.0       :                      INT; { DE:"Parameter 1 ipa"}                             
+	sysPar1Descr                   AT %MB8.2       :               STRING[20]; { DE:"Parameter 1 description"}                     
+	sysPar2Ipa                     AT %MB8.24      :                      INT; { DE:"Parameter 2 ipa"}                             
+	sysPar2Descr                   AT %MB8.26      :               STRING[20]; { DE:"Parameter 2 description"}                     
+	sysPar3Ipa                     AT %MB8.48      :                      INT; { DE:"Parameter 3 ipa"}                             
+	sysPar3Descr                   AT %MB8.50      :               STRING[20]; { DE:"Parameter 3 description"}                     
+	sysPar4Ipa                     AT %MB8.72      :                      INT; { DE:"Parameter 4 ipa"}                             
+	sysPar4Descr                   AT %MB8.74      :               STRING[20]; { DE:"Parameter 4 description"}                     
+	sysPar5Ipa                     AT %MB8.96      :                      INT; { DE:"Parameter 5 ipa"}                             
+	sysPar5Descr                   AT %MB8.98      :               STRING[20]; { DE:"Parameter 5 description"}                     
+	sysPar6Ipa                     AT %MB8.120     :                      INT; { DE:"Parameter 6 ipa"}                             
+	sysPar6Descr                   AT %MB8.122     :               STRING[20]; { DE:"Parameter 6 description"}                     
+	sysPar7Ipa                     AT %MB8.144     :                      INT; { DE:"Parameter 7 ipa"}		                      
+	sysPar7Descr                   AT %MB8.146     :               STRING[20]; { DE:"Parameter 7 description"}	                  
+	sysPar8Ipa                     AT %MB8.168     :                      INT; { DE:"Parameter 8 ipa"}		                      
+	sysPar8Descr                   AT %MB8.170     :               STRING[20]; { DE:"Parameter 8 description"}	                  
+	sysPar9Ipa                     AT %MB8.192     :                      INT; { DE:"Parameter 9 ipa"}	                   	      
+	sysPar9Descr                   AT %MB8.194     :               STRING[20]; { DE:"Parameter 9 description"}	                  
+	sysPar10Ipa                    AT %MB8.216     :                      INT; { DE:"Parameter 10 ipa"}	                   	      
+	sysPar10Descr                  AT %MB8.218     :               STRING[20]; { DE:"Parameter 10 description"}                    
+	sysPar11Ipa                    AT %MB8.240     :                      INT; { DE:"Parameter 11 ipa"}		                      
+	sysPar11Descr                  AT %MB8.242     :               STRING[20]; { DE:"Parameter 11 description"}                    
+	sysPar12Ipa                    AT %MB8.264     :                      INT; { DE:"Parameter 12 ipa"}		                      
+	sysPar12Descr                  AT %MB8.266     :               STRING[20]; { DE:"Parameter 12 description"}                    
+	sysPar13Ipa                    AT %MB8.288     :                      INT; { DE:"Parameter 13 ipa"}		                      
+	sysPar13Descr                  AT %MB8.290     :               STRING[20]; { DE:"Parameter 13 description"}                    
+	sysPar14Ipa                    AT %MB8.312     :                      INT; { DE:"Parameter 14 ipa"}		                      
+	sysPar14Descr                  AT %MB8.314     :               STRING[20]; { DE:"Parameter 14 description"}                    
+	sysPar15Ipa                    AT %MB8.336     :                      INT; { DE:"Parameter 15 ipa"}		                      
+	sysPar15Descr                  AT %MB8.338     :               STRING[20]; { DE:"Parameter 15 description"}                    
+	sysPar16Ipa                    AT %MB8.360     :                      INT; { DE:"Parameter 16 ipa"}		                      
+	sysPar16Descr                  AT %MB8.362     :               STRING[20]; { DE:"Parameter 16 description"}                    
+																							                                  
+	{G:"TASK PARAMETERS INTERFACE"}															                              
+	sysTaskParIpa                  AT %MB9.0       :                      INT; { DE:"Task parameters Ipa"}			              
+	sysTaskParWrRd                 AT %MB9.2       :                      INT; { DE:"Task parameters Wr Rd"}		                  
+	sysTaskParValueI               AT %MB9.4       :                     DINT; { DE:"Task parameters Value integer"}               
+	sysTaskParValueF               AT %MB9.4       :                     REAL; { DE:"Task parameters Value float"}			      
+																											                  
+	{G:"ENCODER CAPTURE"}																					                  
+	sysF0_Poscnt                   AT %MB10.0      :                     DINT; { DE:"Encoder Capture 0 pos"}						  
+	sysF0_Rev                      AT %MB10.4      :                     DINT; { DE:"Encoder Capture 0 rev"}						  
+	sysF1_Poscnt                   AT %MB11.0      :                     DINT; { DE:"Encoder Capture 1 pos"}						  
+	sysF1_Rev                      AT %MB11.4      :                     DINT; { DE:"Encoder Capture 1 rev"}						  
+	sysCHC_Poscnt                  AT %MB18.0      :                     DINT; { DE:"Encoder Channel C pos"}						  
+	sysCHC_Rev                     AT %MB18.4      :                     DINT; { DE:"Encoder Channel C rev"}						  
+	sysStatus_Word_F10             AT %MB12.0      :                     UINT; { DE:"Status Word Capture Encoder"}				  
+	sysCtrl_Word_F10               AT %MB13.0      :                     UINT; { DE:"Control Word Capture Encoder"}				  
+	sysF0_PoscntEnc2               AT %MB29.0      :                     DINT; { DE:"Encoder 2 Capture 0 pos"}						  
+	sysF0_RevEnc2                  AT %MB29.4      :                     DINT; { DE:"Encoder 2 Capture 0 rev"}						  
+	sysF1_PoscntEnc2               AT %MB30.0      :                     DINT; { DE:"Encoder 2 Capture 1 pos"}						  
+	sysF1_RevEnc2                  AT %MB30.4      :                     DINT; { DE:"Encoder 2 Capture 1 rev"}						  
+	sysCHC_PoscntEnc2              AT %MB33.0      :                     DINT; { DE:"Encoder 2 Channel C pos"}						  
+	sysCHC_RevEnc2                 AT %MB33.4      :                     DINT; { DE:"Encoder 2 Channel C rev"}						  
+	sysStatus_Word_F10Enc2         AT %MB31.0      :                     UINT; { DE:"Status Word Capture Encoder 2"}				  
+	sysCtrl_Word_F10Enc2           AT %MB32.0      :                     UINT; { DE:"Control Word Capture Encoder 2"}				  
+																											                  
+	{G:"INTERLOCK"}																							              
+	sysInterlock                   AT %MB14.0      :                     DINT; { DE:"sys Interlock from Plc"}					  
+																											                  
+	{G:"EXE TIME"}																							              
+	sysExeTimeTask1                AT %MB15.4      :                     DINT; { DE:"Exe Time Task 1kHz, fast [clk=75MHz]"}		  
+	sysExeTimeTask2                AT %MB15.8      :                     DINT; { DE:"Exe Time Task 128Hz, slow [clk=75MHz]"}		  
+	sysExeTimeBackGround           AT %MB15.12     :                     DINT; { DE:"Exe Time BackGround [clk=75MHz]"}             
+	sysExeTimeType                 AT %MB15.16     :                      INT; { DE:"Exe Time Type"}                               
+																											                  
+	{G:"FW APPLICATION"}																							              
+	sysFwApplVerRel                AT %MB17.0      :                      INT; { DE:"Fw application Ver.Rel (Ver-HByte Rel-LByte)"}
+	sysFwApplTyp                   AT %MB17.2      :                      INT; { DE:"Fw application Typ                          "}
+	sysFwApplSubVer                AT %MB17.4      :                      INT; { DE:"Fw application SubVer                       "}
+																											                  
+	{G:"GENERAL USER VARIABLES"}																				              
+	sysUsrVarwX                    AT %MB19.0      :     ARRAY[0..15] OF UINT; { DE:"User variable wX                               "}
+	sysUsrVarw0                    AT %MB19.0      :                     UINT; { DE:"User variable w0                               "}
+	sysUsrVarw1                    AT %MB19.2      :                     UINT; { DE:"User variable w1                               "}
+	sysUsrVarw2                    AT %MB19.4      :                     UINT; { DE:"User variable w2                               "}
+	sysUsrVarw3                    AT %MB19.6      :                     UINT; { DE:"User variable w3                               "}
+	sysUsrVarw4                    AT %MB19.8      :                     UINT; { DE:"User variable w4                               "}
+	sysUsrVarw5                    AT %MB19.10     :                     UINT; { DE:"User variable w5                               "}
+	sysUsrVarw6                    AT %MB19.12     :                     UINT; { DE:"User variable w6                               "}
+	sysUsrVarw7                    AT %MB19.14     :                     UINT; { DE:"User variable w7                               "}
+	sysUsrVarw8                    AT %MB19.16     :                     UINT; { DE:"User variable w8                               "}
+	sysUsrVarw9                    AT %MB19.18     :                     UINT; { DE:"User variable w9                               "}
+	sysUsrVarw10                   AT %MB19.20     :                     UINT; { DE:"User variable w10                              "}
+	sysUsrVarw11                   AT %MB19.22     :                     UINT; { DE:"User variable w11                              "}
+	sysUsrVarw12                   AT %MB19.24     :                     UINT; { DE:"User variable w12                              "}
+	sysUsrVarw13                   AT %MB19.26     :                     UINT; { DE:"User variable w13                              "}
+	sysUsrVarw14                   AT %MB19.28     :                     UINT; { DE:"User variable w14                              "}
+	sysUsrVarw15                   AT %MB19.30     :                     UINT; { DE:"User variable w15                              "}
+	sysUsrVardwX                   AT %MB19.0      :     ARRAY[0..7] OF UDINT; { DE:"User variable dwX                              "}
+	sysUsrVardw0                   AT %MB19.0      :                    UDINT; { DE:"User variable dw0                              "}
+	sysUsrVardw1                   AT %MB19.4      :                    UDINT; { DE:"User variable dw1                              "}
+	sysUsrVardw2                   AT %MB19.8      :                    UDINT; { DE:"User variable dw2                              "}
+	sysUsrVardw3                   AT %MB19.12     :                    UDINT; { DE:"User variable dw3                              "}
+	sysUsrVardw4                   AT %MB19.16     :                    UDINT; { DE:"User variable dw4                              "}
+	sysUsrVardw5                   AT %MB19.20     :                    UDINT; { DE:"User variable dw5                              "}
+	sysUsrVardw6                   AT %MB19.24     :                    UDINT; { DE:"User variable dw6                              "}
+	sysUsrVardw7                   AT %MB19.28     :                    UDINT; { DE:"User variable dw7                              "}
+	sysUsrVarwX_NoImg              AT %MB45.0      :     ARRAY[0..15] OF UINT; { DE:"User variable wX NoImg                         "}
+	sysUsrVardwX_NoImg             AT %MB45.0      :     ARRAY[0..7] OF UDINT; { DE:"User variable dwX NoImg                        "}
+	sysRampAccState                AT %MD21.0      :                    UDINT; { DE:"Ramp acceleration state                     "}
+	sysRampDecState                AT %MD22.0      :                    UDINT; { DE:"Ramp deceleration state                     "}
+	sysDispListIpa                 AT %MB34.0      :                     INT; { DE:"Display list ipa                                "}
+	sysDispListDescr               AT %MB34.2      :               STRING[6]; { DE:"Display list short description                  "}
+																											                  
+	{G:"FAST LINK"}																				              
+	sysFL_Rv1_Slave1_mon           AT %MD35.0      :                     DINT; { DE:"FastLink Reverse 1 Slave 1                     "}
+	sysFL_Rv1_Slave2_mon           AT %MD35.2      :                     DINT; { DE:"FastLink Reverse 1 Slave 2                     "}
+	sysFL_Rv1_Slave3_mon           AT %MD35.4      :                     DINT; { DE:"FastLink Reverse 1 Slave 3                     "}
+	sysFL_Rv1_Slave4_mon           AT %MD35.6      :                     DINT; { DE:"FastLink Reverse 1 Slave 4                     "}
+	sysFL_Rv1_Slave5_mon           AT %MD35.8      :                     DINT; { DE:"FastLink Reverse 1 Slave 5                     "}
+	sysFL_Rv1_Slave6_mon           AT %MD35.10      :                     DINT; { DE:"FastLink Reverse 1 Slave 6                     "}
+	sysFL_Rv1_Slave7_mon           AT %MD35.12      :                     DINT; { DE:"FastLink Reverse 1 Slave 7                     "}
+	sysFL_Rv1_Slave8_mon           AT %MD35.14      :                     DINT; { DE:"FastLink Reverse 1 Slave 8                     "}
+	sysFL_Rv1_Slave9_mon           AT %MD35.16      :                     DINT; { DE:"FastLink Reverse 1 Slave 9                     "}
+	sysFL_Rv1_Slave10_mon           AT %MD35.18      :                     DINT; { DE:"FastLink Reverse 1 Slave 10                    "}
+	sysFL_Rv1_Slave11_mon           AT %MD35.20      :                     DINT; { DE:"FastLink Reverse 1 Slave 11                    "}
+	sysFL_Rv1_Slave12_mon           AT %MD35.22      :                     DINT; { DE:"FastLink Reverse 1 Slave 12                    "}
+	sysFL_Rv1_Slave13_mon           AT %MD35.24      :                     DINT; { DE:"FastLink Reverse 1 Slave 13                    "}
+	sysFL_Rv1_Slave14_mon           AT %MD35.26      :                     DINT; { DE:"FastLink Reverse 1 Slave 14                    "}
+	sysFL_Rv1_Slave15_mon           AT %MD35.28      :                     DINT; { DE:"FastLink Reverse 1 Slave 15                    "}
+	sysFL_Rv2_Slave1_mon           AT %MD35.1      :                     DINT; { DE:"FastLink Reverse 2 Slave 1                     "}
+	sysFL_Rv2_Slave2_mon           AT %MD35.3      :                     DINT; { DE:"FastLink Reverse 2 Slave 2                     "}
+	sysFL_Rv2_Slave3_mon           AT %MD35.5      :                     DINT; { DE:"FastLink Reverse 2 Slave 3                     "}
+	sysFL_Rv2_Slave4_mon           AT %MD35.7      :                     DINT; { DE:"FastLink Reverse 2 Slave 4                     "}
+	sysFL_Rv2_Slave5_mon           AT %MD35.9      :                     DINT; { DE:"FastLink Reverse 2 Slave 5                     "}
+	sysFL_Rv2_Slave6_mon           AT %MD35.11      :                     DINT; { DE:"FastLink Reverse 2 Slave 6                     "}
+	sysFL_Rv2_Slave7_mon           AT %MD35.13      :                     DINT; { DE:"FastLink Reverse 2 Slave 7                     "}
+	sysFL_Rv2_Slave8_mon           AT %MD35.15      :                     DINT; { DE:"FastLink Reverse 2 Slave 8                     "}
+	sysFL_Rv2_Slave9_mon           AT %MD35.17      :                     DINT; { DE:"FastLink Reverse 2 Slave 9                     "}
+	sysFL_Rv2_Slave10_mon           AT %MD35.19      :                     DINT; { DE:"FastLink Reverse 2 Slave 10                    "}
+	sysFL_Rv2_Slave11_mon           AT %MD35.21      :                     DINT; { DE:"FastLink Reverse 2 Slave 11                    "}
+	sysFL_Rv2_Slave12_mon           AT %MD35.23      :                     DINT; { DE:"FastLink Reverse 2 Slave 12                    "}
+	sysFL_Rv2_Slave13_mon           AT %MD35.25      :                     DINT; { DE:"FastLink Reverse 2 Slave 13                    "}
+	sysFL_Rv2_Slave14_mon           AT %MD35.27      :                     DINT; { DE:"FastLink Reverse 2 Slave 14                    "}
+	sysFL_Rv2_Slave15_mon           AT %MD35.29      :                     DINT; { DE:"FastLink Reverse 2 Slave 15                    "}
+
+	{G:"SYSTEM VARS"}
+	sysIout                        AT %ID500.0     :                     DINT; { DE:"Output current [cnts]"} 
+	sysVo                          AT %ID501.0     :                     DINT; { DE:"Output voltage [cnts]"} 
+	sysOutFreq                     AT %ID502.0     :                     DINT; { DE:"Output Frequency"} 
+	sysPout                        AT %ID509.0     :                     DINT; { DE:"Output power [cnts]"} 
+	sysSpdFilt                     AT %ID510.0     :                     DINT; { DE:"Calculated speed filtered"} 
+	sysSpd                         AT %ID511.0     :                     DINT; { DE:"Calculated speed"} 
+	sysVdcLink                     AT %ID503.0     :                     DINT; { DE:"DC link voltage [cnts]"} 
+	sysHeatSinkTemp                AT %ID504.0     :                     DINT; { DE:"Heatsink temperature"} 
+	sysIqRef                       AT %ID521.0     :                     DINT; { DE:"Actual quadrature current reference [cnts]"} 
+	sysIdRef                       AT %ID520.0     :                     DINT; { DE:"Actual magnetizing current reference [cnts]"} 
+	sysIq                          AT %ID523.0     :                     DINT; { DE:"Actual quadrature current [cnts]"} 
+	sysId                          AT %ID522.0     :                     DINT; { DE:"Actual magnetizing current [cnts]"} 
+	sysIdRef_in                    AT %MD536.0     :                     REAL; { DE:""} 
+
+	{G:"OVERLOAD STATE"}
+	sysOverloadStatus              AT %IX383.0     :                     BOOL; { DE:"Drive overload status"} 
+	sysDriveOvldComing             AT %IX384.0     :                     BOOL; { DE:"Drive overload coming"} 
+	sysOverloadFact                AT %ID380.0     :                     DINT; { DE:"Drive overload factor [%]"} 
+
+	{G:"SYSTEM VARS"}
+	sysControlMode                 AT %MD530.0     :                    UDINT; { DE:"Control Mode: Ramp, Speed, Torque"} 
+
+	{G:"RAMP REFERENCE"}
+	sysRampRef                     AT %MD420.0     :                     DINT; { DE:"Ramp Reference 1"} 
+	sysRampRef2                    AT %MD421.0     :                     DINT; { DE:"Ramp Reference 2"} 
+	sysRampRef3                    AT %MD423.0     :                     DINT; { DE:"Ramp Reference 3"} 
+	sysRampRefInv                  AT %MX427.0     :                     BOOL; { DE:"Ramp Reference Inversion Status"} 
+	sysRampRef1mon                 AT %MD424.0     :                     DINT; { DE:"Ramp Reference 1 monitor"} 
+	sysRampRef2mon                 AT %MD425.0     :                     DINT; { DE:"Ramp Reference 2 monitor"} 
+	sysRampRef3mon                 AT %MD426.0     :                     DINT; { DE:"Ramp Reference 3 monitor"} 
+	sysRampIn                      AT %ID420.0     :                     DINT; { DE:"Actual Ramp Reference"} 
+	sysRampSkip                    AT %ID421.0     :                     DINT; { DE:"Ramp reference after frequency skip"} 
+	sysRampMaxCCW                  AT %MD428.0     :                     DINT; { DE:"Top Ramp Reference Limit"} 
+	sysRampMinCCW                  AT %MD429.0     :                     DINT; { DE:"Bottom Ramp Reference Limit"} 
+
+	{G:"SPEED REFERENCE"}
+	sysSpdRef1                     AT %MD460.0     :                     DINT; { DE:"Speed Reference 1"} 
+	sysSpdRef2                     AT %MD461.0     :                     DINT; { DE:"Speed Reference 2"} 
+	sysSpdRefInv                   AT %MX464.0     :                     BOOL; { DE:"Speed Reference Inversion Status"} 
+	sysSpeedRef1                   AT %MD462.0     :                     DINT; { DE:"Speed Reference 1 monitor"} 
+	sysSpeedRef2                   AT %MD463.0     :                     DINT; { DE:"Speed Reference 2 monitor"} 
+	sysSpdRef                      AT %ID461.0     :                     DINT; { DE:"Speed Reference"} 
+
+	{G:"SYSTEM VARS"}
+	sysSpeedRefFilter              AT %MD526.0     :                    UDINT; { DE:"Speed reference filter"} 
+
+	{G:"SPEED REFERENCE"}
+	sysSpdMaxCW                    AT %MD465.0     :                     DINT; { DE:"Positive Speed Limit"} 
+	sysSpdMaxCCW                   AT %MD466.0     :                     DINT; { DE:"Negative Speed Limit"} 
+
+	{G:"MULTI RAMPS"}
+	sysMRampAcc1                   AT %MD361.0     :                     DINT; { DE:"Multi Ramp Acceleration 1"} 
+	sysMRampDec1                   AT %MD365.0     :                     DINT; { DE:"Multi Ramp Deceleration 1"} 
+	sysMRampAcc2                   AT %MD362.0     :                     DINT; { DE:"Multi Ramp Acceleration 2"} 
+	sysMRampDec2                   AT %MD366.0     :                     DINT; { DE:"Multi Ramp Deceleration 2"} 
+	sysMRampAcc3                   AT %MD363.0     :                     DINT; { DE:"Multi Ramp Acceleration 3"} 
+	sysMRampDec3                   AT %MD367.0     :                     DINT; { DE:"Multi Ramp Deceleration 3"} 
+	sysMRampAcc4                   AT %MD364.0     :                     DINT; { DE:"Multi Ramp Acceleration 4"} 
+	sysMRampDec4                   AT %MD368.0     :                     DINT; { DE:"Multi Ramp Deceleration 4"} 
+	sysRampType                    AT %MW360.0     :                     UINT; { DE:"Ramp Type"} 
+	sysMRampAccJerk1               AT %MD369.0     :                     DINT; { DE:"Multi Ramp 1 Acceleration Jerk Time"} 
+	sysMRampDecJerk1               AT %MD373.0     :                     DINT; { DE:"Multi Ramp 1 Deceleration Jerk Time"} 
+	sysMRampAccJerk2               AT %MD370.0     :                     DINT; { DE:"Multi Ramp 2 Acceleration Jerk Time"} 
+	sysMRampDecJerk2               AT %MD374.0     :                     DINT; { DE:"Multi Ramp 2 Deceleration Jerk Time"} 
+	sysMRampAccJerk3               AT %MD371.0     :                     DINT; { DE:"Multi Ramp 3 Acceleration Jerk Time"} 
+	sysMRampDecJerk3               AT %MD375.0     :                     DINT; { DE:"Multi Ramp 3 Deceleration Jerk Time"} 
+	sysMRampAccJerk4               AT %MD372.0     :                     DINT; { DE:"Multi Ramp 4 Acceleration Jerk Time"} 
+	sysMRampDecJerk4               AT %MD376.0     :                     DINT; { DE:"Multi Ramp 4 Deceleration Jerk Time"} 
+
+	{G:"SPEED REFERENCE"}
+	sysRampOut                     AT %ID460.0     :                     DINT; { DE:"Ramp Output"} 
+
+	{G:"SYSTEM VARS"}
+	sysRampAccStateMon             AT %IX532.0     :                     BOOL; { DE:"Ramp acceleration state monitor"} 
+	sysRampDecStateMon             AT %IX533.0     :                     BOOL; { DE:"Ramp deceleration state monitor"} 
+
+	{G:"MULTI REFERENCES"}
+	sysMultiReference0             AT %MD320.0     :                     DINT; { DE:"Multi Reference 0"} 
+	sysMultiReference1             AT %MD321.0     :                     DINT; { DE:"Multi Reference 1"} 
+	sysMultiReference2             AT %MD322.0     :                     DINT; { DE:"Multi Reference 2"} 
+	sysMultiReference3             AT %MD323.0     :                     DINT; { DE:"Multi Reference 3"} 
+	sysMultiReference4             AT %MD324.0     :                     DINT; { DE:"Multi Reference 4"} 
+	sysMultiReference5             AT %MD325.0     :                     DINT; { DE:"Multi Reference 5"} 
+	sysMultiReference6             AT %MD326.0     :                     DINT; { DE:"Multi Reference 6"} 
+	sysMultiReference7             AT %MD327.0     :                     DINT; { DE:"Multi Reference 7"} 
+	sysMultiReference8             AT %MD328.0     :                     DINT; { DE:"Multi Reference 8"} 
+	sysMultiReference9             AT %MD329.0     :                     DINT; { DE:"Multi Reference 9"} 
+	sysMultiReference10            AT %MD330.0     :                     DINT; { DE:"Multi Reference 10"} 
+	sysMultiReference11            AT %MD331.0     :                     DINT; { DE:"Multi Reference 11"} 
+	sysMultiReference12            AT %MD332.0     :                     DINT; { DE:"Multi Reference 12"} 
+	sysMultiReference13            AT %MD333.0     :                     DINT; { DE:"Multi Reference 13"} 
+	sysMultiReference14            AT %MD334.0     :                     DINT; { DE:"Multi Reference 14"} 
+	sysMultiReference15            AT %MD335.0     :                     DINT; { DE:"Multi Reference 15"} 
+	sysMultiReferenceSel           AT %MD336.0     :                    UDINT; { DE:"Multi Reference Selection Monitor"} 
+	sysMultiReferenceOut           AT %ID320.0     :                     DINT; { DE:"Multi Reference Selected Reference"} 
+
+	{G:"MOTOPOT"}
+	sysMPotAcc                     AT %MD302.0     :                     DINT; { DE:"Motor Potentiometer Acceleration"} 
+	sysMPotDec                     AT %MD303.0     :                     DINT; { DE:"Motor Potentiometer Deceleration"} 
+	sysMPotUpLim                   AT %MD300.0     :                     DINT; { DE:"Motor Potentiometer Upper Limit"} 
+	sysMPotLowLim                  AT %MD301.0     :                     DINT; { DE:"Motor Potentiometer Lower Limit"} 
+	sysMPotOutput                  AT %ID300.0     :                     DINT; { DE:"Motor Potentiometer Output"} 
+
+	{G:"JOG"}
+	sysJogInput                    AT %MD280.0     :                     DINT; { DE:"Jog Input"} 
+	sysJogAcc                      AT %MD281.0     :                     DINT; { DE:"Jog Acceleration"} 
+	sysJogDec                      AT %MD282.0     :                     DINT; { DE:"Jog Deceleration"} 
+	sysJogOutput                   AT %ID280.0     :                     DINT; { DE:"Jog Output"} 
+
+	{G:"SYSTEM VARS"}
+	sysSpdRefZeroThr               AT %MD540.0     :                     DINT; { DE:"Speed Reference zero threshold"} 
+	sysSpdRefZeroDly               AT %MW542.0     :                     UINT; { DE:"Speed Reference zero delay time [ms]"} 
+	sysSpdRefZero                  AT %IX550.0     :                     BOOL; { DE:"Speed Reference is Zero status"} 
+	sysSpdRefZeroDelayed           AT %IX551.0     :                     BOOL; { DE:"Speed Reference is Zero delayed status"} 
+	sysSpeedZerothr                AT %MD541.0     :                     DINT; { DE:"Speed zero threshold"} 
+	sysSpeedZeroDly                AT %MW543.0     :                     UINT; { DE:"Speed zero delay time [ms]"} 
+	sysSpeedZero                   AT %IX552.0     :                     BOOL; { DE:"Speed is Zero status"} 
+	sysSpeedZeroDelayed            AT %IX553.0     :                     BOOL; { DE:"Speed is Zero delayed status"} 
+	sysSpeedThr1_2Mon              AT %IX554.0     :                     BOOL; { DE:"Speed threshold 1_2 status"} 
+	sysSetSpeed                    AT %IX555.0     :                     BOOL; { DE:"Set speed status"} 
+	sysSpeedThr3Mon                AT %IX556.0     :                     BOOL; { DE:"Speed threshold 3 status"} 
+	sysCurrentThrMon               AT %IX557.0     :                     BOOL; { DE:"Current threshold status"} 
+
+	{G:"COMMANDS STATE"}
+	sysEnCmdStatus                 AT %IX601.0     :                     BOOL; { DE:"Drive Enable Command Status"} 
+	sysStopCmdStatus               AT %IX602.0     :                     BOOL; { DE:"Stop Command Status"} 
+	sysFastStopCmdStat             AT %IX603.0     :                     BOOL; { DE:"Fast Stop Command Status"} 
+	sysLocalCmdStatus              AT %IX600.0     :                     BOOL; { DE:"Local Command Status"} 
+	sysDrvInterlockStat            AT %IX607.0     :                     BOOL; { DE:"Drive Interlock Status"} 
+	sysSequencerStatus             AT %ID614.0     :                    UDINT; { DE:"Sequencer Status"} 
+	sysDriveOk                     AT %IX610.0     :                     BOOL; { DE:"Drive OK"} 
+	sysDriveReady                  AT %IX611.0     :                     BOOL; { DE:"Drive Ready Status"} 
+	sysEnableStatus                AT %IX604.0     :                     BOOL; { DE:"Physical drive enable"} 
+	sysStartStatus                 AT %IX605.0     :                     BOOL; { DE:"Drive Start Status"} 
+	sysFastStopStatus              AT %IX606.0     :                     BOOL; { DE:"Fast Stop Status"} 
+
+	{G:"DIGITAL INPUT"}
+	sysDIBitWord                   AT %ID186.0     :                    UDINT; { DE:"Digital input word"} 
+	sysDIHwBitWord                 AT %MD180.0     :                    UDINT; { DE:"Digital hw input word"} 
+	sysDIBitWordBit0               AT %IX180.0     :                     BOOL; { DE:"Digital input 0 (Enable)"} 
+	sysDIBitWordBit1               AT %IX181.0     :                     BOOL; { DE:"Digital input 1"} 
+	sysDIBitWordBit2               AT %IX182.0     :                     BOOL; { DE:"Digital input 2"} 
+	sysDIBitWordBit3               AT %IX183.0     :                     BOOL; { DE:"Digital input 3"} 
+	sysDIBitWordBit4               AT %IX184.0     :                     BOOL; { DE:"Digital input 4"} 
+	sysDIBitWordBit5               AT %IX185.0     :                     BOOL; { DE:"Digital input 5"} 
+
+	{G:"DIGITAL INPUT EXP"}
+	sysEDIBitWord                  AT %ID208.0     :                    UDINT; { DE:"Exp Digital input word"} 
+	sysEDIBitWordBit0              AT %IX200.0     :                     BOOL; { DE:"Exp Digital input 0"} 
+	sysEDIBitWordBit1              AT %IX201.0     :                     BOOL; { DE:"Exp Digital input 1"} 
+	sysEDIBitWordBit2              AT %IX202.0     :                     BOOL; { DE:"Exp Digital input 2"} 
+	sysEDIBitWordBit3              AT %IX203.0     :                     BOOL; { DE:"Exp Digital input 3"} 
+	sysEDIBitWordBit4              AT %IX204.0     :                     BOOL; { DE:"Exp Digital input 4"} 
+	sysEDIBitWordBit5              AT %IX205.0     :                     BOOL; { DE:"Exp Digital input 5"} 
+	sysEDIBitWordBit6              AT %IX206.0     :                     BOOL; { DE:"Exp Digital input 6"} 
+	sysEDIBitWordBit7              AT %IX207.0     :                     BOOL; { DE:"Exp Digital input 7"} 
+
+	{G:"DIGITAL OUTPUT"}
+	sysDOBitWord                   AT %MD220.0     :                    UDINT; { DE:"Read only digital output word"} 
+
+	{G:"DIGITAL OUTPUT EXP"}
+	sysEDOBitWord                  AT %MD230.0     :                    UDINT; { DE:"Read only exp digital output word"} 
+
+	{G:"ANALOG INPUT"}
+	sysAI0                         AT %ID102.0     :                     DINT; { DE:"Analog Input 0"} 
+	sysAI0Thr                      AT %MD104.0     :                     DINT; { DE:"Analog Input 0 Threshold"} 
+	sysAI0DB                       AT %MD102.0     :                    UDINT; { DE:"Analog input 0 Dead Band"} 
+	sysAI0AltValue                 AT %MD100.0     :                     DINT; { DE:"Analog Input 0 Alternate Value"} 
+	sysAI0LTThr                    AT %IX100.0     :                     BOOL; { DE:"Analog Input 0 Less Than Threshold"} 
+	sysAI1                         AT %ID103.0     :                     DINT; { DE:"Analog Input 1"} 
+	sysAI1Thr                      AT %MD105.0     :                     DINT; { DE:"Analog Input 1 Threshold"} 
+	sysAI1DB                       AT %MD103.0     :                    UDINT; { DE:"Analog input 1 Dead Band"} 
+	sysAI1AltValue                 AT %MD101.0     :                     DINT; { DE:"Analog Input 1 Alternate Value"} 
+	sysAI1LTThr                    AT %IX101.0     :                     BOOL; { DE:"Analog Input 1 Less Than Threshold"} 
+
+	{G:"ANALOG INPUT EXP"}
+	sysEAI0                        AT %ID120.0     :                     DINT; { DE:"Exp Analog input 0"} 
+	sysEAI1                        AT %ID121.0     :                     DINT; { DE:"Exp Analog input 1"} 
+
+	{G:"ANALOG OUTPUT"}
+	sysAO0Value                    AT %MD140.0     :                     DINT; { DE:"Analog Output 0 Value"} 
+	sysAO1Value                    AT %MD141.0     :                     DINT; { DE:"Analog Output 1 Value"} 
+
+	{G:"ANALOG OUTPUT EXP"}
+	sysEAO0Value                   AT %MD160.0     :                     DINT; { DE:"Exp Analog Output 0 Value"} 
+	sysEAO1Value                   AT %MD161.0     :                     DINT; { DE:"Exp Analog Output 1 Value"} 
+
+	{G:"SYSTEM VARS"}
+	sysEncSpdFilt                  AT %ID512.0     :                     DINT; { DE:"Encoder speed"} 
+	sysSpeedPosPulsesPerRev        AT %MD520.0     :                     DINT; { DE:"Speed/pos encoder virtual pulses"} 
+	sysPos                         AT %ID515.0     :                     DINT; { DE:"Actual encoder position"} 
+	sysRev                         AT %ID516.0     :                     DINT; { DE:"Actual encoder number of revolutions"} 
+	sysEncoderPos                  AT %IW517.0     :                     UINT; { DE:"Actual encoder position (Pulses * 4)"} 
+	sysEncoderAbsPos               AT %ID518.0     :                    UDINT; { DE:"Actual encoder abs position"} 
+	sysEncoderAbsRev               AT %ID519.0     :                    UDINT; { DE:"Actual encoder abs number of revolutions"} 
+	sysSpeedPosPulsesPerRevAbs     AT %MD521.0     :                    UDINT; { DE:"Speed/pos encoder absolute pulses"} 
+	sysSpeedRegPFactor             AT %ID528.0     :                     DINT; { DE:"Speed reg Proportional factor"} 
+	sysSpeedRegIFactor             AT %ID529.0     :                     DINT; { DE:"Speed reg Integral factor"} 
+	sysUsrUpperTrqLim              AT %MD506.0     :                     DINT; { DE:"Upper torque limit [cnts]"} 
+	sysUsrLowerTrqLim              AT %MD507.0     :                     DINT; { DE:"Lower torque limit [cnts]"} 
+	sysAsymTrqLim                  AT %MW505.0     :                     UINT; { DE:"Symmetric / Asymmetric torque limit mode"} 
+	sysUpperTrqLim                 AT %ID530.0     :                     DINT; { DE:"Actual upper torque limit [cnts]"} 
+	sysLowerTrqLim                 AT %ID531.0     :                     DINT; { DE:"Actual lower torque limit [cnts]"} 
+	sysUsrReductTrqLim             AT %MD510.0     :                     DINT; { DE:"Reduct torque limit [cnts]"} 
+	sysPosTrqLim                   AT %MD661.0     :                     DINT; { DE:"Positive torque limit [cnts]"} 
+	sysNegTrqLim                   AT %MD662.0     :                     DINT; { DE:"Negative torque limit [cnts]"} 
+	sysTrqFFwdFilter               AT %MD525.0     :                     REAL; { DE:"Filter on torque feed forward"} 
+	sysTrqFFwd                     AT %MD508.0     :                     DINT; { DE:"User feed-forward torque reference"} 
+	sysTrqRef                      AT %ID540.0     :                     DINT; { DE:"Filtered speed loop output=torque ref [cnts]"} 
+	sysTrqRefNoFilt                AT %ID541.0     :                     DINT; { DE:"Not filtered speed loop output=torque ref [cnts]"} 
+	sysTrqFFwdMon                  AT %ID549.0     :                     DINT; { DE:"User feed-forward torque reference monitor"} 
+	sysTrq                         AT %ID547.0     :                     DINT; { DE:"Filtered actual torque"} 
+	sysTrqNoFilt                   AT %ID548.0     :                     DINT; { DE:"Not filtered actual torque"} 
+
+	{G:"SPEED REFERENCE"}
+	sysSpeedRatio                  AT %MD467.0     :                     DINT; { DE:"External reference factor"} 
+	sysSpeedRatioOut               AT %ID462.0     :                     DINT; { DE:"Multiplied Speed Reference"} 
+	sysDroopOut                    AT %ID468.0     :                     DINT; { DE:"Droop output"} 
+
+	{G:"INERTIA COMP"}
+	sysInertiaComp                 AT %MD260.0     :                     DINT; { DE:"Inertia"} 
+	sysInertiaCompMon              AT %ID260.0     :                     DINT; { DE:"InertiaCompMon"} 
+
+	{G:"SYSTEM VARS"}
+	sysBrakeControlMon             AT %IX558.0     :                     BOOL; { DE:"Brake control monitor"} 
+
+	{G:"OVERLOAD STATE"}
+	sysMotorOvldFact               AT %ID381.0     :                     DINT; { DE:"Motor overload factor [%]"} 
+	sysMotorOvldStatus             AT %IX385.0     :                     BOOL; { DE:"Motor overload status"} 
+	sysBrakeResOvldFact            AT %ID382.0     :                     DINT; { DE:"Brake resistor overload factor [%]"} 
+	sysBrakeStatus                 AT %IX386.0     :                     BOOL; { DE:"Brake unit status"} 
+
+	{G:"SYSTEM VARS"}
+	sysRampdownReady               AT %IX621.0     :                     BOOL; { DE:"Ramp Down Executed"} 
+	sysNextRatio                   AT %ID623.0     :                     DINT; { DE:"Power loss ratio for slave"} 
+	sysNextActive                  AT %IX622.0     :                     BOOL; { DE:"Power loss function active"} 
+
+	{G:"PADS"}
+	sysPadX                        AT %MD400.0     :     ARRAY[0..15] OF DINT; { DE:"General Purpose Pad Variable X"} 
+	sysPad1                        AT %MD400.0     :                     DINT; { DE:"General Purpose Pad Variable 1"} 
+	sysPad2                        AT %MD400.1     :                     DINT; { DE:"General Purpose Pad Variable 2"} 
+	sysPad3                        AT %MD400.2     :                     DINT; { DE:"General Purpose Pad Variable 3"} 
+	sysPad4                        AT %MD400.3     :                     DINT; { DE:"General Purpose Pad Variable 4"} 
+	sysPad5                        AT %MD400.4     :                     DINT; { DE:"General Purpose Pad Variable 5"} 
+	sysPad6                        AT %MD400.5     :                     DINT; { DE:"General Purpose Pad Variable 6"} 
+	sysPad7                        AT %MD400.6     :                     DINT; { DE:"General Purpose Pad Variable 7"} 
+	sysPad8                        AT %MD400.7     :                     DINT; { DE:"General Purpose Pad Variable 8"} 
+	sysPad9                        AT %MD400.8     :                     DINT; { DE:"General Purpose Pad Variable 9"} 
+	sysPad10                       AT %MD400.9     :                     DINT; { DE:"General Purpose Pad Variable 10"} 
+	sysPad11                       AT %MD400.10    :                     DINT; { DE:"General Purpose Pad Variable 11"} 
+	sysPad12                       AT %MD400.11    :                     DINT; { DE:"General Purpose Pad Variable 12"} 
+	sysPad13                       AT %MD400.12    :                     DINT; { DE:"General Purpose Pad Variable 13"} 
+	sysPad14                       AT %MD400.13    :                     DINT; { DE:"General Purpose Pad Variable 14"} 
+	sysPad15                       AT %MD400.14    :                     DINT; { DE:"General Purpose Pad Variable 15"} 
+	sysPad16                       AT %MD400.15    :                     DINT; { DE:"General Purpose Pad Variable 16"} 
+
+	{G:"FIELDBUS"}
+	sysFBRxdwX                     AT %ID240.0     :     ARRAY[0..15] OF DINT; { DE:"Fieldbus Rx buff DWX"} 
+	sysFBRxdw1                     AT %ID240.0     :                     DINT; { DE:"Fieldbus Rx buff DW1"} 
+	sysFBRxdw2                     AT %ID240.1     :                     DINT; { DE:"Fieldbus Rx buff DW2"} 
+	sysFBRxdw3                     AT %ID240.2     :                     DINT; { DE:"Fieldbus Rx buff DW3"} 
+	sysFBRxdw4                     AT %ID240.3     :                     DINT; { DE:"Fieldbus Rx buff DW4"} 
+	sysFBRxdw5                     AT %ID240.4     :                     DINT; { DE:"Fieldbus Rx buff DW5"} 
+	sysFBRxdw6                     AT %ID240.5     :                     DINT; { DE:"Fieldbus Rx buff DW6"} 
+	sysFBRxdw7                     AT %ID240.6     :                     DINT; { DE:"Fieldbus Rx buff DW7"} 
+	sysFBRxdw8                     AT %ID240.7     :                     DINT; { DE:"Fieldbus Rx buff DW8"} 
+	sysFBRxdw9                     AT %ID240.8     :                     DINT; { DE:"Fieldbus Rx buff DW9"} 
+	sysFBRxdw10                    AT %ID240.9     :                     DINT; { DE:"Fieldbus Rx buff DW10"} 
+	sysFBRxdw11                    AT %ID240.10    :                     DINT; { DE:"Fieldbus Rx buff DW11"} 
+	sysFBRxdw12                    AT %ID240.11    :                     DINT; { DE:"Fieldbus Rx buff DW12"} 
+	sysFBRxdw13                    AT %ID240.12    :                     DINT; { DE:"Fieldbus Rx buff DW13"} 
+	sysFBRxdw14                    AT %ID240.13    :                     DINT; { DE:"Fieldbus Rx buff DW14"} 
+	sysFBRxdw15                    AT %ID240.14    :                     DINT; { DE:"Fieldbus Rx buff DW15"} 
+	sysFBRxdw16                    AT %ID240.15    :                     DINT; { DE:"Fieldbus Rx buff DW16"} 
+	sysFBTxdwX                     AT %MD240.0     :     ARRAY[0..15] OF DINT; { DE:"Fieldbus Tx buff DWX"} 
+	sysFBTxdw1                     AT %MD240.0     :                     DINT; { DE:"Fieldbus Tx buff DW1"} 
+	sysFBTxdw2                     AT %MD240.1     :                     DINT; { DE:"Fieldbus Tx buff DW2"} 
+	sysFBTxdw3                     AT %MD240.2     :                     DINT; { DE:"Fieldbus Tx buff DW3"} 
+	sysFBTxdw4                     AT %MD240.3     :                     DINT; { DE:"Fieldbus Tx buff DW4"} 
+	sysFBTxdw5                     AT %MD240.4     :                     DINT; { DE:"Fieldbus Tx buff DW5"} 
+	sysFBTxdw6                     AT %MD240.5     :                     DINT; { DE:"Fieldbus Tx buff DW6"} 
+	sysFBTxdw7                     AT %MD240.6     :                     DINT; { DE:"Fieldbus Tx buff DW7"} 
+	sysFBTxdw8                     AT %MD240.7     :                     DINT; { DE:"Fieldbus Tx buff DW8"} 
+	sysFBTxdw9                     AT %MD240.8     :                     DINT; { DE:"Fieldbus Tx buff DW9"} 
+	sysFBTxdw10                    AT %MD240.9     :                     DINT; { DE:"Fieldbus Tx buff DW10"} 
+	sysFBTxdw11                    AT %MD240.10    :                     DINT; { DE:"Fieldbus Tx buff DW11"} 
+	sysFBTxdw12                    AT %MD240.11    :                     DINT; { DE:"Fieldbus Tx buff DW12"} 
+	sysFBTxdw13                    AT %MD240.12    :                     DINT; { DE:"Fieldbus Tx buff DW13"} 
+	sysFBTxdw14                    AT %MD240.13    :                     DINT; { DE:"Fieldbus Tx buff DW14"} 
+	sysFBTxdw15                    AT %MD240.14    :                     DINT; { DE:"Fieldbus Tx buff DW15"} 
+	sysFBTxdw16                    AT %MD240.15    :                     DINT; { DE:"Fieldbus Tx buff DW16"} 
+
+	{G:"DS402"}
+	sysDS402Enable                 AT %IW650.0     :                     UINT; { DE:"DS402 Enable"} 
+	sysDS402Start                  AT %IW651.0     :                     UINT; { DE:"DS402 Start"} 
+	sysDS402FastStop               AT %IW652.0     :                     UINT; { DE:"DS402 FastStop"} 
+	sysDS402RfgEnable              AT %ID653.0     :                    UDINT; { DE:"DS402 RfgEnable"} 
+	sysDS402RfgUnlock              AT %ID654.0     :                    UDINT; { DE:"DS402 RfgUnlock"} 
+	sysDS402RfgUseref              AT %ID655.0     :                    UDINT; { DE:"DS402 RfgUseref"} 
+	sysDS402Halt                   AT %ID656.0     :                    UDINT; { DE:"DS402 Halt"} 
+	sysDS402JogCmd                 AT %ID657.0     :                    UDINT; { DE:"DS402 JogCmd"} 
+	sysDS402JogInvert              AT %ID658.0     :                    UDINT; { DE:"DS402 JogInvert"} 
+	sysDS402AlarmReset             AT %IW659.0     :                     UINT; { DE:"DS402 AlarmReset"} 
+	sysDS402StatusWord             AT %IW660.0     :                     UINT; { DE:"DS402 StatusWord"} 
+
+	{G:"WORD COMP"}
+	sysWComp                       AT %ID620.0     :                     DINT; { DE:"Word Compression Value"} 
+
+	{G:"WORD DECOMP"}
+	sysWDecomp                     AT %MD640.0     :                     DINT; { DE:"Word Decompression Value"} 
+	sysDecompBX                    AT %IX640.0     :     ARRAY[0..15] OF BOOL; { DE:"Word Decompression Bit X Value"} 
+	sysDecompB0                    AT %IX640.0     :                     BOOL; { DE:"Word Decompression Bit 0 Value"} 
+	sysDecompB1                    AT %IX640.1     :                     BOOL; { DE:"Word Decompression Bit 1 Value"} 
+	sysDecompB2                    AT %IX640.2     :                     BOOL; { DE:"Word Decompression Bit 2 Value"} 
+	sysDecompB3                    AT %IX640.3     :                     BOOL; { DE:"Word Decompression Bit 3 Value"} 
+	sysDecompB4                    AT %IX640.4     :                     BOOL; { DE:"Word Decompression Bit 4 Value"} 
+	sysDecompB5                    AT %IX640.5     :                     BOOL; { DE:"Word Decompression Bit 5 Value"} 
+	sysDecompB6                    AT %IX640.6     :                     BOOL; { DE:"Word Decompression Bit 6 Value"} 
+	sysDecompB7                    AT %IX640.7     :                     BOOL; { DE:"Word Decompression Bit 7 Value"} 
+	sysDecompB8                    AT %IX640.8     :                     BOOL; { DE:"Word Decompression Bit 8 Value"} 
+	sysDecompB9                    AT %IX640.9     :                     BOOL; { DE:"Word Decompression Bit 9 Value"} 
+	sysDecompB10                   AT %IX640.10    :                     BOOL; { DE:"Word Decompression Bit 10 Value"} 
+	sysDecompB11                   AT %IX640.11    :                     BOOL; { DE:"Word Decompression Bit 11 Value"} 
+	sysDecompB12                   AT %IX640.12    :                     BOOL; { DE:"Word Decompression Bit 12 Value"} 
+	sysDecompB13                   AT %IX640.13    :                     BOOL; { DE:"Word Decompression Bit 13 Value"} 
+	sysDecompB14                   AT %IX640.14    :                     BOOL; { DE:"Word Decompression Bit 14 Value"} 
+	sysDecompB15                   AT %IX640.15    :                     BOOL; { DE:"Word Decompression Bit 15 Value"} 
+
+	{G:"SYSTEM VARS"}
+	sysMotorOTmon                  AT %ID590.0     :                    UDINT; { DE:"Measured motor temperature"} 
+	sysFirstAlarm                  AT %ID545.0     :                    UDINT; { DE:"First Alarm Code"} 
+	sysAlarmLO                     AT %MD550.0     :                    UDINT; { DE:"Alarms 1 .. 32 state"} 
+	sysAlarmHI                     AT %MD551.0     :                    UDINT; { DE:"Alarms 33 .. 64 state"} 
+	sysTestGenHighLevel            AT %MD500.0     :                     DINT; { DE:"Test generator high level"} 
+	sysTestGenLowLevel             AT %MD501.0     :                     DINT; { DE:"Test generator low level"} 
+	sysTestGenOutput               AT %ID546.0     :                     DINT; { DE:"Test generator output"} 
+	sysAlarmReset                  AT %MX560.0     :                     BOOL; { DE:"Alarm reset"} 
+	sysEncSpdFiltEnc2              AT %ID562.0     :                     DINT; { DE:"Encoder 2 speed"} 
+	sysSpeedPosPulsesPerRevEnc2    AT %MD522.0     :                     DINT; { DE:"Speed/pos encoder 2 virtual pulses"} 
+	sysPosEnc2                     AT %ID565.0     :                     DINT; { DE:"Actual encoder 2 position"} 
+	sysRevEnc2                     AT %ID566.0     :                     DINT; { DE:"Actual encoder 2 number of revolutions"} 
+	sysEncoderPosEnc2              AT %IW567.0     :                     UINT; { DE:"Actual encoder 2 position (Pulses * 4)"} 
+	sysEncoderAbsPos2              AT %ID527.0     :                    UDINT; { DE:"Actual encoder 2 abs position"} 
+	sysEncoderAbsRev2              AT %ID535.0     :                    UDINT; { DE:"Actual encoder 2 abs number of revolutions"} 
+	sysSpeedPosPulsesPerRevAbs2    AT %MD564.0     :                    UDINT; { DE:"Speed/pos encoder 2 absolute pulses"} 
+	sysSpeedPosPulsesPerRevEnc3    AT %MD524.0     :                     DINT; { DE:"Speed/pos encoder 3 virtual pulses"} 
+	sysPosEnc3                     AT %ID575.0     :                     DINT; { DE:"Actual encoder 3 position"} 
+	sysRevEnc3                     AT %ID576.0     :                     DINT; { DE:"Actual encoder 3 number of revolutions"} 
+	sysEncoderPosEnc3              AT %IW577.0     :                     UINT; { DE:"Actual encoder 3 position (Pulses * 4)"} 
+
+	{G:"EXTIO"}
+	sysExtIODigInX                 AT %MD663.0     :     ARRAY[0..1] OF UDINT; { DE:"External expansion digital input X"} 
+	sysExtIODigIn0                 AT %MD663.0     :                    UDINT; { DE:"External expansion digital input 0"} 
+	sysExtIODigIn1                 AT %MD663.1     :                    UDINT; { DE:"External expansion digital input 1"} 
+	sysExtIOAnaInX                 AT %MW664.0     :       ARRAY[0..7] OF INT; { DE:"External expansion analog input X"} 
+	sysExtIOAnaIn0                 AT %MW664.0     :                      INT; { DE:"External expansion analog input 0"} 
+	sysExtIOAnaIn1                 AT %MW664.1     :                      INT; { DE:"External expansion analog input 1"} 
+	sysExtIOAnaIn2                 AT %MW664.2     :                      INT; { DE:"External expansion analog input 2"} 
+	sysExtIOAnaIn3                 AT %MW664.3     :                      INT; { DE:"External expansion analog input 3"} 
+	sysExtIOAnaIn4                 AT %MW664.4     :                      INT; { DE:"External expansion analog input 4"} 
+	sysExtIOAnaIn5                 AT %MW664.5     :                      INT; { DE:"External expansion analog input 5"} 
+	sysExtIOAnaIn6                 AT %MW664.6     :                      INT; { DE:"External expansion analog input 6"} 
+	sysExtIOAnaIn7                 AT %MW664.7     :                      INT; { DE:"External expansion analog input 7"} 
+	sysExtIODigOutX                AT %MD665.0     :     ARRAY[0..1] OF UDINT; { DE:"External expansion digita output X"} 
+	sysExtIODigOut0                AT %MD665.0     :                    UDINT; { DE:"External expansion digita output 0"} 
+	sysExtIODigOut1                AT %MD665.1     :                    UDINT; { DE:"External expansion digita output 1"} 
+	sysExtIOAnaOutX                AT %MW666.0     :       ARRAY[0..7] OF INT; { DE:"External expansion analog output X"} 
+	sysExtIOAnaOut0                AT %MW666.0     :                      INT; { DE:"External expansion analog output 0"} 
+	sysExtIOAnaOut1                AT %MW666.1     :                      INT; { DE:"External expansion analog output 1"} 
+	sysExtIOAnaOut2                AT %MW666.2     :                      INT; { DE:"External expansion analog output 2"} 
+	sysExtIOAnaOut3                AT %MW666.3     :                      INT; { DE:"External expansion analog output 3"} 
+	sysExtIOAnaOut4                AT %MW666.4     :                      INT; { DE:"External expansion analog output 4"} 
+	sysExtIOAnaOut5                AT %MW666.5     :                      INT; { DE:"External expansion analog output 5"} 
+	sysExtIOAnaOut6                AT %MW666.6     :                      INT; { DE:"External expansion analog output 6"} 
+	sysExtIOAnaOut7                AT %MW666.7     :                      INT; { DE:"External expansion analog output 7"} 
+	sysExtIOstate                  AT %IX667.0     :                     BOOL; { DE:"External expansion state"} 
+
+	{G:"DIGITAL INPUT EXP"}
+	sysEDIBitWordBit8              AT %IX700.0     :                     BOOL; { DE:"Exp Digital input 8"} 
+	sysEDIBitWordBit9              AT %IX701.0     :                     BOOL; { DE:"Exp Digital input 9"} 
+	sysEDIBitWordBit10             AT %IX702.0     :                     BOOL; { DE:"Exp Digital input10"} 
+	sysEDIBitWordBit11             AT %IX703.0     :                     BOOL; { DE:"Exp Digital input11"} 
+	sysEDIBitWordBit12             AT %IX704.0     :                     BOOL; { DE:"Exp Digital input12"} 
+	sysEDIBitWordBit13             AT %IX705.0     :                     BOOL; { DE:"Exp Digital input13"} 
+	sysEDIBitWordBit14             AT %IX706.0     :                     BOOL; { DE:"Exp Digital input14"} 
+	sysEDIBitWordBit15             AT %IX707.0     :                     BOOL; { DE:"Exp Digital input15"} 
+
+	{G:"FIELDBUS"}
+	sysFBMdPlcRxdwX                AT %ID250.0     :      ARRAY[0..7] OF DINT; { DE:"Fieldbus MdPlc Rx buff DWX"} 
+	sysFBMdPlcRxdw1                AT %ID250.0     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW1"} 
+	sysFBMdPlcRxdw2                AT %ID250.1     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW2"} 
+	sysFBMdPlcRxdw3                AT %ID250.2     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW3"} 
+	sysFBMdPlcRxdw4                AT %ID250.3     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW4"} 
+	sysFBMdPlcRxdw5                AT %ID250.4     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW5"} 
+	sysFBMdPlcRxdw6                AT %ID250.5     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW6"} 
+	sysFBMdPlcRxdw7                AT %ID250.6     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW7"} 
+	sysFBMdPlcRxdw8                AT %ID250.7     :                     DINT; { DE:"Fieldbus MdPlc Rx buff DW8"} 
+	sysFBMdPlcTxdwX                AT %MD250.0     :      ARRAY[0..7] OF DINT; { DE:"Fieldbus MdPlc Tx buff DWX"} 
+	sysFBMdPlcTxdw1                AT %MD250.0     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW1"} 
+	sysFBMdPlcTxdw2                AT %MD250.1     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW2"} 
+	sysFBMdPlcTxdw3                AT %MD250.2     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW3"} 
+	sysFBMdPlcTxdw4                AT %MD250.3     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW4"} 
+	sysFBMdPlcTxdw5                AT %MD250.4     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW5"} 
+	sysFBMdPlcTxdw6                AT %MD250.5     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW6"} 
+	sysFBMdPlcTxdw7                AT %MD250.6     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW7"} 
+	sysFBMdPlcTxdw8                AT %MD250.7     :                     DINT; { DE:"Fieldbus MdPlc Tx buff DW8"} 
+
+	{G:"SYSTEM VARS"}
+	sysSyncSlaveStatus             AT %IX524.0     :                     BOOL; { DE:"Syncronization Slave Status"} 
+
+	{G:"FAST LINK"}
+	sysFL_Fw1_mon                  AT %ID750.0     :                     DINT; { DE:"Fast Link  Forward 1 monitor"} 
+	sysFL_Fw2_mon                  AT %ID751.0     :                     DINT; { DE:"Fast Link  Forward 2 monitor"} 
+	sysFL_Fw3_mon                  AT %ID752.0     :                     DINT; { DE:"Fast Link  Forward 3 monitor"} 
+	sysFL_Fw4_mon                  AT %ID753.0     :                     DINT; { DE:"Fast Link  Forward 4 monitor"} 
+	sysFL_Fw5_mon                  AT %ID754.0     :                     DINT; { DE:"Fast Link  Forward 5 monitor"} 
+	sysFL_Fw6_mon                  AT %ID755.0     :                     DINT; { DE:"Fast Link  Forward 6 monitor"} 
+	sysFL_Fw7_mon                  AT %ID756.0     :                     DINT; { DE:"Fast Link  Forward 7 monitor"} 
+	sysFL_Fw8_mon                  AT %ID757.0     :                     DINT; { DE:"Fast Link  Forward 8 monitor"} 
+	sysFL_Fw5                      AT %MD753.0     :                     DINT; { DE:"Fast Link  Forward 5"} 
+	sysFL_Fw6                      AT %MD754.0     :                     DINT; { DE:"Fast Link  Forward 6"} 
+	sysFL_Fw7                      AT %MD755.0     :                     DINT; { DE:"Fast Link  Forward 7"} 
+	sysFL_Fw8                      AT %MD756.0     :                     DINT; { DE:"Fast Link  Forward 8"} 
+	sysFL_Fw1_inv_mon              AT %ID758.0     :                     DINT; { DE:"Fast Link  Forward 1 inverted monitor"} 
+	sysFL_Fw2_inv_mon              AT %ID759.0     :                     DINT; { DE:"Fast Link  Forward 2 inverted monitor"} 
+	sysFL_Fw3_inv_mon              AT %ID760.0     :                     DINT; { DE:"Fast Link  Forward 3 inverted monitor"} 
+	sysFL_Fw4_inv_mon              AT %ID761.0     :                     DINT; { DE:"Fast Link  Forward 4 inverted monitor"} 
+	sysFL_Fw5_inv_mon              AT %ID762.0     :                     DINT; { DE:"Fast Link  Forward 5 inverted monitor"} 
+	sysFL_Fw6_inv_mon              AT %ID763.0     :                     DINT; { DE:"Fast Link  Forward 6 inverted monitor"} 
+	sysFL_Fw7_inv_mon              AT %ID764.0     :                     DINT; { DE:"Fast Link  Forward 7 inverted monitor"} 
+	sysFL_Fw8_inv_mon              AT %ID765.0     :                     DINT; { DE:"Fast Link  Forward 8 inverted monitor"} 
+
+	{G:"COMMANDS STATE"}
+	sysSpdRefLimited               AT %IX612.0     :                     BOOL; { DE:"Speed Reference is Limited"} 
+	sysTrqLimited                  AT %IX613.0     :                     BOOL; { DE:"Current is Limited"} 
+
+	{G:"LC CONTROL"}
+	sysLCAirHumidity               AT %MD800.0     :                     REAL; { DE:"Measured air humidity"} 
+	sysLCAirTemperature            AT %MD801.0     :                     REAL; { DE:"Measured air temperature"} 
+	sysLCDewTemperature            AT %MD802.0     :                     DINT; { DE:"Measured dew temperature"} 
+	sysLCTempSetpoint              AT %ID803.0     :                     DINT; { DE:"Liquid temperature setpoint"} 
+	sysLCTempCalc                  AT %ID804.0     :                     DINT; { DE:"Liquid temperature estimated"} 
+	sysLCTempMon                   AT %ID805.0     :                     DINT; { DE:"Liquid temperature monitor"} 
+	sysLCCondensation              AT %ID806.0     :                    UDINT; { DE:"Condensation state monitor"} 
+	sysLCOverhumidity              AT %ID807.0     :                    UDINT; { DE:"Overhumidity state monitor"} 
+
+	{G:"SYSTEM VARS"}
+	sysControlModeMon              AT %ID534.0     :                     DINT; { DE:"Control mode monitor"} 
+	sysSLSidCurrentCorr            AT %MD900.0     :                     REAL; { DE:"SLS id current"} 
+
+END_VAR
+(*
+ *
+ * MDPlc source file: 
+ * for project:       
+ *
+ *)
+
+	(***************************)
+	(*                         *)
+	(* Read integer parameter  *)
+	(* from outside database   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK sysDBReadIntegerPar
+
+{ DE:"Read database integer parameter value from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	val    : DINT; { DE:"Parameter value"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadIntegerFieldMin
+
+{ DE:"Read database integer parameter field minimun from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	min    : DINT; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadIntegerFieldMax
+
+{ DE:"Read database integer parameter field maximum from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	max    : DINT; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadIntegerFieldEu
+
+{ DE:"Read database integer parameter field engineering unit from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	eu     : DINT; { DE:"Field engineering unit"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadIntegerFieldScale
+
+{ DE:"Read database integer parameter field scale from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadIntegerField
+
+{ DE:"Read database integer parameter field x from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field x" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+	(***************************)
+	(*                         *)
+	(* Write integer parameter *)
+	(* From outside database   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  sysDBWriteIntegerPar : DINT
+
+{ DE:"Write database integer parameter value from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	val    : DINT; { DE:"Parameter value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteIntegerFieldMin : DINT
+
+{ DE:"Write database integer parameter field minimun from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	min    : DINT; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteIntegerFieldMax : DINT
+
+{ DE:"Write database integer parameter field maximum from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	max    : DINT; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteIntegerFieldEu : DINT
+
+{ DE:"Write database integer parameter field engineering unit from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	eu     : DINT; { DE:"Field engineering unit" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteIntegerFieldScale : DINT
+
+{ DE:"Write database integer parameter field scale from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteIntegerField : DINT
+
+{ DE:"Write database integer parameter field x from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field x" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Read real parameter     *)
+	(* From outside database   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK sysDBReadRealPar
+
+{ DE:"Read database real parameter value from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter Index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	val    : REAL; { DE:"Parameter value"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadRealFieldMin
+
+{ DE:"Read database real parameter field minimum from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	min    : REAL; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadRealFieldMax
+
+{ DE:"Read database real parameter field maximum from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	max    : REAL; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadRealFieldEu
+
+{ DE:"Read database real parameter field engineering unit from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	eu     : DINT; { DE:"Field engineering unit"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadRealFieldScale
+
+{ DE:"Read database real parameter field scale from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBReadRealField
+
+{ DE:"Read database real parameter field x from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field type" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+
+	(***************************)
+	(*                         *)
+	(* Write real parameter    *)
+	(* From outside database   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysDBWriteRealPar : DINT
+
+{ DE:"Write database real parameter value from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	val    : REAL; { DE:"Parameter value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteRealFieldMin : DINT
+
+{ DE:"Write database real parameter field minimun from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	min    : REAL; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteRealFieldMax : DINT
+
+{ DE:"Write database real parameter field maximum from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	max    : REAL; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteRealFieldEu : DINT
+
+{ DE:"Write database real parameter field engineering unit from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	eu     : DINT; { DE:"Field engineering unit" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteRealFieldScale : DINT
+
+{ DE:"Write database real parameter field scale from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBWriteRealField : DINT
+
+{ DE:"Write database real parameter field x from task Boot or Background" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field type" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Get integer parameter   *)
+	(* From inside database    *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK sysDBGetIntegerPar
+
+{ DE:"Get database integer parameter value from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	val    : DINT; { DE:"Parameter value"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetIntegerFieldMin
+
+{ DE:"Get database integer field minimun from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	min    : DINT; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetIntegerFieldMax
+
+{ DE:"Get database integer parameter field maximum from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	max    : DINT; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetIntegerFieldEu
+
+{ DE:"Get database integer parameter field engineering unit from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	eu     : DINT; { DE:"Field engineering unit"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetIntegerFieldScale
+
+{ DE:"Get database integer parameter field scale from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetIntegerField
+
+{ DE:"Get database integer paramter field x from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field x" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+
+	(***************************)
+	(*                         *)
+	(* Put interger parameter  *)
+	(* From inside database    *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysDBPutIntegerPar : DINT
+
+{ DE:"Put database integer parameter value from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	val    : DINT; { DE:"Integer parameter value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutIntegerFieldMin : DINT
+
+{ DE:"Put database integer field minimun from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	min    : DINT; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutIntegerFieldMax : DINT
+
+{ DE:"Put database integer field maximum from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	max    : DINT; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutIntegerFieldEu : DINT
+
+{ DE:"Put database integer parameter field engineering unit from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	eu     : DINT; { DE:"Field engineering unit" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutIntegerFieldScale : DINT
+
+{ DE:"Put database integer paramter field scale from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	scale  : REAL; { DE:"Field scale" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutIntegerField : DINT
+
+{ DE:"Put database integer parameter field x from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field x" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Get real parameter      *)
+	(* From inside database    *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK sysDBGetRealPar
+
+{ DE:"Get database real parameter value from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter Index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	val    : REAL; { DE:"Parameter value"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetRealFieldMin
+
+{ DE:"Get database real field minimum from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	min    : REAL; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetRealFieldMax
+
+{ DE:"Get database real field maximum from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa   : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	max    : REAL; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetRealFieldEu
+
+{ DE:"Get database real parameter field engineering unit from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	eu     : DINT; { DE:"Field engineering unit"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetRealFieldScale
+
+{ DE:"Get database real parameter field scale from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	scale  : REAL; { DE:"Field scale"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK sysDBGetRealField
+
+{ DE:"Get database real paramter field x from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field type" }
+	END_VAR
+
+	VAR_OUTPUT
+	result : DINT; { DE:"Result" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION_BLOCK
+
+	(***************************)
+	(*                         *)
+	(* Put real parameter      *)
+	(* From inside database    *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysDBPutRealPar : DINT
+
+{ DE:"Put database real parameter value from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	val    : REAL; { DE:"Parameter value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutRealFieldMin : DINT
+
+{ DE:"Put database real field minimun from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	min    : REAL; { DE:"Field minimum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutRealFieldMax : DINT
+
+{ DE:"Put database real field maximum from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	max    : REAL; { DE:"Field maximum"} 
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutRealFieldEu : DINT
+
+{ DE:"Put database real parameter field engineering unit from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	eu     : DINT; { DE:"Field engineering unit" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutRealFieldScale : DINT
+
+{ DE:"Put database real paramter field scale from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	scale  : REAL; { DE:"Field scale" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBPutRealField : DINT
+
+{ DE:"Put database real parameter field x from R/W Events and task Parameters" }
+
+	VAR_INPUT
+	ipa    : DINT; { DE:"Parameter index" }
+	field  : DINT; { DE:"Field type" }
+	ival   : DINT; { DE:"Integer value" }
+	fval   : REAL; { DE:"Real value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Write Kpd message       *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysKpdWriteMsg : DINT
+
+{ DE:"Write Keypad Message from task Boot or Background" }
+
+	VAR_INPUT
+	message: UINT; { DE:"Message index" }
+	code   : UINT; { DE:"Code printed inside message page (range 0..65535)" }
+	timeout: UINT; { DE:"Message timeout [sec]" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Update parameters       *)
+	(* description             *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysDBParDescrUpdate : DINT
+
+{ DE:"Update parameters description from task Background" }
+
+	VAR_INPUT
+	dummy: UINT; { DE:"Dymmy parameter" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+FUNCTION sysDBParDescrUpdateEvent : DINT
+
+{ DE:"Update parameters description from R/W Events" }
+
+	VAR_INPUT
+	dummy: UINT; { DE:"Dymmy parameter" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Update keypad startup   *)
+	(* parameters list         *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysKeypadStartupParList : DINT
+
+{ DE:"Update keypad startup parameters list from task Boot or Background" }
+
+	VAR_INPUT
+	ipa:       UINT; { DE:"Parameter index" }
+	listindex: UINT; { DE:"List index" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Update keypad display   *)
+	(* list                    *)
+	(*                         *)
+	(***************************)
+
+FUNCTION sysKeypadSetDispList : DINT
+
+{ DE:"Set keypad display list from task Boot or Background" }
+
+	VAR_INPUT
+	mode:       UINT; { DE:"Update mode: 0=append, 1=insert, 2=delete, 3=init" }
+	pos:        UINT; { DE:"Insert or delet position" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+(*
+ *
+ * MDPlc source file: 
+ * for project:       
+ *
+ *)
+
+	(***************************)
+	(*                         *)
+	(* Add signed 16  limited  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  ADD16_LIM : INT
+
+{ DE:"Sum of two signed 16 bit, limited to signed 16 bit " }
+
+	VAR_INPUT
+	op1    : INT; { DE:"Op1" }
+	op2    : INT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Add 16 unisgned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  ADDU16_LIM : WORD
+
+{ DE:"Sum of two unsigned 16 bit, limited to unsigned 16 bit " }
+
+	VAR_INPUT
+	op1    : WORD; { DE:"Op1" }
+	op2    : WORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Add signed 32  limited  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  ADD32_LIM : DINT
+
+{ DE:"Sum of two signed 32 bit, limited to signed 32 bit " }
+
+	VAR_INPUT
+	op1    : DINT; { DE:"Op1" }
+	op2    : DINT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Add 16 unisgned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  ADDU32_LIM : DWORD
+
+{ DE:"Sum of two unsigned 32 bit, limited to unsigned 32 bit " }
+
+	VAR_INPUT
+	op1    : DWORD; { DE:"Op1" }
+	op2    : DWORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Sub signed 16  limited  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  SUB16_LIM : INT
+
+{ DE:"Difference of two signed 16 bit, limited to signed 16 bit " }
+
+	VAR_INPUT
+	op1    : INT; { DE:"Op1" }
+	op2    : INT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Sub 16 unisgned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  SUBU16_LIM : WORD
+
+{ DE:"Difference of two unsigned 16 bit, limited to unsigned 16 bit " }
+
+	VAR_INPUT
+	op1    : WORD; { DE:"Op1" }
+	op2    : WORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Sub signed 32  limited  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  SUB32_LIM : DINT
+
+{ DE:"Difference of two signed 32 bit, limited to signed 32 bit " }
+
+	VAR_INPUT
+	op1    : DINT; { DE:"Op1" }
+	op2    : DINT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Sub 16 unisgned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  SUBU32_LIM : DWORD
+
+{ DE:"Difference of two unsigned 32 bit, limited to unsigned 32 bit " }
+
+	VAR_INPUT
+	op1    : DWORD; { DE:"Op1" }
+	op2    : DWORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Mul 32 signed 		   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MUL32 : DINT
+
+{ DE:"Mult of two signed 16 bit to signed 32 bit " }
+
+	VAR_INPUT
+	op1    : INT; { DE:"Op1" }
+	op2    : INT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Mul 32 unsigned         *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MULU32 : DWORD
+
+{ DE:"Mult of two unsigned 16 bit unsigned 32 bit " }
+
+	VAR_INPUT
+	op1    : WORD; { DE:"Op1" }
+	op2    : WORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Mul signed 32  limited  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MUL32_LIM : DINT
+
+{ DE:"Mult of two signed 32 bit, limited to signed 32 bit " }
+
+	VAR_INPUT
+	op1    : DINT; { DE:"Op1" }
+	op2    : DINT; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+
+	(***************************)
+	(*                         *)
+	(* Mul 16 unisgned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MULU32_LIM : DWORD
+
+{ DE:"Mult of two unsigned 32 bit, limited to unsigned 32 bit " }
+
+	VAR_INPUT
+	op1    : DWORD; { DE:"Op1" }
+	op2    : DWORD; { DE:"Op2" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Div 32 signed           *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  DIV32 : INT
+
+{ DE:"Divide 32 bit signed by 16 bit  signed , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DINT; { DE:"x" }
+	y    : INT;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Div 32 unsigned         *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  DIVU32 : WORD
+
+{ DE:"Divide 32 bit signed by 16 bit  signed , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DWORD; { DE:"x" }
+	y    : WORD;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Mod 32 signed           *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MOD32 : INT
+
+{ DE:"Module 32 bit signed over 16 bit  signed , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DINT; { DE:"x" }
+	y    : INT;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Mod 32 unsigned         *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  MODU32: WORD
+
+{ DE:"Module 32 bit over 16 bit  signed , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DWORD; { DE:"x" }
+	y    : WORD;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Div 32 signed limited   *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  DIV32_LIM : INT
+
+{ DE:"Divide 32 bit signed by 16 bit  signed , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DINT; { DE:"x" }
+	y    : INT;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Div 32 unsigned limited *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  DIVU32_LIM : WORD
+
+{ DE:"Divide 32 bit unsigned by 16 bit unsigned , result is limited to 16 bit " }
+
+	VAR_INPUT
+	x    : DWORD; { DE:"x" }
+	y    : WORD;  { DE:"y" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Arithmetic shift right  *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  SHA_R : DINT
+
+{ DE:"Arithmetic shift right. input signed 32 bits, output signed 32 bits" }
+
+	VAR_INPUT
+	inp    : DINT; { DE:"Input value" }
+	cnt    : INT;  { DE:"Shift count" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* High Word               *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  HI_WORD : INT
+
+{ DE:"Return high word (16 bits) of input value (32 bits)" }
+
+	VAR_INPUT
+	inp    : DINT; { DE:"Input value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(* Low Word                *)
+	(*                         *)
+	(***************************)
+
+FUNCTION  LO_WORD : INT
+
+{ DE:"Return low word (16 bits) of input value (32 bits)" }
+
+	VAR_INPUT
+	inp    : DINT; { DE:"Input value" }
+	END_VAR
+
+	{ CODE:EMBEDDED }
+
+END_FUNCTION

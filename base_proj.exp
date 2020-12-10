@@ -1,0 +1,15 @@
+	(******************************)
+	(*                            *)
+	(*     EXPORTED VARIABLES     *)
+	(*                            *)
+	(******************************)
+
+	VAR_GLOBAL
+	{G:"MONITOR"}
+	v_Position AT %MD2.0 : REAL; 
+	v_Speed AT %MD2.4 : REAL; 
+	v_Torque AT %MD2.8 : REAL; 
+	v_LoadPosition AT %MD2.12 : REAL; 
+	v_LoadSpeed AT %MD2.16 : REAL; 
+	END_VAR
+

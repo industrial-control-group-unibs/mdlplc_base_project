@@ -1,0 +1,288 @@
+
+	(*********************)
+	(*                   *)
+	(*     FUNCTIONS     *)
+	(*                   *)
+	(*********************)
+
+FUNCTION _BasicVersion : UDINT
+
+{ DE:"LIBRERIA: Basic
+
+Rev.01.00.00	18/02/2002 	by Axel/SSS
+Rev.01.01.00	27/05/2008 	Rnc
+
+standard IEC 1131 functions and function blocks :
+Timer;
+Bistable;
+Rising and falling edges detection;
+Flip-flop.
+
+Note:
+no system or global variables are used, so that the library an be used regardless the FW version" }
+
+	VAR_INPUT
+	in : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+
+	LD		in
+	JMPC	l0_Version
+
+	LD		0
+	ST		_BasicVersion
+
+	RET
+
+l0_Version:
+
+	(*	Indice di revisione.						*)
+	(*	L'indice si legge nella seguente maniera:	*)
+	(*	XXYYZZ => XX.YY.ZZ 							*)
+	(*	XX = Revisione								*)
+	(*	YY = Sotto revisione						*)
+	(*	ZZ = Correzione								*)
+
+	LD		010100
+	ST		_BasicVersion
+END_FUNCTION
+
+	(***************************)
+	(*                         *)
+	(*     FUNCTION BLOCKS     *)
+	(*                         *)
+	(***************************)
+
+FUNCTION_BLOCK TON
+
+{ DE:"ON delay timer
+        The input rising edge is delayed to the output of 'pt' calls
+        The input falling edge is immediatly moved on output
+        The internal timer, 'et', is reset on input false state
+
+        In other words the output goes high if the input remains high
+        longer of 'pt' calls
+
+" }
+
+	VAR_INPUT
+	in : BOOL; { DE:"Timer input source" }
+	pt : INT; { DE:"Preset time value" }
+	END_VAR
+
+	VAR_OUTPUT
+	q : BOOL; { DE:"Delayed output" }
+	et : INT; { DE:"Actual timer value" }
+	END_VAR
+
+	{ CODE:IL }
+	LD		in
+	JMPC	l0
+
+	LD		0
+	ST		et
+
+	LD		FALSE
+	ST		q
+
+	RET
+l0:
+
+	LD		et
+	EQ		pt
+	ST		q
+	RETC
+
+	LD		et
+	ADD		1
+	ST		et
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK TOF
+
+{ DE:"OFF delay timer
+        The input falling edge is delayed to the output of 'pt' calls
+        The input rising  edge is immediatly moved on output
+        The internal timer, 'et', is reset on input true state
+
+        In other words the output goes low if the input remains low
+        longer of 'pt' calls
+" }
+
+	VAR_INPUT
+	in : BOOL;
+	pt : INT;
+	END_VAR
+
+	VAR_OUTPUT
+	q : BOOL;
+	et : INT;
+	END_VAR
+
+	{ CODE:IL }
+	LD		in
+	JMPCN	l0
+
+	LD		TRUE
+	ST		q
+
+	LD		0
+	ST		et
+	RET
+l0:
+
+	LD		et
+	EQ		pt
+        JMPCN           l1
+	STN		q
+        RET
+(*	RETC*)
+
+l1:     
+        LD              TRUE
+        ST              q
+	LD		et
+	ADD		1
+	ST		et
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK SR
+
+{ DE:"Bistable, set dominant" }
+
+	VAR_INPUT
+	s1 : BOOL;
+	r : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+	q1 : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+	LDN		r
+	AND		q1
+	OR		s1
+	ST		q1
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK RS
+
+{ DE:"Bistable, reset dominant" }
+
+	VAR_INPUT
+	s : BOOL;
+	r1 : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+	q1 : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+	LD		s
+	OR		q1
+	ANDN	r1
+	ST		q1
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK R_TRIG
+
+{ DE:"Rising edge detector
+
+        'q' goes high for one shoot when a rising edge on 'clk' is detected
+        
+        
+" }
+
+	VAR_INPUT
+	clk : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+	q : BOOL;
+	END_VAR
+
+	VAR
+	m : BOOL := TRUE;
+	END_VAR
+
+	{ CODE:IL }
+	LD		clk
+	ANDN	m
+	ST		q
+
+	LD		clk
+	ST		m
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK FF_D
+
+{ DE:"D-type flip-flop
+        
+        The input value 'd' is passed to output 'q' when the 
+        clocl input 'clk' is high
+
+" }
+
+	VAR_INPUT
+	d : BOOL;
+	clk : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+	q : BOOL;
+	END_VAR
+
+	VAR
+	m : BOOL := TRUE;
+	ok : BOOL;
+	END_VAR
+
+	{ CODE:IL }
+	LD		clk
+	ANDN	m
+	ST		ok
+
+	LD		clk
+	ST		m
+
+	LD		ok
+	RETCN
+
+	LD		d
+	ST		q
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK F_TRIG
+
+{ DE:"Falling edge detector
+
+        'q' goes high for one shoot when a falling edge on 'clk' is detected
+
+" }
+
+	VAR_INPUT
+	clk : BOOL;
+	END_VAR
+
+	VAR_OUTPUT
+	q : BOOL;
+	END_VAR
+
+	VAR
+	m : BOOL := TRUE;
+	END_VAR
+
+	{ CODE:IL }
+	LDN		clk
+	AND		m
+	ST		q
+
+	LD		clk
+	ST		m
+END_FUNCTION_BLOCK
+
+
