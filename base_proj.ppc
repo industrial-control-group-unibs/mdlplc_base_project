@@ -137,7 +137,7 @@ INCLUDE	"adv200syn_7_2_7_gb.ppc"
 ;	Options
 ;
 OPT	"USERMENUROOT"	"1690"	"0"	"0"	""	""	
-OPT	"COMMCONF"	"Modbus:1,1000,M#COM:3,38400,N,8,1"	""	""	""	""	
+OPT	"COMMCONF"	"Modbus:1,1000,M#COM:3,38400,N,8,1,H"	""	""	""	""	
 OPT	"SHORTLEN"	"20"	"1"	"14"	"15"	"8"	
 OPT	"DBTYPE"	"ADFAM"	""	""	""	""	
 OPT	"LEVEL_EN"	"1"	""	""	""	""	

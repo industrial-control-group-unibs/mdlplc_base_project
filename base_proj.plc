@@ -1,7 +1,7 @@
 (*
  *
- * MDPlc source file: c:\projects\base_mdlplc_project\base_proj.plc
- * for project:       c:\projects\base_mdlplc_project\base_proj
+ * MDPlc source file: g:\il mio drive\progetti\gdm\simoni_giacomelli_share\materiale mdplc generale\mdplc_base\base_proj.plc
+ * for project:       g:\il mio drive\progetti\gdm\simoni_giacomelli_share\materiale mdplc generale\mdplc_base\base_proj
  *
  *)
 
@@ -25,6 +25,7 @@ PROGRAM state_machine WITH Background;
 	InputConv : InputConversionADV200; 
 	RatedTorque : REAL; 
 	MaxTorque : REAL; 
+	VelConv : REAL; 
 	END_VAR
 
 	(*********************)
@@ -271,8 +272,14 @@ ENABLE_CYCLIC_PRG := FALSE;
 
 (* *********************************************************************************************** *)
 (* Imposto modalita' di controllo Torque -2- *)	
-sysControlMode := 2;
+(* 0 Torque *)
+(* 1 Speed *)
+(* 2 Ramp *)
+sysControlMode := 0;
 
+
+(* *********************************************************************************************** *)
+(* Lettura dei parametri del drive per convertire corrente in coppia.e velocità in rad/s *)
 
 (* Leggo corrente continuativa del drive *)
 readRealPar.ipa := 300;
@@ -287,7 +294,7 @@ readIntPar();
 FullScaleSpeed := TO_REAL(readIntPar.val) ;
 InputConv.Krpm:=FullScaleSpeed/(16384.0*65536.0);
 InputConv.Krad_s:=InputConv.Krpm*2.0*PI/60.0;
-
+VelConv:=1.0/InputConv.Krad_s;
 
 (* Motor Rated Current *)
 readRealPar.ipa := 2002;
@@ -332,8 +339,6 @@ STEP Stop_state :
 	{ CODE:ST }ENABLE_CYCLIC_PRG := FALSE;
 CYCLE_STOP := TRUE;
 
-v_Torque := 0.0;
-
 
 END_STEP
 
@@ -353,11 +358,9 @@ PROGRAM cyclic_prg
 
 	VAR
 	torque_cmd : REAL; 
-	torque_max : REAL := 3.0; 
-	speed_max : REAL := 100.0; 
 	END_VAR
 
-	{ CODE:ST }(* Convert input from drive to SI units *)
+	{ CODE:ST }(* Conversione degli input del drive nel sistema internazionale *)
 InputConv.sysSpd := sysSpd;
 InputConv.sysPos := sysPos;
 InputConv.sysIq := sysIq;
@@ -366,14 +369,30 @@ InputConv.sysRev := sysRev;
 InputConv.PosDINT:=sysSpeedPosPulsesPerRev; 
 InputConv();
 
-(* *** *)
+(* Le grandezze di input del drive sono
+	v_Position [rad]
+	v_Speed    [rad/s]
+	v_Torque   [Nm] *)
+
+(*
+Se il drive  è controllato in coppia il riferimento di coppia è
+sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt);
+
+Se il controllore  è controllato in velocità il riferimento di velocità è
+sysSpdRef1 := TO_DINT(speed_cmd*VelConv);    
+Per il feedforward di coppia usare:
+sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt);
+*)
+
+(* ENABLE_CYCLIC_PRG è a true se il DI1 è su *)
 IF (NOT ENABLE_CYCLIC_PRG) THEN
+(* Se il motore non è abilitato *)
 	torque_cmd := 0.0;
-	torque_max:=3.5;
-	speed_max:=100.0;
 ELSE
-	torque_cmd:=-v_Speed/speed_max*torque_max;
+	(* Insert Cyclic Code HERE	*)
+	torque_cmd := 0.0;
 END_IF;	
+
 
 
 (* Saturazioni di coppia *)
@@ -383,17 +402,9 @@ ELSIF torque_cmd < -MaxTorque THEN
 	torque_cmd := -MaxTorque;
 END_IF;
 
+
 (*--- Coppia di riferimento al Drive--------*)
 sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt);
-
-(*
-
-sysPad1 := TO_DINT(v_Torque*1000.0);
-sysPad2 := TO_DINT(v_Speed*1000.0);
-sysPad3 := TO_DINT(v_Position*1000.0);
-
-*)
-
 
 
 END_PROGRAM

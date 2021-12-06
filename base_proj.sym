@@ -1,5 +1,5 @@
-ID 1607620006
-VG DWORD $$STKLIMIT$$ C00004C0
+ID 1638784139
+VG DWORD $$STKLIMIT$$ C00004B0
 F DINT sysDBWriteIntegerPar FFFFFFFF
 F DINT sysDBWriteIntegerFieldMin FFFFFFFF
 F DINT sysDBWriteIntegerFieldMax FFFFFFFF
@@ -199,79 +199,78 @@ VF LP_FilterDW DINT Kr 00000008
 VF LP_FilterDW DINT prevRest 0000000C
 VF LP_FilterDW DINT auxYint 00000010
 FBC InputConversionADV200 A0010C14 00000040
-FB InputConversionADV200 InputConv $$GLOBAL$$ C00004C4 64
-VL REAL InputConv.Krpm InputConv C00004C4
-VL REAL InputConv.Krad_s InputConv C00004C8
-VL REAL InputConv.KArms InputConv C00004CC
-VL REAL InputConv.KCnt2Nm InputConv C00004D0
-VL DINT InputConv.sysPos InputConv C00004D4
-VL DINT InputConv.sysSpd InputConv C00004D8
-VL DINT InputConv.sysIq InputConv C00004DC
-VL DINT InputConv.sysTrqRef InputConv C00004E0
-VL DINT InputConv.PosDINT InputConv C00004E4
-VL REAL InputConv.offset InputConv C00004E8
-VL DINT InputConv.sysRev InputConv C00004EC
-VL REAL InputConv.pos InputConv C00004F0
-VL REAL InputConv.vel_rpm InputConv C00004F4
-VL REAL InputConv.vel InputConv C00004F8
-VL REAL InputConv.trq InputConv C00004FC
-VL REAL InputConv.curr InputConv C0000500
-VG REAL v_Position C0002030
-VG REAL v_Speed C0002034
-VG REAL v_Torque C0002038
+FB InputConversionADV200 InputConv $$GLOBAL$$ C00004B4 64
+VL REAL InputConv.Krpm InputConv C00004B4
+VL REAL InputConv.Krad_s InputConv C00004B8
+VL REAL InputConv.KArms InputConv C00004BC
+VL REAL InputConv.KCnt2Nm InputConv C00004C0
+VL DINT InputConv.sysPos InputConv C00004C4
+VL DINT InputConv.sysSpd InputConv C00004C8
+VL DINT InputConv.sysIq InputConv C00004CC
+VL DINT InputConv.sysTrqRef InputConv C00004D0
+VL DINT InputConv.PosDINT InputConv C00004D4
+VL REAL InputConv.offset InputConv C00004D8
+VL DINT InputConv.sysRev InputConv C00004DC
+VL REAL InputConv.pos InputConv C00004E0
+VL REAL InputConv.vel_rpm InputConv C00004E4
+VL REAL InputConv.vel InputConv C00004E8
+VL REAL InputConv.trq InputConv C00004EC
+VL REAL InputConv.curr InputConv C00004F0
+VG REAL v_Position C0002020
+VG REAL v_Speed C0002024
+VG REAL v_Torque C0002028
 P cyclic_prg Fast A00113A0
-VI DINT sysSpd Fast C0000504
-VI DINT sysPos Fast C0000508
-VI DINT sysIq Fast C000050C
-VG DINT sysTrqRef D00034D0
-VI DINT sysRev Fast C0000510
-VG DINT sysSpeedPosPulsesPerRev D0002CB8
-VG BOOL ENABLE_CYCLIC_PRG C0000514
-L $label0 :Fast.cyclic_prg A001142C
-VL REAL torque_cmd cyclic_prg C0000518
-VL REAL torque_max cyclic_prg C000051C
-VL REAL speed_max cyclic_prg C0000520
-L $label1 :Fast.cyclic_prg A0011450
-VG REAL MaxTorque C0000524
-L $label2 :Fast.cyclic_prg A0011470
-L $label3 :Fast.cyclic_prg A00114B4
-VG REAL KNm2Cnt C0000528
-VG DINT sysTrqFFwd D0002B2C
-P state_machine Background A0011560
-VL BOOL state_machine$$Init_x state_machine C000052C
-L end_state_machine$Init :Background.state_machine A0011780
-VL BOOL INIT_END state_machine C0000530
-VL BOOL CYCLE_STOP state_machine C0000534
-VG UDINT sysControlMode C00045DC
+VI DINT sysSpd Fast C00004F4
+VI DINT sysPos Fast C00004F8
+VI DINT sysIq Fast C00004FC
+VG DINT sysTrqRef D00031AC
+VI DINT sysRev Fast C0000500
+VG DINT sysSpeedPosPulsesPerRev D00027A8
+VG BOOL ENABLE_CYCLIC_PRG C0000504
+L $label0 :Fast.cyclic_prg A0011414
+VL REAL torque_cmd cyclic_prg C0000508
+L $label1 :Fast.cyclic_prg A0011420
+VG REAL MaxTorque C000050C
+L $label2 :Fast.cyclic_prg A0011440
+L $label3 :Fast.cyclic_prg A0011484
+VG REAL KNm2Cnt C0000510
+VI DINT sysTrqFFwd Fast C0000514
+P state_machine Background A0011530
+VL BOOL state_machine$$Init_x state_machine C0000518
+L end_state_machine$Init :Background.state_machine A0011760
+VL BOOL INIT_END state_machine C000051C
+VL BOOL CYCLE_STOP state_machine C0000520
+VG UDINT sysControlMode D0003554
 FBC sysDBReadRealPar FFFFFFFF 0000000C
-FB sysDBReadRealPar readRealPar state_machine C0000538 12
-VL DINT readRealPar.ipa readRealPar C0000538
-VL DINT readRealPar.result readRealPar C000053C
-VL REAL readRealPar.val readRealPar C0000540
-VG REAL DriveRatCur C0000544
+FB sysDBReadRealPar readRealPar state_machine C0000524 12
+VL DINT readRealPar.ipa readRealPar C0000524
+VL DINT readRealPar.result readRealPar C0000528
+VL REAL readRealPar.val readRealPar C000052C
+VG REAL DriveRatCur C0000530
 FBC sysDBReadIntegerPar FFFFFFFF 0000000C
-FB sysDBReadIntegerPar readIntPar state_machine C0000548 12
-VL DINT readIntPar.ipa readIntPar C0000548
-VL DINT readIntPar.result readIntPar C000054C
-VL DINT readIntPar.val readIntPar C0000550
-VG REAL FullScaleSpeed C0000554
-VG REAL RatCur C0000558
-VG REAL RatKTrq C000055C
-VG REAL RatedTorque C0000560
-VL BOOL state_machine$$Cycle_x state_machine C0000564
-L end_state_machine$Cycle :Background.state_machine A00117C4
-VG BOOL sysDIBitWordBit1 C00041A8
-L state_machine/Cycle_state$lab1 :Background.state_machine A00117A0
-L state_machine/Cycle_state$lab0 :Background.state_machine A00117A8
-VL BOOL state_machine$$Stop_x state_machine C0000568
-L end_state_machine$Stop :Background.state_machine A0011804
-VL BOOL state_machine$$Jump6_x state_machine C000056C
-L end_state_machine$Jump6 :Background.state_machine A0011828
-VG REAL v_LoadPosition C000203C
-VG REAL v_LoadSpeed C0002040
+FB sysDBReadIntegerPar readIntPar state_machine C0000534 12
+VL DINT readIntPar.ipa readIntPar C0000534
+VL DINT readIntPar.result readIntPar C0000538
+VL DINT readIntPar.val readIntPar C000053C
+VG REAL FullScaleSpeed C0000540
+VG REAL VelConv C0000544
+VG REAL RatCur C0000548
+VG REAL RatKTrq C000054C
+VG REAL RatedTorque C0000550
+VL BOOL state_machine$$Cycle_x state_machine C0000554
+L end_state_machine$Cycle :Background.state_machine A00117A0
+VG BOOL sysDIBitWordBit1 D0002D28
+L state_machine/Cycle_state$lab1 :Background.state_machine A001177C
+L state_machine/Cycle_state$lab0 :Background.state_machine A0011784
+VL BOOL state_machine$$Stop_x state_machine C0000558
+L end_state_machine$Stop :Background.state_machine A00117D4
+VL BOOL state_machine$$Jump6_x state_machine C000055C
+L end_state_machine$Jump6 :Background.state_machine A00117F8
+VG REAL v_LoadPosition C000202C
+VG REAL v_LoadSpeed C0002030
 VG UDINT $$CODESTART$$ A0010080
-VG UDINT $$CODESIZE$$ A0011860
+VG UDINT $$CODESIZE$$ A0011830
 VG UDINT $$CODEEND$$ A0030000
-VG UDINT $$DATASIZE$$ C0000570
-VG UDINT $$BITDATASIZE$$ C0001B00
-VG UDINT $$RITDATASIZE$$ C0001AC0
+VG UDINT $$DATASIZE$$ C0000560
+VG UDINT $$BITDATASIZE$$ C0001AF0
+VG UDINT $$RITDATASIZE$$ C0001AB0

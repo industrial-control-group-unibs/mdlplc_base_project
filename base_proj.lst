@@ -3388,7 +3388,7 @@ A0010D38  0000FF19		ld.w d15, [a15]
 
 #38			ST		v_Position	{L:14}
 (*) REAL
-A0010D3C  0230CFA5		st.w #0x32030, d15 ; ADR 0xC0002030
+A0010D3C  0220CFA5		st.w #0x32020, d15 ; ADR 0xC0002020
 A0010D40  0000000D		nop
 
 #39		
@@ -3401,7 +3401,7 @@ A0010D4C  0000FF19		ld.w d15, [a15]
 
 #42			ST		v_Speed	{L:16}
 (*) REAL
-A0010D50  0234CFA5		st.w #0x32034, d15 ; ADR 0xC0002034
+A0010D50  0224CFA5		st.w #0x32024, d15 ; ADR 0xC0002024
 A0010D54  0000000D		nop
 
 #43		
@@ -3414,7 +3414,7 @@ A0010D60  0000FF19		ld.w d15, [a15]
 
 #46			ST		v_Torque	{L:18}
 (*) REAL
-A0010D64  0238CFA5		st.w #0x32038, d15 ; ADR 0xC0002038
+A0010D64  0228CFA5		st.w #0x32028, d15 ; ADR 0xC0002028
 A0010D68  0000000D		nop
 
 A0010D6C  0180000D		ret
@@ -4582,8 +4582,6 @@ PROGRAM cyclic_prg
 
 	VAR
 	torque_cmd : REAL; 
-	torque_max : REAL := 3.0; 
-	speed_max : REAL := 100.0; 
 	END_VAR
 
 #0		{SRC:cyclic_prg}
@@ -4591,69 +4589,69 @@ PROGRAM cyclic_prg
 #2			(* InputConv.sysSpd := sysSpd; *)
 #3			LD		sysSpd	{L:2}
 (*) UNDEF
-A00113A0  4044CF85		ld.w d15, #0x30504 ; ADR 0xC0000504
+A00113A0  3074CF85		ld.w d15, #0x304F4 ; ADR 0xC00004F4
 
 #4			ST		InputConv.sysSpd	{L:2}
 (*) DINT
-A00113A4  3058CFA5		st.w #0x304D8, d15 ; ADR 0xC00004D8
+A00113A4  3048CFA5		st.w #0x304C8, d15 ; ADR 0xC00004C8
 
 #5		
 #6			(* InputConv.sysPos := sysPos; *)
 #7			LD		sysPos	{L:3}
 (*) UNDEF
-A00113A8  4048CF85		ld.w d15, #0x30508 ; ADR 0xC0000508
+A00113A8  3078CF85		ld.w d15, #0x304F8 ; ADR 0xC00004F8
 
 #8			ST		InputConv.sysPos	{L:3}
 (*) DINT
-A00113AC  3054CFA5		st.w #0x304D4, d15 ; ADR 0xC00004D4
+A00113AC  3044CFA5		st.w #0x304C4, d15 ; ADR 0xC00004C4
 
 #9		
 #10			(* InputConv.sysIq := sysIq; *)
 #11			LD		sysIq	{L:4}
 (*) UNDEF
-A00113B0  404CCF85		ld.w d15, #0x3050C ; ADR 0xC000050C
+A00113B0  307CCF85		ld.w d15, #0x304FC ; ADR 0xC00004FC
 
 #12			ST		InputConv.sysIq	{L:4}
 (*) DINT
-A00113B4  305CCFA5		st.w #0x304DC, d15 ; ADR 0xC00004DC
+A00113B4  304CCFA5		st.w #0x304CC, d15 ; ADR 0xC00004CC
 
 #13		
 #14			(* InputConv.sysTrqRef := sysTrqRef; *)
 #15			LD		sysTrqRef	{L:5}
 (*) UNDEF
-A00113B8  3350DF85		ld.w d15, #0x374D0 ; ADR 0xD00034D0
+A00113B8  632CDF85		ld.w d15, #0x371AC ; ADR 0xD00031AC
 
 #16			ST		InputConv.sysTrqRef	{L:5}
 (*) DINT
-A00113BC  3060CFA5		st.w #0x304E0, d15 ; ADR 0xC00004E0
+A00113BC  3050CFA5		st.w #0x304D0, d15 ; ADR 0xC00004D0
 
 #17		
 #18			(* InputConv.sysRev := sysRev; *)
 #19			LD		sysRev	{L:6}
 (*) UNDEF
-A00113C0  4050CF85		ld.w d15, #0x30510 ; ADR 0xC0000510
+A00113C0  4040CF85		ld.w d15, #0x30500 ; ADR 0xC0000500
 
 #20			ST		InputConv.sysRev	{L:6}
 (*) DINT
-A00113C4  306CCFA5		st.w #0x304EC, d15 ; ADR 0xC00004EC
+A00113C4  305CCFA5		st.w #0x304DC, d15 ; ADR 0xC00004DC
 
 #21		
 #22			(* InputConv.PosDINT:=sysSpeedPosPulsesPerRev; *)
 #23			LD		sysSpeedPosPulsesPerRev	{L:7}
 (*) UNDEF
-A00113C8  22F8DF85		ld.w d15, #0x36CB8 ; ADR 0xD0002CB8
+A00113C8  E268DF85		ld.w d15, #0x367A8 ; ADR 0xD00027A8
 
 #24			ST		InputConv.PosDINT	{L:7}
 (*) DINT
-A00113CC  3064CFA5		st.w #0x304E4, d15 ; ADR 0xC00004E4
+A00113CC  3054CFA5		st.w #0x304D4, d15 ; ADR 0xC00004D4
 
 #25		
 #26			(* InputConv() *)
 #27			CAL		InputConv	{L:8}
 (*) DINT
 A00113D0  F53CAF89		st.w [-sp]4, d15 
-A00113D4  4C000091		movh.a a4, #0xC000 ; FB FRAME BASE 0xC00004C4
-A00113D8  304444D9		lea a4,[a4]0x04C4
+A00113D4  4C000091		movh.a a4, #0xC000 ; FB FRAME BASE 0xC00004B4
+A00113D8  207444D9		lea a4,[a4]0x04B4
 A00113DC  FA001091		movh.a a15, #0xA001 ; CALL TO FB AT 0xA0010C14
 A00113E0  00D4FFD9		lea a15,[a15]0x0C14
 A00113E4  0000000D		nop
@@ -4663,195 +4661,158 @@ A00113EC  0104AF09		ld.w d15, [sp+]4
 #28		
 #29		
 #30			(* IF ENABLE_CYCLIC_PRG *)
-#31			LD		ENABLE_CYCLIC_PRG	{L:11}
+#31			LD		ENABLE_CYCLIC_PRG	{L:26}
 (*) UNDEF
-A00113F0  4054CF85		ld.w d15, #0x30514 ; ADR 0xC0000514
+A00113F0  4044CF85		ld.w d15, #0x30504 ; ADR 0xC0000504
 
-#32			NOT	{L:11}
+#32			NOT	{L:26}
 (*) BOOL
 A00113F4  8000103B		mov d8, #1
 A00113F8  9000003B		mov d9, #0
 A00113FC  FF40892B		sel d15, d15, d9, d8
 
-#33			JMPCN	$label0	{L:11}
+#33			JMPCN	$label0	{L:26}
 (-) BOOL
-A0011400  00160FDF		jeq d15, #0, #0x0016 ; JUMP 0xA001142C
+A0011400  000A0FDF		jeq d15, #0, #0x000A ; JUMP 0xA0011414
 
 #34		
 #35			(* THEN *)
 #36		
 #37				(* torque_cmd := 0.0; *)
-#38				LD		0.0	{L:12}
+#38				LD		0.0	{L:28}
 (*) UNDEF
 A0011404  F00000BB		mov.u d15, #0x0000 ; COSTREAL 0.000000
 A0011408  F0000F9B		addih d15, d15, #0x0000
 
-#39				ST		torque_cmd	{L:12}
+#39				ST		torque_cmd	{L:28}
 (*) REAL
-A001140C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+A001140C  4048CFA5		st.w #0x30508, d15 ; ADR 0xC0000508
 
-#40		
-#41				(* torque_max:=3.5; *)
-#42				LD		3.5	{L:13}
-(*) UNDEF
-A0011410  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.500000
-A0011414  F4060F9B		addih d15, d15, #0x4060
+#40				JMP		$label1
+(-) REAL
+A0011410  0008001D		j #0x000008 ; JUMP 0xA0011420
 
-#43				ST		torque_max	{L:13}
-(*) REAL
-A0011418  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
-
+#41		$label0:
+#42		
+#43			(* ELSE *)
 #44		
-#45				(* speed_max:=100.0; *)
-#46				LD		100.0	{L:14}
+#45				(* torque_cmd := 0.0; *)
+#46				LD		0.0	{L:31}
 (*) UNDEF
-A001141C  F00000BB		mov.u d15, #0x0000 ; COSTREAL 100.000000
-A0011420  F42C8F9B		addih d15, d15, #0x42C8
+A0011414  F00000BB		mov.u d15, #0x0000 ; COSTREAL 0.000000
+A0011418  F0000F9B		addih d15, d15, #0x0000
 
-#47				ST		speed_max	{L:14}
+#47				ST		torque_cmd	{L:31}
 (*) REAL
-A0011424  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
+A001141C  4048CFA5		st.w #0x30508, d15 ; ADR 0xC0000508
 
-#48				JMP		$label1
-(-) REAL
-A0011428  0014001D		j #0x000014 ; JUMP 0xA0011450
-
-#49		$label0:
-#50		
-#51			(* ELSE *)
+#48		
+#49		$label1:
+#50			(* END_IF *)
+#51		
 #52		
-#53				(* torque_cmd:=-v_Speed/speed_max*torque_max; *)
-#54				LD		v_Speed	{L:16}
+#53			(* IF torque_cmd > MaxTorque *)
+#54			LD		torque_cmd	{L:37}
 (*) UNDEF
-A001142C  0234CF85		ld.w d15, #0x32034 ; ADR 0xC0002034
+A0011420  4048CF85		ld.w d15, #0x30508 ; ADR 0xC0000508
 
-#55				MUL		-1	{L:16}
+#55			GT		MaxTorque	{L:37}
 (*) REAL
-A0011430  8FFFF03B		mov d8, #-1
-A0011434  8141084B		itof d8, d8
-A0011438  F0418F4B		mul.f d15, d15, d8
+A0011424  404CC585		ld.w d5, #0x3050C ; ADR 0xC000050C
+A0011428  F0015F4B		cmp.f d15, d15, d5
+A001142C  F2004F8B		eq d15, d15, #4
 
-#56				DIV		speed_max	{L:16}
-(*) REAL
-A001143C  4060C885		ld.w d8, #0x30520 ; ADR 0xC0000520
-A0011440  F0518F4B		div.f d15, d15, d8
+#56			JMPCN	$label2	{L:37}
+(-) BOOL
+A0011430  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0011440
 
-#57				MUL		torque_max	{L:16}
-(*) REAL
-A0011444  405CC885		ld.w d8, #0x3051C ; ADR 0xC000051C
-A0011448  F0418F4B		mul.f d15, d15, d8
-
-#58				ST		torque_cmd	{L:16}
-(*) REAL
-A001144C  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
-
+#57		
+#58			(* THEN *)
 #59		
-#60		$label1:
-#61			(* END_IF *)
-#62		
-#63		
-#64			(* IF torque_cmd > MaxTorque *)
-#65			LD		torque_cmd	{L:21}
+#60				(* torque_cmd := MaxTorque; *)
+#61				LD		MaxTorque	{L:38}
 (*) UNDEF
-A0011450  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+A0011434  404CCF85		ld.w d15, #0x3050C ; ADR 0xC000050C
 
-#66			GT		MaxTorque	{L:21}
+#62				ST		torque_cmd	{L:38}
 (*) REAL
-A0011454  4064C585		ld.w d5, #0x30524 ; ADR 0xC0000524
-A0011458  F0015F4B		cmp.f d15, d15, d5
-A001145C  F2004F8B		eq d15, d15, #4
+A0011438  4048CFA5		st.w #0x30508, d15 ; ADR 0xC0000508
 
-#67			JMPCN	$label2	{L:21}
-(-) BOOL
-A0011460  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA0011470
-
-#68		
-#69			(* THEN *)
-#70		
-#71				(* torque_cmd := MaxTorque; *)
-#72				LD		MaxTorque	{L:22}
-(*) UNDEF
-A0011464  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
-
-#73				ST		torque_cmd	{L:22}
-(*) REAL
-A0011468  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
-
-#74				JMP		$label3
+#63				JMP		$label3
 (-) REAL
-A001146C  0024001D		j #0x000024 ; JUMP 0xA00114B4
+A001143C  0024001D		j #0x000024 ; JUMP 0xA0011484
 
-#75		$label2:
-#76		
-#77			(* ELSIF torque_cmd < -MaxTorque *)
-#78			LD		torque_cmd	{L:23}
+#64		$label2:
+#65		
+#66			(* ELSIF torque_cmd < -MaxTorque *)
+#67			LD		torque_cmd	{L:39}
 (*) UNDEF
-A0011470  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+A0011440  4048CF85		ld.w d15, #0x30508 ; ADR 0xC0000508
 
-#79			LT(		MaxTorque	{L:23}
+#68			LT(		MaxTorque	{L:39}
 (*) REAL
-A0011474  F53CAF89		st.w [-sp]4, d15 
-A0011478  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
+A0011444  F53CAF89		st.w [-sp]4, d15 
+A0011448  404CCF85		ld.w d15, #0x3050C ; ADR 0xC000050C
 
-#80			MUL		-1	{L:23}
+#69			MUL		-1	{L:39}
 (*) REAL
-A001147C  8FFFF03B		mov d8, #-1
-A0011480  8141084B		itof d8, d8
-A0011484  F0418F4B		mul.f d15, d15, d8
+A001144C  8FFFF03B		mov d8, #-1
+A0011450  8141084B		itof d8, d8
+A0011454  F0418F4B		mul.f d15, d15, d8
 
-#81			)	{L:23}
+#70			)	{L:39}
 (*) REAL
-A0011488  01F0F00B		mov d0, d15
-A001148C  0104AF09		ld.w d15, [sp+]4
-A0011490  51F0000B		mov d5, d0
-A0011494  F0015F4B		cmp.f d15, d15, d5
-A0011498  F2001F8B		eq d15, d15, #1
+A0011458  01F0F00B		mov d0, d15
+A001145C  0104AF09		ld.w d15, [sp+]4
+A0011460  51F0000B		mov d5, d0
+A0011464  F0015F4B		cmp.f d15, d15, d5
+A0011468  F2001F8B		eq d15, d15, #1
 
-#82			JMPCN	$label3	{L:23}
+#71			JMPCN	$label3	{L:39}
 (-) BOOL
-A001149C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA00114B4
+A001146C  000C0FDF		jeq d15, #0, #0x000C ; JUMP 0xA0011484
 
-#83		
-#84			(* THEN *)
-#85		
-#86				(* torque_cmd := -MaxTorque; *)
-#87				LD		MaxTorque	{L:24}
+#72		
+#73			(* THEN *)
+#74		
+#75				(* torque_cmd := -MaxTorque; *)
+#76				LD		MaxTorque	{L:40}
 (*) UNDEF
-A00114A0  4064CF85		ld.w d15, #0x30524 ; ADR 0xC0000524
+A0011470  404CCF85		ld.w d15, #0x3050C ; ADR 0xC000050C
 
-#88				MUL		-1	{L:24}
+#77				MUL		-1	{L:40}
 (*) REAL
-A00114A4  8FFFF03B		mov d8, #-1
-A00114A8  8141084B		itof d8, d8
-A00114AC  F0418F4B		mul.f d15, d15, d8
+A0011474  8FFFF03B		mov d8, #-1
+A0011478  8141084B		itof d8, d8
+A001147C  F0418F4B		mul.f d15, d15, d8
 
-#89				ST		torque_cmd	{L:24}
+#78				ST		torque_cmd	{L:40}
 (*) REAL
-A00114B0  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
+A0011480  4048CFA5		st.w #0x30508, d15 ; ADR 0xC0000508
 
-#90		
-#91		$label3:
-#92			(* END_IF *)
-#93		
-#94			(* sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt); *)
-#95			LD		torque_cmd	{L:28}
+#79		
+#80		$label3:
+#81			(* END_IF *)
+#82		
+#83			(* sysTrqFFwd := TO_DINT((torque_cmd) * KNm2Cnt); *)
+#84			LD		torque_cmd	{L:45}
 (*) UNDEF
-A00114B4  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
+A0011484  4048CF85		ld.w d15, #0x30508 ; ADR 0xC0000508
 
-#96			MUL		KNm2Cnt	{L:28}
+#85			MUL		KNm2Cnt	{L:45}
 (*) REAL
-A00114B8  4068C885		ld.w d8, #0x30528 ; ADR 0xC0000528
-A00114BC  F0418F4B		mul.f d15, d15, d8
+A0011488  4050C885		ld.w d8, #0x30510 ; ADR 0xC0000510
+A001148C  F0418F4B		mul.f d15, d15, d8
 
-#97			TO_DINT	{L:28}
+#86			TO_DINT	{L:45}
 (*) REAL
-A00114C0  F1010F4B		ftoi d15, d15
+A0011490  F1010F4B		ftoi d15, d15
 
-#98			ST		sysTrqFFwd	{L:28}
+#87			ST		sysTrqFFwd	{L:45}
 (*) DINT
-A00114C4  C2ACDFA5		st.w #0x36B2C, d15 ; ADR 0xD0002B2C
+A0011494  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
 
-A00114C8  0180000D		ret
+A0011498  0180000D		ret
 
 END_PROGRAM
 
@@ -4862,39 +4823,46 @@ END_PROGRAM
 
 
 *** INPUT:
+A001149C  FD000091		movh.a a15, #0xD000
+A00114A0  9268FFD9		lea a15,[a15]0x2668
+A00114A4  0000FF19		ld.w d15, [a15]
+A00114A8  FC000091		movh.a a15, #0xC000
+A00114AC  3074FFD9		lea a15,[a15]0x04F4
+A00114B0  0000FF59		st.w [a15], d15
+
+A00114B4  FD000091		movh.a a15, #0xD000
+A00114B8  9278FFD9		lea a15,[a15]0x2678
+A00114BC  0000FF19		ld.w d15, [a15]
+A00114C0  FC000091		movh.a a15, #0xC000
+A00114C4  3078FFD9		lea a15,[a15]0x04F8
+A00114C8  0000FF59		st.w [a15], d15
+
 A00114CC  FD000091		movh.a a15, #0xD000
-A00114D0  D2B4FFD9		lea a15,[a15]0x2B74
+A00114D0  9264FFD9		lea a15,[a15]0x2664
 A00114D4  0000FF19		ld.w d15, [a15]
 A00114D8  FC000091		movh.a a15, #0xC000
-A00114DC  4044FFD9		lea a15,[a15]0x0504
+A00114DC  307CFFD9		lea a15,[a15]0x04FC
 A00114E0  0000FF59		st.w [a15], d15
 
 A00114E4  FD000091		movh.a a15, #0xD000
-A00114E8  E284FFD9		lea a15,[a15]0x2B84
+A00114E8  927CFFD9		lea a15,[a15]0x267C
 A00114EC  0000FF19		ld.w d15, [a15]
 A00114F0  FC000091		movh.a a15, #0xC000
-A00114F4  4048FFD9		lea a15,[a15]0x0508
+A00114F4  4040FFD9		lea a15,[a15]0x0500
 A00114F8  0000FF59		st.w [a15], d15
 
-A00114FC  FD000091		movh.a a15, #0xD000
-A0011500  D2B0FFD9		lea a15,[a15]0x2B70
-A0011504  0000FF19		ld.w d15, [a15]
-A0011508  FC000091		movh.a a15, #0xC000
-A001150C  404CFFD9		lea a15,[a15]0x050C
-A0011510  0000FF59		st.w [a15], d15
-
-A0011514  FD000091		movh.a a15, #0xD000
-A0011518  E288FFD9		lea a15,[a15]0x2B88
-A001151C  0000FF19		ld.w d15, [a15]
-A0011520  FC000091		movh.a a15, #0xC000
-A0011524  4050FFD9		lea a15,[a15]0x0510
-A0011528  0000FF59		st.w [a15], d15
-
-A001152C  0180000D		ret
+A00114FC  0180000D		ret
 
 
 *** OUTPUT:
-A0011530  0180000D		ret
+A0011500  FC000091		movh.a a15, #0xC000
+A0011504  4054FFD9		lea a15,[a15]0x0514
+A0011508  0000FF19		ld.w d15, [a15]
+A001150C  FD000091		movh.a a15, #0xD000
+A0011510  8268FFD9		lea a15,[a15]0x2628
+A0011514  0000FF59		st.w [a15], d15
+
+A0011518  0180000D		ret
 
 
 
@@ -4902,15 +4870,7 @@ A0011530  0180000D		ret
 	Init code generation for task Fast
 **************************************************
 
-A0011534  F00000BB		mov.u d15, #0x0000 ; COSTREAL 3.000000
-A0011538  F4040F9B		addih d15, d15, #0x4040
-A001153C  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
-
-A0011540  F00000BB		mov.u d15, #0x0000 ; COSTREAL 100.000000
-A0011544  F42C8F9B		addih d15, d15, #0x42C8
-A0011548  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
-
-A001154C  0180000D		ret
+A001151C  0180000D		ret
 
 **************************************************
 	List program: state_machine
@@ -4931,11 +4891,11 @@ PROGRAM state_machine
 #0		{SRC:state_machine}
 #1			LD		state_machine$$Init_x
 (*) UNDEF
-A0011560  406CCF85		ld.w d15, #0x3052C ; ADR 0xC000052C
+A0011530  4058CF85		ld.w d15, #0x30518 ; ADR 0xC0000518
 
 #2			JMPCN	end_state_machine$Init
 (-) BOOL
-A0011564  010E0FDF		jeq d15, #0, #0x010E ; JUMP 0xA0011780
+A0011534  01160FDF		jeq d15, #0, #0x0116 ; JUMP 0xA0011760
 
 #3		
 #4		(* BODY OF Init *)
@@ -4944,560 +4904,563 @@ A0011564  010E0FDF		jeq d15, #0, #0x010E ; JUMP 0xA0011780
 #7			(* INIT_END := FALSE; *)
 #8			LD		FALSE	{L:3}
 (*) UNDEF
-A0011568  F000003B		mov d15, #0
+A0011538  F000003B		mov d15, #0
 
 #9			ST		INIT_END	{L:3}
 (*) BOOL
-A001156C  4070CFA5		st.w #0x30530, d15 ; ADR 0xC0000530
+A001153C  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
 
 #10		
 #11			(* CYCLE_STOP := TRUE; *)
 #12			LD		TRUE	{L:4}
 (*) UNDEF
-A0011570  F000103B		mov d15, #1
+A0011540  F000103B		mov d15, #1
 
 #13			ST		CYCLE_STOP	{L:4}
 (*) BOOL
-A0011574  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+A0011544  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
 
 #14		
 #15			(* ENABLE_CYCLIC_PRG := FALSE; *)
 #16			LD		FALSE	{L:5}
 (*) UNDEF
-A0011578  F000003B		mov d15, #0
+A0011548  F000003B		mov d15, #0
 
 #17			ST		ENABLE_CYCLIC_PRG	{L:5}
 (*) BOOL
-A001157C  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+A001154C  4044CFA5		st.w #0x30504, d15 ; ADR 0xC0000504
 
 #18		
-#19			(* sysControlMode := 2; *)
-#20			LD		2	{L:9}
+#19			(* sysControlMode := 0; *)
+#20			LD		0	{L:12}
 (*) UNDEF
-A0011580  F000203B		mov d15, #2
+A0011550  F000003B		mov d15, #0
 
-#21			ST		sysControlMode	{L:9}
+#21			ST		sysControlMode	{L:12}
 (*) USINT
-A0011584  FC000091		movh.a a15, #0xC000 ; ADR 0xC00045DC
-A0011588  745CFF59		st.w [a15]0x45DC, d15
+A0011554  5354DFA5		st.w #0x37554, d15 ; ADR 0xD0003554
 
 #22		
 #23			(* readRealPar.ipa := 300; *)
-#24			LD		300	{L:13}
+#24			LD		300	{L:19}
 (*) UNDEF
-A001158C  F012C03B		mov d15, #300
+A0011558  F012C03B		mov d15, #300
 
-#25			ST		readRealPar.ipa	{L:13}
+#25			ST		readRealPar.ipa	{L:19}
 (*) UINT
-A0011590  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+A001155C  4064CFA5		st.w #0x30524, d15 ; ADR 0xC0000524
 
 #26		
 #27			(* readRealPar() *)
-#28			CAL		readRealPar	{L:14}
+#28			CAL		readRealPar	{L:20}
 (*) DINT
-A0011594  F53CAF89		st.w [-sp]4, d15 
-A0011598  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
-A001159C  407844D9		lea a4,[a4]0x0538
-A00115A0  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
-A00115A4  A258FFD9		lea a15,[a15]0x2698
-A00115A8  0000000D		nop
-A00115AC  00000F2D		calli a15
-A00115B0  F1F0200B		mov d15, d2
-A00115B4  0104AF09		ld.w d15, [sp+]4
+A0011560  F53CAF89		st.w [-sp]4, d15 
+A0011564  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000524
+A0011568  406444D9		lea a4,[a4]0x0524
+A001156C  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A0011570  A258FFD9		lea a15,[a15]0x2698
+A0011574  0000000D		nop
+A0011578  00000F2D		calli a15
+A001157C  F1F0200B		mov d15, d2
+A0011580  0104AF09		ld.w d15, [sp+]4
 
 #29		
 #30			(* DriveRatCur:= readRealPar.val ; *)
-#31			LD		readRealPar.val	{L:15}
+#31			LD		readRealPar.val	{L:21}
 (*) UNDEF
-A00115B8  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+A0011584  406CCF85		ld.w d15, #0x3052C ; ADR 0xC000052C
 
-#32			ST		DriveRatCur	{L:15}
+#32			ST		DriveRatCur	{L:21}
 (*) REAL
-A00115BC  5044CFA5		st.w #0x30544, d15 ; ADR 0xC0000544
+A0011588  4070CFA5		st.w #0x30530, d15 ; ADR 0xC0000530
 
 #33		
 #34			(* InputConv.KArms:=DriveRatCur/(8192.0*65536.0); *)
-#35			LD		DriveRatCur	{L:16}
+#35			LD		DriveRatCur	{L:22}
 (*) UNDEF
-A00115C0  5044CF85		ld.w d15, #0x30544 ; ADR 0xC0000544
+A001158C  4070CF85		ld.w d15, #0x30530 ; ADR 0xC0000530
 
-#36			DIV(		8192.0	{L:16}
+#36			DIV(		8192.0	{L:22}
 (*) REAL
-A00115C4  F53CAF89		st.w [-sp]4, d15 
-A00115C8  F00000BB		mov.u d15, #0x0000 ; COSTREAL 8192.000000
-A00115CC  F4600F9B		addih d15, d15, #0x4600
+A0011590  F53CAF89		st.w [-sp]4, d15 
+A0011594  F00000BB		mov.u d15, #0x0000 ; COSTREAL 8192.000000
+A0011598  F4600F9B		addih d15, d15, #0x4600
 
-#37			MUL		65536.0	{L:16}
+#37			MUL		65536.0	{L:22}
 (*) REAL
-A00115D0  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
-A00115D4  8478089B		addih d8, d8, #0x4780
-A00115D8  F0418F4B		mul.f d15, d15, d8
+A001159C  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
+A00115A0  8478089B		addih d8, d8, #0x4780
+A00115A4  F0418F4B		mul.f d15, d15, d8
 
-#38			)	{L:16}
+#38			)	{L:22}
 (*) REAL
-A00115DC  01F0F00B		mov d0, d15
-A00115E0  0104AF09		ld.w d15, [sp+]4
-A00115E4  81F0000B		mov d8, d0
-A00115E8  F0518F4B		div.f d15, d15, d8
+A00115A8  01F0F00B		mov d0, d15
+A00115AC  0104AF09		ld.w d15, [sp+]4
+A00115B0  81F0000B		mov d8, d0
+A00115B4  F0518F4B		div.f d15, d15, d8
 
-#39			ST		InputConv.KArms	{L:16}
+#39			ST		InputConv.KArms	{L:22}
 (*) REAL
-A00115EC  304CCFA5		st.w #0x304CC, d15 ; ADR 0xC00004CC
+A00115B8  207CCFA5		st.w #0x304BC, d15 ; ADR 0xC00004BC
 
 #40		
 #41			(* readIntPar.ipa := 680; *)
-#42			LD		680	{L:20}
+#42			LD		680	{L:26}
 (*) UNDEF
-A00115F0  F02A803B		mov d15, #680
+A00115BC  F02A803B		mov d15, #680
 
-#43			ST		readIntPar.ipa	{L:20}
+#43			ST		readIntPar.ipa	{L:26}
 (*) UINT
-A00115F4  5048CFA5		st.w #0x30548, d15 ; ADR 0xC0000548
+A00115C0  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
 
 #44		
 #45			(* readIntPar() *)
-#46			CAL		readIntPar	{L:21}
+#46			CAL		readIntPar	{L:27}
 (*) DINT
-A00115F8  F53CAF89		st.w [-sp]4, d15 
-A00115FC  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000548
-A0011600  504844D9		lea a4,[a4]0x0548
-A0011604  F8009091		movh.a a15, #0x8009 ; sysDBReadIntegerPar AT 0x80092606
-A0011608  8246FFD9		lea a15,[a15]0x2606
-A001160C  0000000D		nop
-A0011610  00000F2D		calli a15
-A0011614  F1F0200B		mov d15, d2
-A0011618  0104AF09		ld.w d15, [sp+]4
+A00115C4  F53CAF89		st.w [-sp]4, d15 
+A00115C8  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000534
+A00115CC  407444D9		lea a4,[a4]0x0534
+A00115D0  F8009091		movh.a a15, #0x8009 ; sysDBReadIntegerPar AT 0x80092606
+A00115D4  8246FFD9		lea a15,[a15]0x2606
+A00115D8  0000000D		nop
+A00115DC  00000F2D		calli a15
+A00115E0  F1F0200B		mov d15, d2
+A00115E4  0104AF09		ld.w d15, [sp+]4
 
 #47		
 #48			(* FullScaleSpeed := TO_REAL(readIntPar.val) ; *)
-#49			LD		readIntPar.val	{L:22}
+#49			LD		readIntPar.val	{L:28}
 (*) UNDEF
-A001161C  5050CF85		ld.w d15, #0x30550 ; ADR 0xC0000550
+A00115E8  407CCF85		ld.w d15, #0x3053C ; ADR 0xC000053C
 
-#50			TO_REAL	{L:22}
+#50			TO_REAL	{L:28}
 (*) DINT
-A0011620  F1410F4B		itof d15, d15
+A00115EC  F1410F4B		itof d15, d15
 
-#51			ST		FullScaleSpeed	{L:22}
+#51			ST		FullScaleSpeed	{L:28}
 (*) REAL
-A0011624  5054CFA5		st.w #0x30554, d15 ; ADR 0xC0000554
+A00115F0  5040CFA5		st.w #0x30540, d15 ; ADR 0xC0000540
 
 #52		
 #53			(* InputConv.Krpm:=FullScaleSpeed/(16384.0*65536.0); *)
-#54			LD		FullScaleSpeed	{L:23}
+#54			LD		FullScaleSpeed	{L:29}
 (*) UNDEF
-A0011628  5054CF85		ld.w d15, #0x30554 ; ADR 0xC0000554
+A00115F4  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
 
-#55			DIV(		16384.0	{L:23}
+#55			DIV(		16384.0	{L:29}
 (*) REAL
-A001162C  F53CAF89		st.w [-sp]4, d15 
-A0011630  F00000BB		mov.u d15, #0x0000 ; COSTREAL 16384.000000
-A0011634  F4680F9B		addih d15, d15, #0x4680
+A00115F8  F53CAF89		st.w [-sp]4, d15 
+A00115FC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 16384.000000
+A0011600  F4680F9B		addih d15, d15, #0x4680
 
-#56			MUL		65536.0	{L:23}
+#56			MUL		65536.0	{L:29}
 (*) REAL
-A0011638  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
-A001163C  8478089B		addih d8, d8, #0x4780
-A0011640  F0418F4B		mul.f d15, d15, d8
+A0011604  800000BB		mov.u d8, #0x0000 ; COSTREAL 65536.000000
+A0011608  8478089B		addih d8, d8, #0x4780
+A001160C  F0418F4B		mul.f d15, d15, d8
 
-#57			)	{L:23}
+#57			)	{L:29}
 (*) REAL
-A0011644  01F0F00B		mov d0, d15
-A0011648  0104AF09		ld.w d15, [sp+]4
-A001164C  81F0000B		mov d8, d0
-A0011650  F0518F4B		div.f d15, d15, d8
+A0011610  01F0F00B		mov d0, d15
+A0011614  0104AF09		ld.w d15, [sp+]4
+A0011618  81F0000B		mov d8, d0
+A001161C  F0518F4B		div.f d15, d15, d8
 
-#58			ST		InputConv.Krpm	{L:23}
+#58			ST		InputConv.Krpm	{L:29}
 (*) REAL
-A0011654  3044CFA5		st.w #0x304C4, d15 ; ADR 0xC00004C4
+A0011620  2074CFA5		st.w #0x304B4, d15 ; ADR 0xC00004B4
 
 #59		
 #60			(* InputConv.Krad_s:=InputConv.Krpm*2.0*PI/60.0; *)
-#61			LD		InputConv.Krpm	{L:24}
+#61			LD		InputConv.Krpm	{L:30}
 (*) UNDEF
-A0011658  3044CF85		ld.w d15, #0x304C4 ; ADR 0xC00004C4
+A0011624  2074CF85		ld.w d15, #0x304B4 ; ADR 0xC00004B4
 
-#62			MUL		2.0	{L:24}
+#62			MUL		2.0	{L:30}
 (*) REAL
-A001165C  800000BB		mov.u d8, #0x0000 ; COSTREAL 2.000000
-A0011660  8400089B		addih d8, d8, #0x4000
-A0011664  F0418F4B		mul.f d15, d15, d8
+A0011628  800000BB		mov.u d8, #0x0000 ; COSTREAL 2.000000
+A001162C  8400089B		addih d8, d8, #0x4000
+A0011630  F0418F4B		mul.f d15, d15, d8
 
-#63			MUL		PI	{L:24}
+#63			MUL		PI	{L:30}
 (*) REAL
-A0011668  80FDB0BB		mov.u d8, #0x0FDB ; COSTREAL 3.141593
-A001166C  8404989B		addih d8, d8, #0x4049
-A0011670  F0418F4B		mul.f d15, d15, d8
+A0011634  80FDB0BB		mov.u d8, #0x0FDB ; COSTREAL 3.141593
+A0011638  8404989B		addih d8, d8, #0x4049
+A001163C  F0418F4B		mul.f d15, d15, d8
 
-#64			DIV		60.0	{L:24}
+#64			DIV		60.0	{L:30}
 (*) REAL
-A0011674  800000BB		mov.u d8, #0x0000 ; COSTREAL 60.000000
-A0011678  8427089B		addih d8, d8, #0x4270
-A001167C  F0518F4B		div.f d15, d15, d8
+A0011640  800000BB		mov.u d8, #0x0000 ; COSTREAL 60.000000
+A0011644  8427089B		addih d8, d8, #0x4270
+A0011648  F0518F4B		div.f d15, d15, d8
 
-#65			ST		InputConv.Krad_s	{L:24}
+#65			ST		InputConv.Krad_s	{L:30}
 (*) REAL
-A0011680  3048CFA5		st.w #0x304C8, d15 ; ADR 0xC00004C8
+A001164C  2078CFA5		st.w #0x304B8, d15 ; ADR 0xC00004B8
 
 #66		
-#67			(* readRealPar.ipa := 2002; *)
-#68			LD		2002	{L:28}
+#67			(* VelConv:=1.0/InputConv.Krad_s; *)
+#68			LD		1.0	{L:31}
 (*) UNDEF
-A0011684  F07D203B		mov d15, #2002
+A0011650  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
+A0011654  F3F80F9B		addih d15, d15, #0x3F80
 
-#69			ST		readRealPar.ipa	{L:28}
+#69			DIV		InputConv.Krad_s	{L:31}
+(*) REAL
+A0011658  2078C885		ld.w d8, #0x304B8 ; ADR 0xC00004B8
+A001165C  F0518F4B		div.f d15, d15, d8
+
+#70			ST		VelConv	{L:31}
+(*) REAL
+A0011660  5044CFA5		st.w #0x30544, d15 ; ADR 0xC0000544
+
+#71		
+#72			(* readRealPar.ipa := 2002; *)
+#73			LD		2002	{L:34}
+(*) UNDEF
+A0011664  F07D203B		mov d15, #2002
+
+#74			ST		readRealPar.ipa	{L:34}
 (*) UINT
-A0011688  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+A0011668  4064CFA5		st.w #0x30524, d15 ; ADR 0xC0000524
 
-#70		
-#71			(* readRealPar() *)
-#72			CAL		readRealPar	{L:29}
+#75		
+#76			(* readRealPar() *)
+#77			CAL		readRealPar	{L:35}
 (*) DINT
-A001168C  F53CAF89		st.w [-sp]4, d15 
-A0011690  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
-A0011694  407844D9		lea a4,[a4]0x0538
-A0011698  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
-A001169C  A258FFD9		lea a15,[a15]0x2698
-A00116A0  0000000D		nop
-A00116A4  00000F2D		calli a15
-A00116A8  F1F0200B		mov d15, d2
-A00116AC  0104AF09		ld.w d15, [sp+]4
+A001166C  F53CAF89		st.w [-sp]4, d15 
+A0011670  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000524
+A0011674  406444D9		lea a4,[a4]0x0524
+A0011678  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A001167C  A258FFD9		lea a15,[a15]0x2698
+A0011680  0000000D		nop
+A0011684  00000F2D		calli a15
+A0011688  F1F0200B		mov d15, d2
+A001168C  0104AF09		ld.w d15, [sp+]4
 
-#73		
-#74			(* RatCur:= readRealPar.val ; *)
-#75			LD		readRealPar.val	{L:30}
+#78		
+#79			(* RatCur:= readRealPar.val ; *)
+#80			LD		readRealPar.val	{L:36}
 (*) UNDEF
-A00116B0  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+A0011690  406CCF85		ld.w d15, #0x3052C ; ADR 0xC000052C
 
-#76			ST		RatCur	{L:30}
+#81			ST		RatCur	{L:36}
 (*) REAL
-A00116B4  5058CFA5		st.w #0x30558, d15 ; ADR 0xC0000558
+A0011694  5048CFA5		st.w #0x30548, d15 ; ADR 0xC0000548
 
-#77		
-#78			(* readRealPar.ipa := 2010; *)
-#79			LD		2010	{L:32}
+#82		
+#83			(* readRealPar.ipa := 2010; *)
+#84			LD		2010	{L:38}
 (*) UNDEF
-A00116B8  F07DA03B		mov d15, #2010
+A0011698  F07DA03B		mov d15, #2010
 
-#80			ST		readRealPar.ipa	{L:32}
+#85			ST		readRealPar.ipa	{L:38}
 (*) UINT
-A00116BC  4078CFA5		st.w #0x30538, d15 ; ADR 0xC0000538
+A001169C  4064CFA5		st.w #0x30524, d15 ; ADR 0xC0000524
 
-#81		
-#82			(* readRealPar() *)
-#83			CAL		readRealPar	{L:33}
+#86		
+#87			(* readRealPar() *)
+#88			CAL		readRealPar	{L:39}
 (*) DINT
-A00116C0  F53CAF89		st.w [-sp]4, d15 
-A00116C4  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000538
-A00116C8  407844D9		lea a4,[a4]0x0538
-A00116CC  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
-A00116D0  A258FFD9		lea a15,[a15]0x2698
-A00116D4  0000000D		nop
-A00116D8  00000F2D		calli a15
-A00116DC  F1F0200B		mov d15, d2
-A00116E0  0104AF09		ld.w d15, [sp+]4
+A00116A0  F53CAF89		st.w [-sp]4, d15 
+A00116A4  4C000091		movh.a a4, #0xC000 ; ADR EMB-FUNCTION BLOCK AT 0xC0000524
+A00116A8  406444D9		lea a4,[a4]0x0524
+A00116AC  F8009091		movh.a a15, #0x8009 ; sysDBReadRealPar AT 0x80092698
+A00116B0  A258FFD9		lea a15,[a15]0x2698
+A00116B4  0000000D		nop
+A00116B8  00000F2D		calli a15
+A00116BC  F1F0200B		mov d15, d2
+A00116C0  0104AF09		ld.w d15, [sp+]4
 
-#84		
-#85			(* RatKTrq:= readRealPar.val ; *)
-#86			LD		readRealPar.val	{L:34}
+#89		
+#90			(* RatKTrq:= readRealPar.val ; *)
+#91			LD		readRealPar.val	{L:40}
 (*) UNDEF
-A00116E4  5040CF85		ld.w d15, #0x30540 ; ADR 0xC0000540
+A00116C4  406CCF85		ld.w d15, #0x3052C ; ADR 0xC000052C
 
-#87			ST		RatKTrq	{L:34}
+#92			ST		RatKTrq	{L:40}
 (*) REAL
-A00116E8  505CCFA5		st.w #0x3055C, d15 ; ADR 0xC000055C
-
-#88		
-#89			(* RatedTorque := RatCur*RatKTrq; *)
-#90			LD		RatCur	{L:35}
-(*) UNDEF
-A00116EC  5058CF85		ld.w d15, #0x30558 ; ADR 0xC0000558
-
-#91			MUL		RatKTrq	{L:35}
-(*) REAL
-A00116F0  505CC885		ld.w d8, #0x3055C ; ADR 0xC000055C
-A00116F4  F0418F4B		mul.f d15, d15, d8
-
-#92			ST		RatedTorque	{L:35}
-(*) REAL
-A00116F8  5060CFA5		st.w #0x30560, d15 ; ADR 0xC0000560
+A00116C8  504CCFA5		st.w #0x3054C, d15 ; ADR 0xC000054C
 
 #93		
-#94			(* KNm2Cnt := TO_REAL(TrqToCount(1.0 / RatedTorque * 100.0)); *)
-#95			LD		1.0	{L:37}
+#94			(* RatedTorque := RatCur*RatKTrq; *)
+#95			LD		RatCur	{L:41}
 (*) UNDEF
-A00116FC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
-A0011700  F3F80F9B		addih d15, d15, #0x3F80
+A00116CC  5048CF85		ld.w d15, #0x30548 ; ADR 0xC0000548
 
-#96			DIV		RatedTorque	{L:37}
+#96			MUL		RatKTrq	{L:41}
 (*) REAL
-A0011704  5060C885		ld.w d8, #0x30560 ; ADR 0xC0000560
-A0011708  F0518F4B		div.f d15, d15, d8
+A00116D0  504CC885		ld.w d8, #0x3054C ; ADR 0xC000054C
+A00116D4  F0418F4B		mul.f d15, d15, d8
 
-#97			MUL		100.0	{L:37}
+#97			ST		RatedTorque	{L:41}
 (*) REAL
-A001170C  800000BB		mov.u d8, #0x0000 ; COSTREAL 100.000000
-A0011710  842C889B		addih d8, d8, #0x42C8
-A0011714  F0418F4B		mul.f d15, d15, d8
+A00116D8  5050CFA5		st.w #0x30550, d15 ; ADR 0xC0000550
 
-#98			TrqToCount	{L:37}
+#98		
+#99			(* KNm2Cnt := TO_REAL(TrqToCount(1.0 / RatedTorque * 100.0)); *)
+#100			LD		1.0	{L:43}
+(*) UNDEF
+A00116DC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
+A00116E0  F3F80F9B		addih d15, d15, #0x3F80
+
+#101			DIV		RatedTorque	{L:43}
+(*) REAL
+A00116E4  5050C885		ld.w d8, #0x30550 ; ADR 0xC0000550
+A00116E8  F0518F4B		div.f d15, d15, d8
+
+#102			MUL		100.0	{L:43}
+(*) REAL
+A00116EC  800000BB		mov.u d8, #0x0000 ; COSTREAL 100.000000
+A00116F0  842C889B		addih d8, d8, #0x42C8
+A00116F4  F0418F4B		mul.f d15, d15, d8
+
+#103			TrqToCount	{L:43}
 (-) REAL
-A0011718  41F0F00B		mov d4, d15
-A001171C  F4C8FF6D		call #0xFFF4C8 ; CALL 0xA00100AC
-A0011720  F1F0200B		mov d15, d2
+A00116F8  41F0F00B		mov d4, d15
+A00116FC  F4D8FF6D		call #0xFFF4D8 ; CALL 0xA00100AC
+A0011700  F1F0200B		mov d15, d2
 
-#99			TO_REAL	{L:37}
+#104			TO_REAL	{L:43}
 (*) DINT
-A0011724  F1410F4B		itof d15, d15
+A0011704  F1410F4B		itof d15, d15
 
-#100			ST		KNm2Cnt	{L:37}
+#105			ST		KNm2Cnt	{L:43}
 (*) REAL
-A0011728  4068CFA5		st.w #0x30528, d15 ; ADR 0xC0000528
-
-#101		
-#102			(* InputConv.KCnt2Nm := 1.0 / KNm2Cnt; *)
-#103			LD		1.0	{L:38}
-(*) UNDEF
-A001172C  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
-A0011730  F3F80F9B		addih d15, d15, #0x3F80
-
-#104			DIV		KNm2Cnt	{L:38}
-(*) REAL
-A0011734  4068C885		ld.w d8, #0x30528 ; ADR 0xC0000528
-A0011738  F0518F4B		div.f d15, d15, d8
-
-#105			ST		InputConv.KCnt2Nm	{L:38}
-(*) REAL
-A001173C  3050CFA5		st.w #0x304D0, d15 ; ADR 0xC00004D0
+A0011708  4050CFA5		st.w #0x30510, d15 ; ADR 0xC0000510
 
 #106		
-#107			(* MaxTorque := 10.0; *)
-#108			LD		10.0	{L:43}
+#107			(* InputConv.KCnt2Nm := 1.0 / KNm2Cnt; *)
+#108			LD		1.0	{L:44}
 (*) UNDEF
-A0011740  F00000BB		mov.u d15, #0x0000 ; COSTREAL 10.000000
-A0011744  F4120F9B		addih d15, d15, #0x4120
+A001170C  F00000BB		mov.u d15, #0x0000 ; COSTREAL 1.000000
+A0011710  F3F80F9B		addih d15, d15, #0x3F80
 
-#109			ST		MaxTorque	{L:43}
+#109			DIV		KNm2Cnt	{L:44}
 (*) REAL
-A0011748  4064CFA5		st.w #0x30524, d15 ; ADR 0xC0000524
+A0011714  4050C885		ld.w d8, #0x30510 ; ADR 0xC0000510
+A0011718  F0518F4B		div.f d15, d15, d8
 
-#110		
-#111			(* ENABLE_CYCLIC_PRG := TRUE; *)
-#112			LD		TRUE	{L:50}
+#110			ST		InputConv.KCnt2Nm	{L:44}
+(*) REAL
+A001171C  3040CFA5		st.w #0x304C0, d15 ; ADR 0xC00004C0
+
+#111		
+#112			(* MaxTorque := 10.0; *)
+#113			LD		10.0	{L:49}
 (*) UNDEF
-A001174C  F000103B		mov d15, #1
+A0011720  F00000BB		mov.u d15, #0x0000 ; COSTREAL 10.000000
+A0011724  F4120F9B		addih d15, d15, #0x4120
 
-#113			ST		ENABLE_CYCLIC_PRG	{L:50}
-(*) BOOL
-A0011750  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+#114			ST		MaxTorque	{L:49}
+(*) REAL
+A0011728  404CCFA5		st.w #0x3050C, d15 ; ADR 0xC000050C
 
-#114		
-#115			(* INIT_END := TRUE; *)
-#116			LD		TRUE	{L:51}
+#115		
+#116			(* ENABLE_CYCLIC_PRG := TRUE; *)
+#117			LD		TRUE	{L:56}
 (*) UNDEF
-A0011754  F000103B		mov d15, #1
+A001172C  F000103B		mov d15, #1
 
-#117			ST		INIT_END	{L:51}
+#118			ST		ENABLE_CYCLIC_PRG	{L:56}
 (*) BOOL
-A0011758  4070CFA5		st.w #0x30530, d15 ; ADR 0xC0000530
+A0011730  4044CFA5		st.w #0x30504, d15 ; ADR 0xC0000504
 
-#118		
-#119			(* CYCLE_STOP := FALSE; *)
-#120			LD		FALSE	{L:52}
+#119		
+#120			(* INIT_END := TRUE; *)
+#121			LD		TRUE	{L:57}
 (*) UNDEF
-A001175C  F000003B		mov d15, #0
+A0011734  F000103B		mov d15, #1
 
-#121			ST		CYCLE_STOP	{L:52}
+#122			ST		INIT_END	{L:57}
 (*) BOOL
-A0011760  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+A0011738  405CCFA5		st.w #0x3051C, d15 ; ADR 0xC000051C
 
-#122		
 #123		
-#124		(* Test condition TR2 pin_in 0 *)
-#125			LD		INIT_END
+#124			(* CYCLE_STOP := FALSE; *)
+#125			LD		FALSE	{L:58}
 (*) UNDEF
-A0011764  4070CF85		ld.w d15, #0x30530 ; ADR 0xC0000530
+A001173C  F000003B		mov d15, #0
 
-#126			ST		state_machine$$Cycle_x
+#126			ST		CYCLE_STOP	{L:58}
 (*) BOOL
-A0011768  5064CFA5		st.w #0x30564, d15 ; ADR 0xC0000564
+A0011740  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
 
-#127			R		state_machine$$Init_x
-(*) BOOL
-A001176C  FC000091		movh.a a15, #0xC000 ; ADR 0xC000052C
-A0011770  406CFFD9		lea a15,[a15]0x052C
-A0011774  0840F809		ld.bu d8, [a15]
-A0011778  8FA008AB		seln d8, d15, d8, #0
-A001177C  0800F889		st.b [a15], d8
-
+#127		
 #128		
-#129		end_state_machine$Init:
-#130			LD		state_machine$$Cycle_x
+#129		(* Test condition TR2 pin_in 0 *)
+#130			LD		INIT_END
 (*) UNDEF
-A0011780  5064CF85		ld.w d15, #0x30564 ; ADR 0xC0000564
+A0011744  405CCF85		ld.w d15, #0x3051C ; ADR 0xC000051C
 
-#131			JMPCN	end_state_machine$Cycle
-(-) BOOL
-A0011784  00200FDF		jeq d15, #0, #0x0020 ; JUMP 0xA00117C4
+#131			ST		state_machine$$Cycle_x
+(*) BOOL
+A0011748  5054CFA5		st.w #0x30554, d15 ; ADR 0xC0000554
 
-#132		
-#133		(* BODY OF Cycle *)
-#134		{SRC:state_machine/Cycle_state}
-#135		
-#136		
-#137			(* IF sysDIBitWordBit1 *)
-#138			LD		sysDIBitWordBit1	{L:1}
+#132			R		state_machine$$Init_x
+(*) BOOL
+A001174C  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000518
+A0011750  4058FFD9		lea a15,[a15]0x0518
+A0011754  0840F809		ld.bu d8, [a15]
+A0011758  8FA008AB		seln d8, d15, d8, #0
+A001175C  0800F889		st.b [a15], d8
+
+#133		
+#134		end_state_machine$Init:
+#135			LD		state_machine$$Cycle_x
 (*) UNDEF
-A0011788  FC000091		movh.a a15, #0xC000 ; ADR 0xC00041A8
-A001178C  6428FF19		ld.w d15, [a15]0x41A8
+A0011760  5054CF85		ld.w d15, #0x30554 ; ADR 0xC0000554
 
-#139			JMPCN	state_machine/Cycle_state$lab1	{L:1}
+#136			JMPCN	end_state_machine$Cycle
 (-) BOOL
-A0011790  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA00117A0
+A0011764  001E0FDF		jeq d15, #0, #0x001E ; JUMP 0xA00117A0
 
+#137		
+#138		(* BODY OF Cycle *)
+#139		{SRC:state_machine/Cycle_state}
 #140		
-#141			(* THEN *)
-#142		
-#143				(* ENABLE_CYCLIC_PRG := TRUE; *)
-#144				LD		TRUE	{L:2}
+#141		
+#142			(* IF sysDIBitWordBit1 *)
+#143			LD		sysDIBitWordBit1	{L:1}
 (*) UNDEF
-A0011794  F000103B		mov d15, #1
+A0011768  42E8DF85		ld.w d15, #0x36D28 ; ADR 0xD0002D28
 
-#145				ST		ENABLE_CYCLIC_PRG	{L:2}
-(*) BOOL
-A0011798  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
-
-#146				JMP		state_machine/Cycle_state$lab0
+#144			JMPCN	state_machine/Cycle_state$lab1	{L:1}
 (-) BOOL
-A001179C  0006001D		j #0x000006 ; JUMP 0xA00117A8
+A001176C  00080FDF		jeq d15, #0, #0x0008 ; JUMP 0xA001177C
 
-#147		state_machine/Cycle_state$lab1:
-#148		
-#149			(* ELSE *)
-#150		
-#151				(* ENABLE_CYCLIC_PRG := FALSE; *)
-#152				LD		FALSE	{L:4}
+#145		
+#146			(* THEN *)
+#147		
+#148				(* ENABLE_CYCLIC_PRG := TRUE; *)
+#149				LD		TRUE	{L:2}
 (*) UNDEF
-A00117A0  F000003B		mov d15, #0
+A0011770  F000103B		mov d15, #1
 
-#153				ST		ENABLE_CYCLIC_PRG	{L:4}
+#150				ST		ENABLE_CYCLIC_PRG	{L:2}
 (*) BOOL
-A00117A4  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+A0011774  4044CFA5		st.w #0x30504, d15 ; ADR 0xC0000504
 
-#154		
-#155		state_machine/Cycle_state$lab0:
-#156			(* END_IF *)
-#157		
-#158		
-#159		(* Test condition TR4 pin_in 0 *)
-#160			LD		CYCLE_STOP
+#151				JMP		state_machine/Cycle_state$lab0
+(-) BOOL
+A0011778  0006001D		j #0x000006 ; JUMP 0xA0011784
+
+#152		state_machine/Cycle_state$lab1:
+#153		
+#154			(* ELSE *)
+#155		
+#156				(* ENABLE_CYCLIC_PRG := FALSE; *)
+#157				LD		FALSE	{L:4}
 (*) UNDEF
-A00117A8  4074CF85		ld.w d15, #0x30534 ; ADR 0xC0000534
+A001177C  F000003B		mov d15, #0
 
-#161			ST		state_machine$$Stop_x
+#158				ST		ENABLE_CYCLIC_PRG	{L:4}
 (*) BOOL
-A00117AC  5068CFA5		st.w #0x30568, d15 ; ADR 0xC0000568
+A0011780  4044CFA5		st.w #0x30504, d15 ; ADR 0xC0000504
 
-#162			R		state_machine$$Cycle_x
-(*) BOOL
-A00117B0  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000564
-A00117B4  5064FFD9		lea a15,[a15]0x0564
-A00117B8  0840F809		ld.bu d8, [a15]
-A00117BC  8FA008AB		seln d8, d15, d8, #0
-A00117C0  0800F889		st.b [a15], d8
-
+#159		
+#160		state_machine/Cycle_state$lab0:
+#161			(* END_IF *)
+#162		
 #163		
-#164		end_state_machine$Cycle:
-#165			LD		state_machine$$Stop_x
+#164		(* Test condition TR4 pin_in 0 *)
+#165			LD		CYCLE_STOP
 (*) UNDEF
-A00117C4  5068CF85		ld.w d15, #0x30568 ; ADR 0xC0000568
+A0011784  4060CF85		ld.w d15, #0x30520 ; ADR 0xC0000520
 
-#166			JMPCN	end_state_machine$Stop
+#166			ST		state_machine$$Stop_x
+(*) BOOL
+A0011788  5058CFA5		st.w #0x30558, d15 ; ADR 0xC0000558
+
+#167			R		state_machine$$Cycle_x
+(*) BOOL
+A001178C  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000554
+A0011790  5054FFD9		lea a15,[a15]0x0554
+A0011794  0840F809		ld.bu d8, [a15]
+A0011798  8FA008AB		seln d8, d15, d8, #0
+A001179C  0800F889		st.b [a15], d8
+
+#168		
+#169		end_state_machine$Cycle:
+#170			LD		state_machine$$Stop_x
+(*) UNDEF
+A00117A0  5058CF85		ld.w d15, #0x30558 ; ADR 0xC0000558
+
+#171			JMPCN	end_state_machine$Stop
 (-) BOOL
-A00117C8  001E0FDF		jeq d15, #0, #0x001E ; JUMP 0xA0011804
+A00117A4  00180FDF		jeq d15, #0, #0x0018 ; JUMP 0xA00117D4
 
-#167		
-#168		(* BODY OF Stop *)
-#169		{SRC:state_machine/Stop_state}
-#170		
-#171			(* ENABLE_CYCLIC_PRG := FALSE; *)
-#172			LD		FALSE	{L:1}
+#172		
+#173		(* BODY OF Stop *)
+#174		{SRC:state_machine/Stop_state}
+#175		
+#176			(* ENABLE_CYCLIC_PRG := FALSE; *)
+#177			LD		FALSE	{L:1}
 (*) UNDEF
-A00117CC  F000003B		mov d15, #0
+A00117A8  F000003B		mov d15, #0
 
-#173			ST		ENABLE_CYCLIC_PRG	{L:1}
+#178			ST		ENABLE_CYCLIC_PRG	{L:1}
 (*) BOOL
-A00117D0  4054CFA5		st.w #0x30514, d15 ; ADR 0xC0000514
+A00117AC  4044CFA5		st.w #0x30504, d15 ; ADR 0xC0000504
 
-#174		
-#175			(* CYCLE_STOP := TRUE; *)
-#176			LD		TRUE	{L:2}
+#179		
+#180			(* CYCLE_STOP := TRUE; *)
+#181			LD		TRUE	{L:2}
 (*) UNDEF
-A00117D4  F000103B		mov d15, #1
+A00117B0  F000103B		mov d15, #1
 
-#177			ST		CYCLE_STOP	{L:2}
+#182			ST		CYCLE_STOP	{L:2}
 (*) BOOL
-A00117D8  4074CFA5		st.w #0x30534, d15 ; ADR 0xC0000534
+A00117B4  4060CFA5		st.w #0x30520, d15 ; ADR 0xC0000520
 
-#178		
-#179			(* v_Torque := 0.0; *)
-#180			LD		0.0	{L:4}
-(*) UNDEF
-A00117DC  F00000BB		mov.u d15, #0x0000 ; COSTREAL 0.000000
-A00117E0  F0000F9B		addih d15, d15, #0x0000
-
-#181			ST		v_Torque	{L:4}
-(*) REAL
-A00117E4  0238CFA5		st.w #0x32038, d15 ; ADR 0xC0002038
-
-#182		
 #183		
-#184		(* Test condition TR5 pin_in 0 *)
-#185			LD		CYCLE_STOP
+#184		
+#185		(* Test condition TR5 pin_in 0 *)
+#186			LD		CYCLE_STOP
 (*) UNDEF
-A00117E8  4074CF85		ld.w d15, #0x30534 ; ADR 0xC0000534
+A00117B8  4060CF85		ld.w d15, #0x30520 ; ADR 0xC0000520
 
-#186			ST		state_machine$$Jump6_x
+#187			ST		state_machine$$Jump6_x
 (*) BOOL
-A00117EC  506CCFA5		st.w #0x3056C, d15 ; ADR 0xC000056C
+A00117BC  505CCFA5		st.w #0x3055C, d15 ; ADR 0xC000055C
 
-#187			R		state_machine$$Stop_x
+#188			R		state_machine$$Stop_x
 (*) BOOL
-A00117F0  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000568
-A00117F4  5068FFD9		lea a15,[a15]0x0568
-A00117F8  0840F809		ld.bu d8, [a15]
-A00117FC  8FA008AB		seln d8, d15, d8, #0
-A0011800  0800F889		st.b [a15], d8
+A00117C0  FC000091		movh.a a15, #0xC000 ; ADR 0xC0000558
+A00117C4  5058FFD9		lea a15,[a15]0x0558
+A00117C8  0840F809		ld.bu d8, [a15]
+A00117CC  8FA008AB		seln d8, d15, d8, #0
+A00117D0  0800F889		st.b [a15], d8
 
-#188		
-#189		end_state_machine$Stop:
-#190			LD		state_machine$$Jump6_x
+#189		
+#190		end_state_machine$Stop:
+#191			LD		state_machine$$Jump6_x
 (*) UNDEF
-A0011804  506CCF85		ld.w d15, #0x3056C ; ADR 0xC000056C
+A00117D4  505CCF85		ld.w d15, #0x3055C ; ADR 0xC000055C
 
-#191			JMPCN	end_state_machine$Jump6
+#192			JMPCN	end_state_machine$Jump6
 (-) BOOL
-A0011808  00100FDF		jeq d15, #0, #0x0010 ; JUMP 0xA0011828
+A00117D8  00100FDF		jeq d15, #0, #0x0010 ; JUMP 0xA00117F8
 
-#192		
-#193		(* JUMP TO Stop *)
-#194			LD		TRUE
+#193		
+#194		(* JUMP TO Stop *)
+#195			LD		TRUE
 (*) UNDEF
-A001180C  F000103B		mov d15, #1
+A00117DC  F000103B		mov d15, #1
 
-#195			ST		state_machine$$Stop_x
+#196			ST		state_machine$$Stop_x
 (*) BOOL
-A0011810  5068CFA5		st.w #0x30568, d15 ; ADR 0xC0000568
+A00117E0  5058CFA5		st.w #0x30558, d15 ; ADR 0xC0000558
 
-#196			R		state_machine$$Jump6_x
+#197			R		state_machine$$Jump6_x
 (*) BOOL
-A0011814  FC000091		movh.a a15, #0xC000 ; ADR 0xC000056C
-A0011818  506CFFD9		lea a15,[a15]0x056C
-A001181C  0840F809		ld.bu d8, [a15]
-A0011820  8FA008AB		seln d8, d15, d8, #0
-A0011824  0800F889		st.b [a15], d8
+A00117E4  FC000091		movh.a a15, #0xC000 ; ADR 0xC000055C
+A00117E8  505CFFD9		lea a15,[a15]0x055C
+A00117EC  0840F809		ld.bu d8, [a15]
+A00117F0  8FA008AB		seln d8, d15, d8, #0
+A00117F4  0800F889		st.b [a15], d8
 
-A0011828  0180000D		ret
+A00117F8  0180000D		ret
 
 END_PROGRAM
 
@@ -5508,11 +5471,11 @@ END_PROGRAM
 
 
 *** INPUT:
-A001182C  0180000D		ret
+A00117FC  0180000D		ret
 
 
 *** OUTPUT:
-A0011830  0180000D		ret
+A0011800  0180000D		ret
 
 
 
@@ -5520,10 +5483,10 @@ A0011830  0180000D		ret
 	Init code generation for task Background
 **************************************************
 
-A0011834  F000103B		mov d15, #1
-A0011838  406CCFA5		st.w #0x3052C, d15 ; ADR 0xC000052C
+A0011804  F000103B		mov d15, #1
+A0011808  4058CFA5		st.w #0x30518, d15 ; ADR 0xC0000518
 
-A001183C  0180000D		ret
+A001180C  0180000D		ret
 
 
 
@@ -5531,7 +5494,7 @@ A001183C  0180000D		ret
 	Global init code generation
 **************************************************
 
-A0011850  0180000D		ret
+A0011820  0180000D		ret
 
 
 
@@ -5540,19 +5503,19 @@ MEMORY MAP
 ********************************************
 
 Start code area:			A0010000h
-End code area:				A0011860h
-Code size:					    1860h
+End code area:				A0011830h
+Code size:					    1830h
 
-Start local data area:		C00004C0h
-End local data area:		C0000570h
+Start local data area:		C00004B0h
+End local data area:		C0000560h
 Local data size:			      B0h
 
-Start retentive data area:	C0001AC0h
-End retentive data area:	C0001AC0h
+Start retentive data area:	C0001AB0h
+End retentive data area:	C0001AB0h
 Retentive data size:		       0h
 
-Start bit data area:		C0001B00h
-End bit data area:			C0001B00h
+Start bit data area:		C0001AF0h
+End bit data area:			C0001AF0h
 Bit data size:				       0h
 
 
@@ -5561,63 +5524,61 @@ Bit data size:				       0h
 ADDRESS MAP
 ----------------------------------
 
-               C00004C0 (4) $$STKLIMIT$$
-               C00004C4 (4) InputConv.Krpm
-               C00004C8 (4) InputConv.Krad_s
-               C00004CC (4) InputConv.KArms
-               C00004D0 (4) InputConv.KCnt2Nm
-               C00004D4 (4) InputConv.sysPos
-               C00004D8 (4) InputConv.sysSpd
-               C00004DC (4) InputConv.sysIq
-               C00004E0 (4) InputConv.sysTrqRef
-               C00004E4 (4) InputConv.PosDINT
-               C00004E8 (4) InputConv.offset
-               C00004EC (4) InputConv.sysRev
-               C00004F0 (4) InputConv.pos
-               C00004F4 (4) InputConv.vel_rpm
-               C00004F8 (4) InputConv.vel
-               C00004FC (4) InputConv.trq
-               C0000500 (4) InputConv.curr
-               C0000504 (4) sysSpd
-               C0000508 (4) sysPos
-               C000050C (4) sysIq
-               C0000510 (4) sysRev
-               C0000514 (4) ENABLE_CYCLIC_PRG
-               C0000518 (4) torque_cmd
-               C000051C (4) torque_max
-               C0000520 (4) speed_max
-               C0000524 (4) MaxTorque
-               C0000528 (4) KNm2Cnt
-               C000052C (4) state_machine$$Init_x
-               C0000530 (4) INIT_END
-               C0000534 (4) CYCLE_STOP
-               C0000538 (4) readRealPar.ipa
-               C000053C (4) readRealPar.result
-               C0000540 (4) readRealPar.val
-               C0000544 (4) DriveRatCur
-               C0000548 (4) readIntPar.ipa
-               C000054C (4) readIntPar.result
-               C0000550 (4) readIntPar.val
-               C0000554 (4) FullScaleSpeed
-               C0000558 (4) RatCur
-               C000055C (4) RatKTrq
-               C0000560 (4) RatedTorque
-               C0000564 (4) state_machine$$Cycle_x
-               C0000568 (4) state_machine$$Stop_x
-               C000056C (4) state_machine$$Jump6_x
---FREE--       C0000570 (6848)
-               C0002030 (4) v_Position
-               C0002034 (4) v_Speed
-               C0002038 (4) v_Torque
---FREE--       C000203C (8556)
-               C00041A8 (4) sysDIBitWordBit1
---FREE--       C00041AC (1072)
-               C00045DC (4) sysControlMode
---FREE--       C00045E0 (268428620)
-               D0002B2C (4) sysTrqFFwd
---FREE--       D0002B30 (392)
-               D0002CB8 (4) sysSpeedPosPulsesPerRev
---FREE--       D0002CBC (2068)
-               D00034D0 (4) sysTrqRef
+               C00004B0 (4) $$STKLIMIT$$
+               C00004B4 (4) InputConv.Krpm
+               C00004B8 (4) InputConv.Krad_s
+               C00004BC (4) InputConv.KArms
+               C00004C0 (4) InputConv.KCnt2Nm
+               C00004C4 (4) InputConv.sysPos
+               C00004C8 (4) InputConv.sysSpd
+               C00004CC (4) InputConv.sysIq
+               C00004D0 (4) InputConv.sysTrqRef
+               C00004D4 (4) InputConv.PosDINT
+               C00004D8 (4) InputConv.offset
+               C00004DC (4) InputConv.sysRev
+               C00004E0 (4) InputConv.pos
+               C00004E4 (4) InputConv.vel_rpm
+               C00004E8 (4) InputConv.vel
+               C00004EC (4) InputConv.trq
+               C00004F0 (4) InputConv.curr
+               C00004F4 (4) sysSpd
+               C00004F8 (4) sysPos
+               C00004FC (4) sysIq
+               C0000500 (4) sysRev
+               C0000504 (4) ENABLE_CYCLIC_PRG
+               C0000508 (4) torque_cmd
+               C000050C (4) MaxTorque
+               C0000510 (4) KNm2Cnt
+               C0000514 (4) sysTrqFFwd
+               C0000518 (4) state_machine$$Init_x
+               C000051C (4) INIT_END
+               C0000520 (4) CYCLE_STOP
+               C0000524 (4) readRealPar.ipa
+               C0000528 (4) readRealPar.result
+               C000052C (4) readRealPar.val
+               C0000530 (4) DriveRatCur
+               C0000534 (4) readIntPar.ipa
+               C0000538 (4) readIntPar.result
+               C000053C (4) readIntPar.val
+               C0000540 (4) FullScaleSpeed
+               C0000544 (4) VelConv
+               C0000548 (4) RatCur
+               C000054C (4) RatKTrq
+               C0000550 (4) RatedTorque
+               C0000554 (4) state_machine$$Cycle_x
+               C0000558 (4) state_machine$$Stop_x
+               C000055C (4) state_machine$$Jump6_x
+--FREE--       C0000560 (6848)
+               C0002020 (4) v_Position
+               C0002024 (4) v_Speed
+               C0002028 (4) v_Torque
+--FREE--       C000202C (268437372)
+               D00027A8 (4) sysSpeedPosPulsesPerRev
+--FREE--       D00027AC (1404)
+               D0002D28 (4) sysDIBitWordBit1
+--FREE--       D0002D2C (1152)
+               D00031AC (4) sysTrqRef
+--FREE--       D00031B0 (932)
+               D0003554 (4) sysControlMode
 
 
